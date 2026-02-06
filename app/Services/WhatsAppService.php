@@ -70,7 +70,16 @@ class WhatsAppService
 
     public function sendTaskReminder($task): bool
     {
+        // Get recipient from settings (not from task user)
+        $recipient = Setting::get('wa_recipient', '');
+        
+        if (empty($recipient)) {
+            Log::warning('WhatsApp recipient not configured in settings');
+            return false;
+        }
+        
         $message = "⏰ *Reminder Task!*\n\n";
+        $message .= "👤 *User:* {$task->user->name}\n";
         $message .= "📋 *Task:* {$task->title}\n";
         $message .= "📅 *Deadline:* " . $task->due_date->format('d/m/Y') . " " . \Carbon\Carbon::parse($task->due_time)->format('H:i') . "\n\n";
         
@@ -81,7 +90,7 @@ class WhatsAppService
         $message .= "Segera dikerjakan ya! 🚀";
 
         return $this->sendMessage(
-            $task->user->phone_number,
+            $recipient,
             $message,
             'DailyTask App'
         );
