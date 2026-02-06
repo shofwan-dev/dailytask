@@ -151,6 +151,8 @@ php artisan schedule:list
 tail -f storage/logs/laravel.log
 ```
 
+> **📘 Cronjob Setup Guide**: Untuk panduan lengkap setup cronjob (Linux, Windows, Systemd), testing, dan troubleshooting, lihat [CRONJOB_SETUP.md](CRONJOB_SETUP.md)
+
 ## 🔧 Konfigurasi WhatsApp API
 
 ### Endpoint

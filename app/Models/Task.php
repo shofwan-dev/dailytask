@@ -43,8 +43,19 @@ class Task extends Model
 
     public function scopeOverdueAndNotNotified($query)
     {
+        // Get current datetime
+        $now = now();
+        
         return $query->where('status', 'pending')
             ->where('wa_notified', false)
-            ->whereRaw("CONCAT(due_date, ' ', due_time) < NOW()");
+            ->where(function($q) use ($now) {
+                // Tasks where due_date is before today
+                $q->whereDate('due_date', '<', $now->toDateString())
+                  // OR due_date is today but due_time has passed
+                  ->orWhere(function($q2) use ($now) {
+                      $q2->whereDate('due_date', '=', $now->toDateString())
+                         ->whereTime('due_time', '<', $now->toTimeString());
+                  });
+            });
     }
 }
