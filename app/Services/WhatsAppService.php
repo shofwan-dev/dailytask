@@ -14,10 +14,17 @@ class WhatsAppService
 
     public function __construct()
     {
-        // Get settings from database instead of config
-        $this->apiKey = Setting::get('wa_api_key', config('services.whatsapp.api_key', ''));
-        $this->sender = Setting::get('wa_sender', config('services.whatsapp.sender', ''));
-        $this->baseUrl = Setting::get('wa_base_url', config('services.whatsapp.base_url', 'https://mpwa.mutekar.com'));
+        try {
+            // Get settings from database instead of config
+            $this->apiKey = Setting::get('wa_api_key', config('services.whatsapp.api_key', ''));
+            $this->sender = Setting::get('wa_sender', config('services.whatsapp.sender', ''));
+            $this->baseUrl = Setting::get('wa_base_url', config('services.whatsapp.base_url', 'https://mpwa.mutekar.com'));
+        } catch (\Exception $e) {
+            // Fallback to config if settings table doesn't exist yet (during migration)
+            $this->apiKey = config('services.whatsapp.api_key', '');
+            $this->sender = config('services.whatsapp.sender', '');
+            $this->baseUrl = config('services.whatsapp.base_url', 'https://mpwa.mutekar.com');
+        }
     }
 
     public function sendMessage(string $number, string $message, ?string $footer = null): bool
