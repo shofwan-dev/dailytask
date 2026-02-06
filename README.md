@@ -102,7 +102,7 @@ Edit file `.env`:
 ```env
 WA_API_KEY=your_api_key_here
 WA_SENDER=628888xxxx
-WA_BASE_URL=https://mpwa.mutekar.com
+WA_BASE_URL=https://mpwa.xxx.com
 ```
 
 6. **Run Migration & Seeder**
