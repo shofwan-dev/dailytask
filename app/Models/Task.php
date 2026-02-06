@@ -43,19 +43,22 @@ class Task extends Model
 
     public function scopeOverdueAndNotNotified($query)
     {
-        // Get current datetime
-        $now = now();
-        
-        return $query->where('status', 'pending')
+        // Ambil semua task pending yang belum di-notifikasi
+        // Lalu filter di PHP karena datetime comparison lebih reliable
+        $tasks = $query->where('status', 'pending')
             ->where('wa_notified', false)
-            ->where(function($q) use ($now) {
-                // Tasks where due_date is before today
-                $q->whereDate('due_date', '<', $now->toDateString())
-                  // OR due_date is today but due_time has passed
-                  ->orWhere(function($q2) use ($now) {
-                      $q2->whereDate('due_date', '=', $now->toDateString())
-                         ->whereTime('due_time', '<', $now->toTimeString());
-                  });
-            });
+            ->get();
+        
+        // Filter tasks yang benar-benar overdue
+        $overdueTasks = $tasks->filter(function($task) {
+            return $task->isOverdue();
+        });
+        
+        // Return query builder dengan task IDs yang overdue
+        if ($overdueTasks->isEmpty()) {
+            return $query->whereRaw('1 = 0'); // Return empty query
+        }
+        
+        return $query->whereIn('id', $overdueTasks->pluck('id'));
     }
 }

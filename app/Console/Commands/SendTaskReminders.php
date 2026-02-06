@@ -22,6 +22,22 @@ class SendTaskReminders extends Command
     public function handle()
     {
         $this->info('🔍 Checking for overdue tasks...');
+        
+        // Debug: Show current time
+        $this->line('⏰ Current time: ' . now()->format('Y-m-d H:i:s'));
+        
+        // Debug: Show all pending tasks
+        $allPending = Task::where('status', 'pending')->where('wa_notified', false)->get();
+        $this->line("📋 Total pending tasks (not notified): {$allPending->count()}");
+        
+        if ($allPending->isNotEmpty()) {
+            foreach ($allPending as $task) {
+                $dueDateTime = \Carbon\Carbon::parse($task->due_date->toDateString() . ' ' . $task->due_time);
+                $isOverdue = $task->isOverdue();
+                $this->line("   - Task #{$task->id}: {$task->title}");
+                $this->line("     Due: {$dueDateTime->format('Y-m-d H:i:s')} | Overdue: " . ($isOverdue ? 'YES ✅' : 'NO ❌'));
+            }
+        }
 
         $tasks = Task::overdueAndNotNotified()
             ->with('user')
