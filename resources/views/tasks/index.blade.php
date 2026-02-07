@@ -115,9 +115,22 @@
         <div class="space-y-4">
             <!-- Toolbar -->
             <div class="bg-white rounded-lg p-4 shadow-sm flex items-center justify-between animate-fade-in mb-4">
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="selectAll" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500 w-5 h-5" onclick="toggleSelectAll()">
-                    <span class="text-sm font-medium text-gray-700">Pilih Semua</span>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="selectAll" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500 w-5 h-5" onclick="toggleSelectAll()">
+                        <span class="text-sm font-medium text-gray-700">Pilih Semua</span>
+                    </div>
+
+                    <form method="GET" action="{{ route('tasks.index') }}">
+                        <select name="project_id" onchange="this.form.submit()" class="rounded-lg border-gray-300 text-sm focus:ring-purple-500 focus:border-purple-500 py-1 pl-2 pr-8">
+                            <option value="">Semua Project</option>
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id }}" {{ request('project_id') == $project->id ? 'selected' : '' }}>
+                                    {{ $project->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
                 </div>
                 <button type="submit" form="bulkDeleteForm" id="bulkDeleteBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition opacity-50 cursor-not-allowed flex items-center space-x-2" disabled>
                     <lord-icon
@@ -179,6 +192,15 @@
                                         colors="primary:#9ca3af,secondary:#d1d5db"
                                         style="width:16px;height:16px">
                                     </lord-icon>
+                                    @if($task->recurrence_type !== 'none')
+                                    <lord-icon
+                                        src="https://cdn.lordicon.com/lupuorrc.json"
+                                        trigger="hover"
+                                        colors="primary:#9333ea,secondary:#e9d5ff"
+                                        style="width:16px;height:16px"
+                                        title="Berulang: {{ ucfirst($task->recurrence_type) }}">
+                                    </lord-icon>
+                                    @endif
                                     <span>{{ $task->due_date->format('d M Y') }}</span>
                                 </span>
 

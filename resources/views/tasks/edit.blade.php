@@ -126,6 +126,65 @@
                     </div>
                 </div>
 
+                <!-- Recurrence Type -->
+                <div>
+                    <label for="recurrence_type" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Ulangi Task (Opsional)
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/lupuorrc.json" 
+                                trigger="loop"
+                                colors="primary:#9ca3af,secondary:#d1d5db"
+                                style="width:20px;height:20px">
+                            </lord-icon>
+                        </div>
+                        <select id="recurrence_type" name="recurrence_type"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition appearance-none bg-white">
+                            <option value="none" {{ old('recurrence_type', $task->recurrence_type) == 'none' ? 'selected' : '' }}>Tidak Diulang</option>
+                            <option value="daily" {{ old('recurrence_type', $task->recurrence_type) == 'daily' ? 'selected' : '' }}>Setiap Hari (Jam Sama)</option>
+                            <option value="weekly" {{ old('recurrence_type', $task->recurrence_type) == 'weekly' ? 'selected' : '' }}>Setiap Minggu</option>
+                            <option value="monthly" {{ old('recurrence_type', $task->recurrence_type) == 'monthly' ? 'selected' : '' }}>Setiap Bulan</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recurrence End Date -->
+                <div id="recurrence_end_date_container" class="{{ old('recurrence_type', $task->recurrence_type) !== 'none' ? '' : 'hidden' }}">
+                    <label for="recurrence_end_date" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Sampai Tanggal (Berakhir) <span class="text-gray-400 text-xs">(opsional)</span>
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kbtmbyzy.json"
+                                trigger="hover"
+                                colors="primary:#9ca3af,secondary:#d1d5db"
+                                style="width:20px;height:20px">
+                            </lord-icon>
+                        </div>
+                        <input type="date" id="recurrence_end_date" name="recurrence_end_date" value="{{ old('recurrence_end_date', $task->recurrence_end_date ? $task->recurrence_end_date->format('Y-m-d') : '') }}"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Task tidak akan dibuat lagi setelah tanggal ini.</p>
+                </div>
+
+                <script>
+                    document.getElementById('recurrence_type').addEventListener('change', function() {
+                        const container = document.getElementById('recurrence_end_date_container');
+                        if (this.value !== 'none') {
+                            container.classList.remove('hidden');
+                        } else {
+                            container.classList.add('hidden');
+                            document.getElementById('recurrence_end_date').value = '';
+                        }
+                    });
+                </script>
+
                 <!-- Status -->
                 <div>
                     <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">

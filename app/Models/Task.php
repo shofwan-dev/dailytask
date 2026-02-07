@@ -16,10 +16,13 @@ class Task extends Model
         'due_time',
         'status',
         'wa_notified',
+        'recurrence_type',
+        'recurrence_end_date',
     ];
 
     protected $casts = [
         'due_date' => 'date',
+        'recurrence_end_date' => 'date',
         'wa_notified' => 'boolean',
     ];
 
