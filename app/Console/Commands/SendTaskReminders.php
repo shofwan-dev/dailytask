@@ -40,7 +40,7 @@ class SendTaskReminders extends Command
         }
 
         $tasks = Task::overdueAndNotNotified()
-            ->with('user')
+            ->with(['user', 'project'])
             ->get();
 
         if ($tasks->isEmpty()) {

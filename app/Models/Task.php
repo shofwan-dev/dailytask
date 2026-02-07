@@ -9,6 +9,7 @@ class Task extends Model
 {
     protected $fillable = [
         'user_id',
+        'project_id',
         'title',
         'description',
         'due_date',
@@ -25,6 +26,11 @@ class Task extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function isOverdue(): bool

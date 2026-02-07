@@ -39,7 +39,7 @@
                         <lord-icon
                             src="https://cdn.lordicon.com/dxjqoygy.json"
                             trigger="hover"
-                            colors="primary:#9333ea,secondary:#e9d5ff"
+                            colors="primary:#9333ea,secondary:#CA4D04"
                             style="width:40px;height:40px">
                         </lord-icon>
                     </div>

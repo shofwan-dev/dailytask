@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Auth::user()->tasks()
+            ->with('project')
             ->orderBy('due_date', 'desc')
             ->orderBy('due_time', 'desc')
             ->get();
@@ -26,9 +28,11 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('tasks.create');
+        $projects = Project::where('user_id', Auth::id())->get();
+        $selectedProjectId = $request->get('project_id');
+        return view('tasks.create', compact('projects', 'selectedProjectId'));
     }
 
     public function edit(Task $task)
@@ -38,7 +42,8 @@ class TaskController extends Controller
             abort(403);
         }
 
-        return view('tasks.edit', compact('task'));
+        $projects = Project::where('user_id', Auth::id())->get();
+        return view('tasks.edit', compact('task', 'projects'));
     }
 
     public function store(Request $request)
@@ -48,6 +53,7 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'due_date' => 'required|date',
             'due_time' => 'required',
+            'project_id' => 'nullable|exists:projects,id',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -72,6 +78,7 @@ class TaskController extends Controller
             'due_date' => 'required|date',
             'due_time' => 'required',
             'status' => 'required|in:pending,done',
+            'project_id' => 'nullable|exists:projects,id',
         ]);
 
         $task->update($validated);

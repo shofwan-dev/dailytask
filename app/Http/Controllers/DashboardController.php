@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -91,6 +92,20 @@ class DashboardController extends Controller
             $calendarWeeks[] = $week;
         }
         
-        return view('dashboard.index', compact('tasks', 'stats', 'filter', 'startDate', 'endDate', 'recentTasks', 'calendarWeeks', 'currentMonth', 'calendarTasks'));
+        // Get project statistics
+        $projects = Project::where('user_id', $user->id)
+            ->withCount('tasks')
+            ->latest()
+            ->limit(5)
+            ->get();
+        
+        $projectStats = [
+            'total' => Project::where('user_id', $user->id)->count(),
+            'active' => Project::where('user_id', $user->id)->where('status', 'active')->count(),
+            'completed' => Project::where('user_id', $user->id)->where('status', 'completed')->count(),
+        ];
+        
+        return view('dashboard.index', compact('tasks', 'stats', 'filter', 'startDate', 'endDate', 'recentTasks', 'calendarWeeks', 'currentMonth', 'calendarTasks', 'projects', 'projectStats'));
     }
 }
+

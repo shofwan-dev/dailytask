@@ -81,6 +81,12 @@ class WhatsAppService
         $message = "⏰ *Reminder Task!*\n\n";
         $message .= "👤 *User:* {$task->user->name}\n";
         $message .= "📋 *Task:* {$task->title}\n";
+        
+        // Add project information if task is linked to a project
+        if ($task->project_id && $task->project) {
+            $message .= "📁 *Project:* {$task->project->name}\n";
+        }
+        
         $message .= "📅 *Deadline:* " . $task->due_date->format('d/m/Y') . " " . \Carbon\Carbon::parse($task->due_time)->format('H:i') . "\n\n";
         
         if ($task->description) {

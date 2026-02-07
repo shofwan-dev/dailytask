@@ -65,6 +65,25 @@
                         placeholder="Detail task yang perlu dikerjakan...">{{ old('description') }}</textarea>
                 </div>
 
+                <!-- Project Selection -->
+                @if($projects->isNotEmpty())
+                <div>
+                    <label for="project_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Project <span class="text-gray-400 text-xs">(opsional)</span>
+                    </label>
+                    <select id="project_id" name="project_id"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
+                        <option value="">-- Pilih Project --</option>
+                        @foreach($projects as $project)
+                        <option value="{{ $project->id }}" {{ old('project_id', $selectedProjectId) == $project->id ? 'selected' : '' }}>
+                            {{ $project->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">Hubungkan task ini dengan project tertentu</p>
+                </div>
+                @endif
+
                 <!-- Date and Time -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Due Date -->

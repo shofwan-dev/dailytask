@@ -86,7 +86,7 @@
                         <lord-icon
                             src="https://cdn.lordicon.com/kbtmbyzy.json"
                             trigger="hover"
-                            colors="primary:#ca8a04,secondary:#fef08a"
+                            colors="primary:#ca8a04,secondary:#ca8a04"
                             style="width:32px;height:32px">
                         </lord-icon>
                     </div>
@@ -153,6 +153,21 @@
                             <p class="text-sm md:text-base text-gray-600 mt-1 break-words {{ $task->status === 'done' ? 'line-through text-gray-400' : '' }}">
                                 {{ $task->description }}
                             </p>
+                            @endif
+
+                            <!-- Project Badge -->
+                            @if($task->project)
+                            <div class="mt-2">
+                                <a href="{{ route('projects.show', $task->project) }}" class="inline-flex items-center space-x-1 px-2 md:px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 hover:bg-purple-200 transition">
+                                    <lord-icon
+                                        src="https://cdn.lordicon.com/fhtaantg.json"
+                                        trigger="hover"
+                                        colors="primary:#7e22ce,secondary:#c084fc"
+                                        style="width:14px;height:14px">
+                                    </lord-icon>
+                                    <span>{{ $task->project->name }}</span>
+                                </a>
+                            </div>
                             @endif
 
                             <div class="flex flex-wrap items-center gap-2 mt-3">

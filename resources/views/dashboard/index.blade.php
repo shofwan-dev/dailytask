@@ -73,7 +73,7 @@
                         <lord-icon
                             src="https://cdn.lordicon.com/kbtmbyzy.json"
                             trigger="hover"
-                            colors="primary:#ca8a04,secondary:#fef08a"
+                            colors="primary:#ca8a04,secondary:#ca8a04"
                             style="width:32px;height:32px">
                         </lord-icon>
                     </div>
@@ -99,7 +99,7 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8 animate-fade-in" style="animation-delay: 0.2s;">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 animate-fade-in" style="animation-delay: 0.2s;">
             <a href="{{ route('tasks.create') }}" class="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-4 md:p-6 shadow-lg card-hover text-white">
                 <div class="flex items-center space-x-3 md:space-x-4">
                     <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -133,7 +133,150 @@
                     </div>
                 </div>
             </a>
+
+            <a href="{{ route('projects.index') }}" class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4 md:p-6 shadow-lg card-hover text-white">
+                <div class="flex items-center space-x-3 md:space-x-4">
+                    <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/fhtaantg.json"
+                            trigger="hover"
+                            colors="primary:#ffffff,secondary:#ffffff"
+                            style="width:28px;height:28px">
+                        </lord-icon>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-bold">Kelola Projects</h3>
+                        <p class="text-green-100 text-xs md:text-sm">Lihat dan kelola semua project</p>
+                    </div>
+                </div>
+            </a>
         </div>
+
+        <!-- Projects Summary -->
+        @if($projectStats['total'] > 0)
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in" style="animation-delay: 0.25s;">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/fhtaantg.json"
+                        trigger="loop"
+                        colors="primary:#9333ea,secondary:#e9d5ff"
+                        style="width:32px;height:32px">
+                    </lord-icon>
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800">Projects Terbaru</h2>
+                </div>
+                <a href="{{ route('projects.index') }}" class="text-purple-600 hover:text-purple-700 font-semibold text-sm flex items-center space-x-1">
+                    <span>Lihat Semua</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+
+            <!-- Project Stats Mini - Horizontal Layout -->
+            <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 mb-6">
+                <div class="flex items-center justify-between w-full px-4">
+                    <!-- Total Projects -->
+                    <div class="flex items-center space-x-2">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/fhtaantg.json"
+                            trigger="hover"
+                            colors="primary:#9333ea,secondary:#c084fc"
+                            style="width:28px;height:28px">
+                        </lord-icon>
+                        <div>
+                            <p class="text-2xl font-bold text-purple-600">{{ $projectStats['total'] }}</p>
+                            <p class="text-xs text-gray-600">Total</p>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="h-12 w-px bg-gray-300"></div>
+
+                    <!-- Active Projects -->
+                    <div class="flex items-center space-x-2">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/fihkmkwt.json"
+                            trigger="hover"
+                            colors="primary:#16a34a,secondary:#86efac"
+                            style="width:28px;height:28px">
+                        </lord-icon>
+                        <div>
+                            <p class="text-2xl font-bold text-green-600">{{ $projectStats['active'] }}</p>
+                            <p class="text-xs text-gray-600">Aktif</p>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="h-12 w-px bg-gray-300"></div>
+
+                    <!-- Completed Projects -->
+                    <div class="flex items-center space-x-2">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/yqzmiobz.json"
+                            trigger="hover"
+                            colors="primary:#2563eb,secondary:#93c5fd"
+                            style="width:28px;height:28px">
+                        </lord-icon>
+                        <div>
+                            <p class="text-2xl font-bold text-blue-600">{{ $projectStats['completed'] }}</p>
+                            <p class="text-xs text-gray-600">Selesai</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Recent Projects - Responsive Grid -->
+            <!-- Grid selalu 3 kolom di desktop, tidak peduli jumlah project -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach($projects as $project)
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h3 class="font-bold text-gray-800">{{ $project->name }}</h3>
+                                @if($project->status === 'completed')
+                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Selesai</span>
+                                @elseif($project->status === 'on_hold')
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Ditunda</span>
+                                @else
+                                <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">Aktif</span>
+                                @endif
+                            </div>
+                            @if($project->description)
+                            <p class="text-gray-600 text-sm line-clamp-2">{{ $project->description }}</p>
+                            @endif
+                        </div>
+                        <a href="{{ route('projects.show', $project) }}" class="ml-4 bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-2 rounded-lg transition text-sm font-semibold">
+                            Detail
+                        </a>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="mb-3">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-semibold text-gray-600">Progress</span>
+                            <span class="text-xs font-bold text-purple-600">{{ $project->progress }}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 h-2 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Task Stats -->
+                    <div class="flex items-center gap-4 text-sm text-gray-600">
+                        <span>📋 {{ $project->tasks_count }} tasks</span>
+                        <span>✅ {{ $project->completed_tasks }} selesai</span>
+                        <span>⏳ {{ $project->pending_tasks }} pending</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
 
         <!-- Calendar View - FullCalendar -->
         <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 animate-fade-in" style="animation-delay: 0.3s;">
