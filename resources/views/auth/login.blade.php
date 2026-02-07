@@ -9,7 +9,7 @@
         <div class="text-center mb-8">
             <div class="inline-block p-4 bg-white rounded-2xl shadow-2xl mb-4 flex items-center justify-center">
                 <lord-icon
-                    src="https://cdn.lordicon.com/kbtmbyzy.json"
+                    src="https://cdn.lordicon.com/uphbloed.json"
                     trigger="loop"
                     colors="primary:#9333ea,secondary:#e9d5ff"
                     style="width:64px;height:64px">

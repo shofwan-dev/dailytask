@@ -10,7 +10,7 @@
             <div>
                 <div class="flex items-center space-x-2 mb-2">
                     <lord-icon
-                        src="https://cdn.lordicon.com/aycieycu.json"
+                        src="https://cdn.lordicon.com/vmxvhdko.json"
                         trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:32px;height:32px">

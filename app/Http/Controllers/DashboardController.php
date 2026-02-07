@@ -52,12 +52,45 @@ class DashboardController extends Controller
             })->count(),
         ];
         
-        // Get recent tasks (last 5)
+        // Get recent tasks (last 10 for calendar view)
         $recentTasks = Task::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
+            ->orderBy('due_date', 'desc')
+            ->orderBy('due_time', 'desc')
+            ->limit(10)
             ->get();
         
-        return view('dashboard.index', compact('tasks', 'stats', 'filter', 'startDate', 'endDate', 'recentTasks'));
+        // Prepare calendar data for current month
+        $currentMonth = Carbon::now();
+        $calendarStartDate = $currentMonth->copy()->startOfMonth()->startOfWeek(Carbon::SUNDAY);
+        $calendarEndDate = $currentMonth->copy()->endOfMonth()->endOfWeek(Carbon::SATURDAY);
+        
+        // Get all tasks for calendar month view
+        $calendarTasks = Task::where('user_id', $user->id)
+            ->whereBetween('due_date', [$calendarStartDate->format('Y-m-d'), $calendarEndDate->format('Y-m-d')])
+            ->get()
+            ->groupBy(function($task) {
+                return $task->due_date->format('Y-m-d');
+            });
+        
+        // Build calendar grid
+        $calendarWeeks = [];
+        $currentDate = $calendarStartDate->copy();
+        
+        while ($currentDate <= $calendarEndDate) {
+            $week = [];
+            for ($i = 0; $i < 7; $i++) {
+                $dateKey = $currentDate->format('Y-m-d');
+                $week[] = [
+                    'date' => $currentDate->copy(),
+                    'tasks' => $calendarTasks->get($dateKey, collect()),
+                    'isCurrentMonth' => $currentDate->month === $currentMonth->month,
+                    'isToday' => $currentDate->isToday(),
+                ];
+                $currentDate->addDay();
+            }
+            $calendarWeeks[] = $week;
+        }
+        
+        return view('dashboard.index', compact('tasks', 'stats', 'filter', 'startDate', 'endDate', 'recentTasks', 'calendarWeeks', 'currentMonth', 'calendarTasks'));
     }
 }
