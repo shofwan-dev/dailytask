@@ -5,8 +5,8 @@
 @section('content')
 <div class="min-h-screen px-4 py-8">
     <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-8 animate-fade-in">
+        <!-- Header - Responsive -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 animate-fade-in">
             <div>
                 <div class="flex items-center space-x-3 mb-2">
                     <lord-icon
@@ -15,16 +15,16 @@
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:32px;height:32px">
                     </lord-icon>
-                    <h1 class="text-4xl font-bold text-white">Pengaturan</h1>
+                    <h1 class="text-3xl md:text-4xl font-bold text-white">Pengaturan</h1>
                 </div>
-                <p class="text-purple-200">Kelola akun dan konfigurasi aplikasi</p>
+                <p class="text-purple-200 text-sm md:text-base">Kelola akun dan konfigurasi aplikasi</p>
             </div>
-            <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2">
+            <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base w-fit">
                 <lord-icon
                     src="https://cdn.lordicon.com/jxwksgwv.json"
                     trigger="hover"
                     colors="primary:#ffffff,secondary:#ffffff"
-                    style="width:20px;height:20px">
+                    style="width:18px;height:18px">
                 </lord-icon>
                 <span>Kembali</span>
             </a>
