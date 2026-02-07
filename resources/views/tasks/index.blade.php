@@ -223,6 +223,19 @@
                             @endif
                         </button>
 
+                        <!-- Duplicate Button -->
+                        <form method="POST" action="{{ route('tasks.duplicate', $task) }}" class="inline">
+                            @csrf
+                            <button type="submit" class="p-2 rounded-lg hover:bg-purple-50 transition text-purple-500 hover:text-purple-700" title="Duplikat Task">
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/puvaffet.json"
+                                    trigger="hover"
+                                    colors="primary:#9333ea,secondary:#e9d5ff"
+                                    style="width:24px;height:24px">
+                                </lord-icon>
+                            </button>
+                        </form>
+
                         <!-- Edit Button -->
                         <a href="{{ route('tasks.edit', $task) }}" class="p-2 rounded-lg hover:bg-blue-50 transition text-blue-500 hover:text-blue-700" title="Edit Task">
                             <lord-icon

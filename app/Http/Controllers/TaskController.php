@@ -19,8 +19,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Auth::user()->tasks()
-            ->orderBy('due_date')
-            ->orderBy('due_time')
+            ->orderBy('due_date', 'desc')
+            ->orderBy('due_time', 'desc')
             ->get();
 
         return view('tasks.index', compact('tasks'));
@@ -123,5 +123,24 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')
             ->with('success', '🗑️ Task terpilih berhasil dihapus!');
+    }
+
+    public function duplicate(Task $task)
+    {
+        // Check ownership
+        if ($task->user_id !== Auth::id()) {
+            return redirect()->route('tasks.index')
+                ->with('error', '❌ Unauthorized!');
+        }
+
+        // Create duplicate task
+        $duplicateTask = $task->replicate();
+        $duplicateTask->title = $task->title . ' (Copy)';
+        $duplicateTask->status = 'pending';
+        $duplicateTask->wa_notified = false;
+        $duplicateTask->save();
+
+        return redirect()->route('tasks.index')
+            ->with('success', '📋 Task berhasil diduplikasi!');
     }
 }

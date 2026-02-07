@@ -424,11 +424,149 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
 
-    // Click event handler
-    calendar.on('clickEvent', function(event) {
-        const taskId = event.event.id;
-        window.location.href = '{{ route("tasks.index") }}';
+    // Click event handler - Show popup preview
+    calendar.on('clickEvent', function(eventObj) {
+        const event = eventObj.event;
+        showTaskPreview(event);
     });
+
+    // Function to show task preview popup
+    function showTaskPreview(event) {
+        const status = event.raw.status;
+        const description = event.raw.description || 'Tidak ada deskripsi';
+        const waNotified = event.raw.wa_notified;
+        
+        // Determine status badge
+        let statusBadge = '';
+        let statusIcon = '';
+        if (status === 'done') {
+            statusBadge = '<span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">✅ Selesai</span>';
+            statusIcon = 'egiwmiit.json';
+        } else if (new Date(event.start.toDate()) < new Date()) {
+            statusBadge = '<span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-semibold">⚠️ Terlambat</span>';
+            statusIcon = 'keaiyjcx.json';
+        } else {
+            statusBadge = '<span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-semibold">⏳ Pending</span>';
+            statusIcon = 'kbtmbyzy.json';
+        }
+        
+        const waIcon = waNotified ? '<lord-icon src="https://cdn.lordicon.com/ayhtotha.json" trigger="loop" colors="primary:#25D366,secondary:#128C7E" style="width:20px;height:20px"></lord-icon> <span class="text-green-600 text-sm">Notifikasi terkirim</span>' : '';
+        
+        // Format date and time
+        const startDate = new Date(event.start.toDate());
+        const formattedDate = startDate.toLocaleDateString('id-ID', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        const formattedTime = startDate.toLocaleTimeString('id-ID', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+        
+        // Escape HTML to prevent XSS
+        const safeDescription = description.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+        const safeTitle = event.title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        // Create popup HTML
+        const popupHTML = `
+            <div id="taskPreviewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
+                <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all" onclick="event.stopPropagation()">
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-6 rounded-t-2xl">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1 pr-4">
+                                <h3 class="text-xl font-bold text-white mb-3 break-words">${safeTitle}</h3>
+                                ${statusBadge}
+                            </div>
+                            <button onclick="closeTaskPreview()" class="text-white hover:bg-white/20 rounded-lg p-2 transition flex-shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="p-6 space-y-4 max-h-96 overflow-y-auto">
+                        <!-- Date & Time -->
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-purple-100 p-2 rounded-lg flex-shrink-0">
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/fhtaantg.json"
+                                    trigger="hover"
+                                    colors="primary:#9333ea,secondary:#e9d5ff"
+                                    style="width:24px;height:24px">
+                                </lord-icon>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-500 mb-1">Tanggal & Waktu</p>
+                                <p class="font-semibold text-gray-800">${formattedDate}</p>
+                                <p class="text-purple-600 font-semibold text-lg">${formattedTime}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="flex items-start space-x-3">
+                            <div class="bg-purple-100 p-2 rounded-lg flex-shrink-0">
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/nocovwne.json"
+                                    trigger="hover"
+                                    colors="primary:#9333ea,secondary:#e9d5ff"
+                                    style="width:24px;height:24px">
+                                </lord-icon>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-500 mb-1">Deskripsi</p>
+                                <p class="text-gray-800 leading-relaxed">${safeDescription}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- WhatsApp Notification -->
+                        ${waNotified ? `
+                        <div class="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-lg p-3">
+                            <lord-icon src="https://cdn.lordicon.com/ayhtotha.json" trigger="loop" colors="primary:#25D366,secondary:#128C7E" style="width:20px;height:20px"></lord-icon>
+                            <span class="text-green-700 text-sm font-semibold">Notifikasi WhatsApp terkirim</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="bg-gray-50 p-4 rounded-b-2xl flex flex-col sm:flex-row gap-2">
+                        <button onclick="window.location.href='{{ route('tasks.index') }}'" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                            Lihat Semua Task
+                        </button>
+                        <button onclick="closeTaskPreview()" class="sm:w-auto px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-lg transition">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Append to body
+        document.body.insertAdjacentHTML('beforeend', popupHTML);
+        
+        // Add event listener to backdrop for closing
+        const modal = document.getElementById('taskPreviewModal');
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeTaskPreview();
+            }
+        });
+    }
+
+    // Function to close task preview
+    window.closeTaskPreview = function() {
+        const modal = document.getElementById('taskPreviewModal');
+        if (modal) {
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.remove();
+            }, 200);
+        }
+    }
 
     // Render calendar
     calendar.render();
@@ -440,6 +578,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .tui-full-calendar-month-dayname {
     height: 40px !important;
     line-height: 40px !important;
+    font-size: 14px !important;
 }
 
 .tui-full-calendar-weekday-grid-date {
@@ -469,15 +608,37 @@ document.addEventListener('DOMContentLoaded', function() {
     color: white !important;
     font-size: 11px !important;
     font-weight: 600 !important;
+    cursor: pointer !important;
 }
 
 .tui-full-calendar-weekday-schedule {
     border-radius: 4px !important;
     padding: 2px 6px !important;
     font-size: 12px !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.tui-full-calendar-weekday-schedule-title {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 /* Responsive adjustments */
+@media (max-width: 1024px) {
+    #calendar {
+        height: 550px !important;
+    }
+    
+    .tui-full-calendar-weekday-schedule {
+        font-size: 11px !important;
+        padding: 1px 4px !important;
+    }
+}
+
 @media (max-width: 768px) {
     #calendar {
         height: 500px !important;
@@ -489,12 +650,47 @@ document.addEventListener('DOMContentLoaded', function() {
         line-height: 32px !important;
     }
     
+    .tui-full-calendar-weekday-schedule {
+        font-size: 10px !important;
+        padding: 1px 3px !important;
+    }
+    
     .tui-full-calendar-weekday-schedule-title {
-        font-size: 11px !important;
+        font-size: 10px !important;
     }
     
     .tui-calendar-template-monthGridHeader {
         font-size: 12px !important;
+    }
+    
+    .tui-calendar-template-monthGridHeader-today {
+        width: 24px;
+        height: 24px;
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    #calendar {
+        height: 450px !important;
+    }
+    
+    .tui-full-calendar-month-dayname {
+        font-size: 10px !important;
+        height: 28px !important;
+        line-height: 28px !important;
+        padding: 0 2px !important;
+    }
+    
+    .tui-full-calendar-weekday-schedule {
+        font-size: 9px !important;
+        padding: 1px 2px !important;
+    }
+    
+    .tui-calendar-template-monthGridHeader-today {
+        width: 20px;
+        height: 20px;
+        font-size: 10px !important;
     }
 }
 
