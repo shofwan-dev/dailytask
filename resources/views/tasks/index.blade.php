@@ -10,7 +10,7 @@
             <div>
                 <div class="flex items-center space-x-3 mb-2">
                     <lord-icon
-                        src="https://cdn.lordicon.com/osuxyevn.json"
+                        src="https://cdn.lordicon.com/bjgdeprq.json"
                         trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:32px;height:32px">
@@ -23,7 +23,7 @@
                 <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
                     <lord-icon
                         src="https://cdn.lordicon.com/jxwksgwv.json"
-                        trigger="hover"
+                        trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:18px;height:18px">
                     </lord-icon>
@@ -34,7 +34,7 @@
                     <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
                         <lord-icon
                             src="https://cdn.lordicon.com/moscwhoj.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:18px;height:18px">
                         </lord-icon>
@@ -49,7 +49,7 @@
             <a href="{{ route('tasks.create') }}" class="inline-flex items-center space-x-2 bg-white text-purple-600 font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition transform hover:scale-105">
                 <lord-icon
                     src="https://cdn.lordicon.com/mecwbjnp.json"
-                    trigger="hover"
+                    trigger="loop"
                     colors="primary:#9333ea,secondary:#e9d5ff"
                     style="width:20px;height:20px">
                 </lord-icon>
@@ -67,8 +67,8 @@
                     </div>
                     <div class="bg-purple-100 p-3 rounded-lg flex items-center justify-center">
                         <lord-icon
-                            src="https://cdn.lordicon.com/osuxyevn.json"
-                            trigger="hover"
+                            src="https://cdn.lordicon.com/hisvnjlk.json"
+                            trigger="loop"
                             colors="primary:#9333ea,secondary:#e9d5ff"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -85,7 +85,7 @@
                     <div class="bg-yellow-100 p-3 rounded-lg flex items-center justify-center">
                         <lord-icon
                             src="https://cdn.lordicon.com/kbtmbyzy.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ca8a04,secondary:#ca8a04"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -102,7 +102,7 @@
                     <div class="bg-green-100 p-3 rounded-lg flex items-center justify-center">
                         <lord-icon
                             src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#16a34a,secondary:#bbf7d0"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -192,15 +192,6 @@
                                         colors="primary:#9ca3af,secondary:#d1d5db"
                                         style="width:16px;height:16px">
                                     </lord-icon>
-                                    @if($task->recurrence_type !== 'none')
-                                    <lord-icon
-                                        src="https://cdn.lordicon.com/lupuorrc.json"
-                                        trigger="hover"
-                                        colors="primary:#9333ea,secondary:#e9d5ff"
-                                        style="width:16px;height:16px"
-                                        title="Berulang: {{ ucfirst($task->recurrence_type) }}">
-                                    </lord-icon>
-                                    @endif
                                     <span>{{ $task->due_date->format('d M Y') }}</span>
                                 </span>
 
@@ -214,6 +205,13 @@
                                     </lord-icon>
                                     <span>{{ \Carbon\Carbon::parse($task->due_time)->format('H:i') }}</span>
                                 </span>
+
+                                <!-- Recurring Badge -->
+                                @if($task->recurrence_type !== 'none')
+                                <span class="inline-flex items-center px-2 md:px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 transform hover:scale-105 transition cursor-help" title="Berulang: {{ ucfirst($task->recurrence_type) }}">
+                                    🔄 {{ ucfirst($task->recurrence_type) }}
+                                </span>
+                                @endif
 
                                 <!-- Status Badge -->
                                 @if($task->status === 'pending')

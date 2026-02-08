@@ -23,7 +23,7 @@
                 <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
                     <lord-icon
                         src="https://cdn.lordicon.com/hwuyodym.json"
-                        trigger="hover"
+                        trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:20px;height:20px">
                     </lord-icon>
@@ -34,7 +34,7 @@
                     <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
                         <lord-icon
                             src="https://cdn.lordicon.com/moscwhoj.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:20px;height:20px">
                         </lord-icon>
@@ -55,7 +55,7 @@
                     <div class="bg-purple-100 p-3 rounded-lg">
                         <lord-icon
                             src="https://cdn.lordicon.com/osuxyevn.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#9333ea,secondary:#e9d5ff"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -72,7 +72,7 @@
                     <div class="bg-yellow-100 p-3 rounded-lg">
                         <lord-icon
                             src="https://cdn.lordicon.com/kbtmbyzy.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ca8a04,secondary:#ca8a04"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -89,7 +89,7 @@
                     <div class="bg-green-100 p-3 rounded-lg">
                         <lord-icon
                             src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#16a34a,secondary:#bbf7d0"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -105,7 +105,7 @@
                     <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
                         <lord-icon
                             src="https://cdn.lordicon.com/mecwbjnp.json"
-                            trigger="morph"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:28px;height:28px">
                         </lord-icon>
@@ -122,7 +122,7 @@
                     <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
                         <lord-icon
                             src="https://cdn.lordicon.com/msoeawqm.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:28px;height:28px">
                         </lord-icon>
@@ -139,7 +139,7 @@
                     <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
                         <lord-icon
                             src="https://cdn.lordicon.com/fhtaantg.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:28px;height:28px">
                         </lord-icon>
@@ -180,8 +180,8 @@
                     <!-- Total Projects -->
                     <div class="flex items-center space-x-2">
                         <lord-icon
-                            src="https://cdn.lordicon.com/fhtaantg.json"
-                            trigger="hover"
+                            src="https://cdn.lordicon.com/hisvnjlk.json"
+                            trigger="loop"
                             colors="primary:#9333ea,secondary:#c084fc"
                             style="width:28px;height:28px">
                         </lord-icon>
@@ -198,7 +198,7 @@
                     <div class="flex items-center space-x-2">
                         <lord-icon
                             src="https://cdn.lordicon.com/fihkmkwt.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#16a34a,secondary:#86efac"
                             style="width:28px;height:28px">
                         </lord-icon>
@@ -215,7 +215,7 @@
                     <div class="flex items-center space-x-2">
                         <lord-icon
                             src="https://cdn.lordicon.com/yqzmiobz.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#2563eb,secondary:#93c5fd"
                             style="width:28px;height:28px">
                         </lord-icon>
@@ -268,7 +268,7 @@
 
                     <!-- Task Stats -->
                     <div class="flex items-center gap-4 text-sm text-gray-600">
-                        <span>📋 {{ $project->tasks_count }} tasks</span>
+                        <span>📋 {{ $project->total_tasks }} tasks</span>
                         <span>✅ {{ $project->completed_tasks }} selesai</span>
                         <span>⏳ {{ $project->pending_tasks }} pending</span>
                     </div>
@@ -410,25 +410,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     
     // Prepare events from tasks
-    const events = [
-        @foreach($calendarTasks->flatten() as $task)
-        {
-            id: '{{ $task->id }}',
-            title: '{{ addslashes($task->title) }}',
-            start: '{{ $task->due_date->format('Y-m-d') }}T{{ $task->due_time }}',
-            backgroundColor: '{{ $task->status === "done" ? "#10b981" : ($task->isOverdue() ? "#ef4444" : "#eab308") }}',
-            borderColor: '{{ $task->status === "done" ? "#059669" : ($task->isOverdue() ? "#dc2626" : "#ca8a04") }}',
-            textColor: '#ffffff',
-            extendedProps: {
-                status: '{{ $task->status }}',
-                description: `{{ addslashes($task->description ?? "") }}`,
-                wa_notified: {{ $task->wa_notified ? 'true' : 'false' }},
-                due_date: '{{ $task->due_date->format('Y-m-d') }}',
-                due_time: '{{ $task->due_time }}',
-            }
-        },
-        @endforeach
-    ];
+    const events = @json($calendarEvents);
+    
+    // Helper for task navigation
+    window.openEditTask = function(taskId) {
+        const url = '{{ route("tasks.edit", ":id") }}'.replace(':id', taskId);
+        window.location.href = url;
+    };
     
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: window.innerWidth < 768 ? 'timeGridDay' : 'dayGridMonth',
@@ -479,6 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const status = props.status;
         const description = props.description || 'Tidak ada deskripsi';
         const waNotified = props.wa_notified;
+        const is_virtual = props.is_virtual;
         
         // Determine status badge
         let statusBadge = '';
@@ -571,11 +560,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     <!-- Footer -->
                     <div class="bg-gray-50 p-4 rounded-b-2xl flex flex-col sm:flex-row gap-2 sticky bottom-0">
-                        <button onclick="window.location.href='{{ route('tasks.index') }}'" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition">
-                            Lihat Semua Task
+                        <button onclick="openEditTask('${event.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                            Edit Task
                         </button>
                         <button onclick="closeTaskModal()" class="sm:w-auto px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-lg transition">
-                            Tutup
+                            Tutup (Esc)
                         </button>
                     </div>
                 </div>
@@ -593,7 +582,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
     // Function to close modal
     window.closeTaskModal = function() {
         const modal = document.getElementById('taskModal');
@@ -603,7 +591,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.remove();
             }, 200);
         }
-    }
+    };
+
+    // Add keydown event for Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeTaskModal();
+        }
+    });
 });
 </script>
 @endpush

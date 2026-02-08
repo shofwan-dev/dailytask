@@ -79,7 +79,7 @@
                     <button type="submit" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold shadow-lg w-full flex items-center justify-center space-x-2">
                         <lord-icon
                             src="https://cdn.lordicon.com/sbiheqdr.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:24px;height:24px">
                         </lord-icon>
@@ -134,7 +134,7 @@
                     <button type="submit" class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg w-full hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-2">
                         <lord-icon
                             src="https://cdn.lordicon.com/rqqkvjqf.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:24px;height:24px">
                         </lord-icon>

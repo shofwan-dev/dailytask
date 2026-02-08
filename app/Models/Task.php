@@ -70,4 +70,14 @@ class Task extends Model
         
         return $query->whereIn('id', $overdueTasks->pluck('id'));
     }
+    /**
+     * Get the count of remaining recurrences.
+     * 
+     * @deprecated Recurrences are now generated as individual tasks in the database.
+     * This method is kept for backward compatibility but returns 0 to prevent double counting.
+     */
+    public function getRemainingRecurrencesCount(): int
+    {
+        return 0;
+    }
 }

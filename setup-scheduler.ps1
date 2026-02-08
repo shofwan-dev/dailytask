@@ -4,7 +4,7 @@
 $taskName = "Laravel DailyTask Scheduler"
 $phpPath = "C:\laragon\bin\php\php-8.3.0-Win32-vs16-x64\php.exe"  # Sesuaikan dengan versi PHP Laragon Anda
 $projectPath = "C:\laragon\www\dailytask"
-$artisanPath = "$projectPath\artisan"
+
 
 # Cek apakah PHP path ada
 if (-not (Test-Path $phpPath)) {

@@ -14,6 +14,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::where('user_id', Auth::id())
+            ->with('tasks') // Eager load tasks for getProgressAttribute to avoid N+1 and allow processing
             ->withCount('tasks')
             ->latest()
             ->get();

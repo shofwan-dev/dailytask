@@ -35,15 +35,19 @@ class Project extends Model
     /**
      * Get project progress percentage based on completed tasks
      */
+    /**
+     * Get project progress percentage based on completed tasks
+     */
     public function getProgressAttribute(): int
     {
-        $totalTasks = $this->tasks()->count();
+        $tasks = $this->tasks;
+        $totalTasks = $tasks->count();
         
         if ($totalTasks === 0) {
             return 0;
         }
         
-        $completedTasks = $this->tasks()->where('status', 'done')->count();
+        $completedTasks = $tasks->where('status', 'done')->count();
         
         return (int) round(($completedTasks / $totalTasks) * 100);
     }

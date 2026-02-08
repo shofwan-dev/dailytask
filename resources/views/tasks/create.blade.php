@@ -24,8 +24,8 @@
                 <div class="bg-purple-100 p-3 rounded-lg flex items-center justify-center">
                     <lord-icon
                         src="https://cdn.lordicon.com/mecwbjnp.json"
-                        trigger="hover"
-                        colors="primary:#9333ea,secondary:#e9d5ff"
+                        trigger="loop"
+                        colors="primary:#9333ea,secondary:#9333ea"
                         style="width:32px;height:32px">
                     </lord-icon>
                 </div>

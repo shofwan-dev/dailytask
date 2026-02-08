@@ -23,7 +23,7 @@
                 <a href="{{ route('projects.create') }}" class="bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg transition font-semibold flex items-center space-x-2">
                     <lord-icon
                         src="https://cdn.lordicon.com/mecwbjnp.json"
-                        trigger="hover"
+                        trigger="loop"
                         colors="primary:#9333ea,secondary:#9333ea"
                         style="width:20px;height:20px">
                     </lord-icon>
@@ -32,7 +32,7 @@
                 <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2">
                     <lord-icon
                         src="https://cdn.lordicon.com/wmwqvixz.json"
-                        trigger="hover"
+                        trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:20px;height:20px">
                     </lord-icon>
@@ -55,7 +55,7 @@
             <a href="{{ route('projects.create') }}" class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition">
                 <lord-icon
                     src="https://cdn.lordicon.com/mecwbjnp.json"
-                    trigger="hover"
+                    trigger="loop"
                     colors="primary:#ffffff,secondary:#ffffff"
                     style="width:20px;height:20px">
                 </lord-icon>
@@ -157,10 +157,16 @@
 
                 <!-- Actions -->
                 <div class="px-6 py-4 bg-white flex gap-2">
-                    <a href="{{ route('projects.show', $project) }}" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-2 rounded-lg transition font-semibold text-sm">
-                        Lihat Detail
+                    <a href="{{ route('projects.show', $project) }}" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-2 rounded-lg transition font-semibold text-sm shadow-md flex items-center justify-center space-x-2">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/msoeawqm.json"
+                            trigger="hover"
+                            colors="primary:#ffffff,secondary:#ffffff"
+                            style="width:18px;height:18px">
+                        </lord-icon>
+                        <span>Lihat Detail</span>
                     </a>
-                    <a href="{{ route('projects.edit', $project) }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition" title="Edit Project">
+                    <a href="{{ route('projects.edit', $project) }}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-lg transition border border-gray-200" title="Edit Project">
                         <lord-icon
                             src="https://cdn.lordicon.com/wuvorxbv.json"
                             trigger="hover"

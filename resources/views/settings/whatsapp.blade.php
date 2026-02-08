@@ -35,7 +35,7 @@
             <div class="flex items-center space-x-2 mb-6">
                 <lord-icon
                     src="https://cdn.lordicon.com/hwuyodym.json"
-                    trigger="hover"
+                    trigger="loop"
                     colors="primary:#1f2937,secondary:#1f2937"
                     style="width:28px;height:28px">
                 </lord-icon>
@@ -104,7 +104,7 @@
                     <button type="submit" class="w-full btn-primary text-white px-6 py-3 rounded-lg font-semibold shadow-lg flex items-center justify-center space-x-2">
                         <lord-icon
                             src="https://cdn.lordicon.com/sbiheqdr.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:24px;height:24px">
                         </lord-icon>
@@ -119,7 +119,7 @@
             <div class="flex items-center space-x-2 mb-4">
                 <lord-icon
                     src="https://cdn.lordicon.com/yqzmiobz.json"
-                    trigger="hover"
+                    trigger="loop"
                     colors="primary:#1f2937,secondary:#ec4899"
                     style="width:28px;height:28px">
                 </lord-icon>
@@ -139,9 +139,9 @@
                 
                 <button type="button" onclick="testWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition flex items-center justify-center space-x-2">
                     <lord-icon
-                        src="https://cdn.lordicon.com/zoxyyxuh.json"
-                        trigger="hover"
-                        colors="primary:#ffffff,secondary:#ffffff"
+                        src="https://cdn.lordicon.com/lbqloinw.json"
+                        trigger="loop"
+                        colors="primary:#ffff,secondary:#ffff"
                         style="width:24px;height:24px">
                     </lord-icon>
                     <span>Kirim Pesan Test</span>

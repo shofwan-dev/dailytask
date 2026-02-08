@@ -25,7 +25,7 @@
                 <a href="{{ route('projects.edit', $project) }}" class="bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg transition font-semibold flex items-center space-x-2">
                     <lord-icon
                         src="https://cdn.lordicon.com/wuvorxbv.json"
-                        trigger="hover"
+                        trigger="loop"
                         colors="primary:#9333ea,secondary:#9333ea"
                         style="width:20px;height:20px">
                     </lord-icon>
@@ -34,7 +34,7 @@
                 <a href="{{ route('projects.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2">
                     <lord-icon
                         src="https://cdn.lordicon.com/wmwqvixz.json"
-                        trigger="hover"
+                        trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:20px;height:20px">
                     </lord-icon>
@@ -61,7 +61,7 @@
                     <div class="bg-purple-100 p-3 rounded-lg">
                         <lord-icon
                             src="https://cdn.lordicon.com/fhtaantg.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#9333ea,secondary:#e9d5ff"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -78,8 +78,8 @@
                     </div>
                     <div class="bg-purple-100 p-3 rounded-lg">
                         <lord-icon
-                            src="https://cdn.lordicon.com/osuxyevn.json"
-                            trigger="hover"
+                            src="https://cdn.lordicon.com/hisvnjlk.json"
+                            trigger="loop"
                             colors="primary:#9333ea,secondary:#e9d5ff"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -97,7 +97,7 @@
                     <div class="bg-green-100 p-3 rounded-lg">
                         <lord-icon
                             src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#16a34a,secondary:#bbf7d0"
                             style="width:32px;height:32px">
                         </lord-icon>
@@ -115,8 +115,8 @@
                     <div class="bg-yellow-100 p-3 rounded-lg">
                         <lord-icon
                             src="https://cdn.lordicon.com/kbtmbyzy.json"
-                            trigger="hover"
-                            colors="primary:#ca8a04,secondary:#fef08a"
+                            trigger="loop"
+                            colors="primary:#ca8a04,secondary:#ca8a04"
                             style="width:32px;height:32px">
                         </lord-icon>
                     </div>
@@ -146,7 +146,7 @@
                 <a href="{{ route('tasks.create') }}?project_id={{ $project->id }}" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition font-semibold flex items-center space-x-2">
                     <lord-icon
                         src="https://cdn.lordicon.com/mecwbjnp.json"
-                        trigger="hover"
+                        trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:20px;height:20px">
                     </lord-icon>
@@ -254,27 +254,44 @@
 
 @push('scripts')
 <script>
+// function toggleTask(taskId) {
+//     // ... (implementation same as task index) ...
+//     // For specific project view, we can just reload or update UI via AJAX
+//     // Re-using the logic from index if possible
+//     fetch(`{{ url('tasks') }}/${taskId}/toggle`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': '{{ csrf_token() }}'
+//         }
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.success) {
+//              window.location.reload();
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         alert('Terjadi kesalahan saat mengupdate status task');
+//     });
+// }
 function toggleTask(taskId) {
-    // Show loading state visually if needed, but for now we just wait specifically
-    
     fetch(`{{ url('tasks') }}/${taskId}/toggle`, {
-        method: 'POST',
+        method: 'POST', // Ensure your route supports POST or PUT
         headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Reload page to refresh stats and order
+    .then(response => {
+        if (response.ok) {
              window.location.reload();
+        } else {
+             alert('Gagal mengupdate status');
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengupdate status task');
-    });
+    .catch(error => console.error('Error:', error));
 }
 </script>
 @endpush

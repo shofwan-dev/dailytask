@@ -68,10 +68,51 @@ class TaskController extends Controller
 
         $validated['user_id'] = Auth::id();
         $validated['status'] = 'pending';
+        $recurrenceType = $validated['recurrence_type'] ?? 'none';
+        $recurrenceEndDate = $validated['recurrence_end_date'] ?? null;
+        
+        // We will store the persistence type as 'none' for the database records so they act as individual tasks
+        // But we can append a tag or description if needed. For now, we strictly follow "duplicate task".
+        // To keep the "Badge" visible as requested before, we might want to keep the type.
+        // However, to prevent double-counting logic elsewhere, we must ensure unrelated logic doesn't project these.
+        // I will keep the type but disable the projection logic in other files.
+        $validated['recurrence_type'] = $recurrenceType;
 
-        $validated['recurrence_type'] = $validated['recurrence_type'] ?? 'none';
-
-        Task::create($validated);
+        // Create the base task
+        $baseTask = Task::create($validated);
+        
+        // Generate duplicates if recurrence is set
+        if ($recurrenceType !== 'none' && $recurrenceEndDate) {
+            $startDate = \Carbon\Carbon::parse($validated['due_date']);
+            $endDate = \Carbon\Carbon::parse($recurrenceEndDate);
+            $nextDate = $startDate->copy();
+            
+            while (true) {
+                switch ($recurrenceType) {
+                    case 'daily':
+                        $nextDate->addDay();
+                        break;
+                    case 'weekly':
+                        $nextDate->addWeek();
+                        break;
+                    case 'monthly':
+                        $nextDate->addMonth();
+                        break;
+                    default:
+                        break 2;
+                }
+                
+                if ($nextDate->gt($endDate)) {
+                    break;
+                }
+                
+                // Create duplicate
+                $newTaskData = $validated;
+                $newTaskData['due_date'] = $nextDate->format('Y-m-d');
+                $newTaskData['recurrence_type'] = $recurrenceType; // Keep type for UI badge
+                Task::create($newTaskData);
+            }
+        }
 
         return redirect()->route('tasks.index')
             ->with('success', '✅ Task berhasil ditambahkan!');
@@ -128,9 +169,7 @@ class TaskController extends Controller
         $task->status = $task->status === 'pending' ? 'done' : 'pending';
         $task->save();
 
-        if ($task->status === 'done' && $task->recurrence_type !== 'none') {
-            $this->createNextRecurrence($task);
-        }
+        // Recurrences are predefined, no need to create next task on completion
 
         return response()->json([
             'success' => true,

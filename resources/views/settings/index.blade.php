@@ -38,7 +38,7 @@
                     <div class="bg-purple-100 p-4 rounded-lg flex items-center justify-center">
                         <lord-icon
                             src="https://cdn.lordicon.com/dxjqoygy.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#9333ea,secondary:#CA4D04"
                             style="width:40px;height:40px">
                         </lord-icon>
@@ -61,7 +61,7 @@
                     <div class="bg-green-100 p-4 rounded-lg flex items-center justify-center">
                         <lord-icon
                             src="https://cdn.lordicon.com/vmxvhdko.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#25D366,secondary:#128C7E"
                             style="width:40px;height:40px">
                         </lord-icon>
