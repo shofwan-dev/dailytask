@@ -156,42 +156,44 @@
                 @endif
 
                 <!-- Actions -->
-                <div class="px-6 py-4 bg-white flex gap-2">
-                    <a href="{{ route('projects.show', $project) }}" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-2 rounded-lg transition font-semibold text-sm shadow-md flex items-center justify-center space-x-2">
+                <div class="px-6 py-4 bg-white flex flex-wrap gap-2">
+                    <a href="{{ route('projects.show', $project) }}" class="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-2 rounded-lg transition border border-blue-200 flex items-center justify-center" title="Lihat Detail">
                         <lord-icon
                             src="https://cdn.lordicon.com/msoeawqm.json"
-                            trigger="hover"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:18px;height:18px">
+                            trigger="loop"
+                            colors="primary:#0284c7,secondary:#0284c7"
+                            style="width:20px;height:20px">
                         </lord-icon>
-                        <span>Lihat Detail</span>
                     </a>
-                    <a href="{{ route('projects.edit', $project) }}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-lg transition border border-gray-200" title="Edit Project">
+                    
+                    <a href="{{ route('projects.edit', $project) }}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-lg transition border border-blue-200 flex items-center justify-center" title="Edit Project">
                         <lord-icon
                             src="https://cdn.lordicon.com/wuvorxbv.json"
-                            trigger="hover"
+                            trigger="loop"
                             colors="primary:#4b5563,secondary:#4b5563"
                             style="width:20px;height:20px">
                         </lord-icon>
                     </a>
-                    <form action="{{ route('projects.duplicate', $project) }}" method="POST" class="inline">
+                    
+                    <form action="{{ route('projects.duplicate', $project) }}" method="POST" class="inline-flex">
                         @csrf
-                        <button type="submit" class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-2 rounded-lg transition" title="Duplikat Project">
+                        <button type="submit" class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-3 py-2 rounded-lg transition border border-blue-200 flex items-center justify-center" title="Duplikat Project">
                             <lord-icon
                                 src="https://cdn.lordicon.com/puvaffet.json"
-                                trigger="hover"
+                                trigger="loop"
                                 colors="primary:#2563eb,secondary:#2563eb"
                                 style="width:20px;height:20px">
                             </lord-icon>
                         </button>
                     </form>
-                    <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus project ini? Semua task terkait juga akan dihapus.')">
+                    
+                    <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus project ini? Semua task terkait juga akan dihapus.')" class="inline-flex">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-2 rounded-lg transition" title="Hapus Project">
+                        <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-2 rounded-lg transition border border-red-200 flex items-center justify-center" title="Hapus Project">
                             <lord-icon
                                 src="https://cdn.lordicon.com/wpyrrmcq.json"
-                                trigger="hover"
+                                trigger="loop"
                                 colors="primary:#dc2626,secondary:#dc2626"
                                 style="width:20px;height:20px">
                             </lord-icon>

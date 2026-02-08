@@ -241,7 +241,17 @@
                     </div>
 
                     <!-- Actions - Responsive -->
-                    <div class="flex md:flex-shrink-0 items-center gap-1 md:gap-2 justify-end md:justify-start">
+                    <div class="flex md:flex-shrink-0 items-center gap-3 md:gap-4 justify-end md:justify-start">
+                        <!-- Detail Button -->
+                        <a href="{{ route('tasks.show', $task) }}" class="p-1.5 md:p-2 rounded-lg hover:bg-gray-100 transition text-gray-500 hover:text-gray-700" title="Lihat Detail">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/msoeawqm.json"
+                                trigger="hover"
+                                colors="primary:#4b5563,secondary:#9ca3af"
+                                style="width:20px;height:20px">
+                            </lord-icon>
+                        </a>
+                        
                         <!-- Toggle Status Button -->
                         <button onclick="toggleTask({{ $task->id }})" class="p-1.5 md:p-2 rounded-lg hover:bg-gray-100 transition group" title="{{ $task->status === 'done' ? 'Tandai Pending' : 'Tandai Selesai' }}">
                             @if($task->status === 'done')

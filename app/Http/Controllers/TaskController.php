@@ -43,6 +43,15 @@ class TaskController extends Controller
         return view('tasks.create', compact('projects', 'selectedProjectId'));
     }
 
+    public function show(Task $task)
+    {
+        // Check ownership
+        if ($task->user_id !== Auth::id()) {
+            abort(403);
+        }
+        return view('tasks.show', compact('task'));
+    }
+
     public function edit(Task $task)
     {
         // Check ownership
