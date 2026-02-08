@@ -417,6 +417,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const url = '{{ route("tasks.edit", ":id") }}'.replace(':id', taskId);
         window.location.href = url;
     };
+
+    window.openShowTask = function(taskId) {
+        const url = '{{ route("tasks.show", ":id") }}'.replace(':id', taskId);
+        window.location.href = url;
+    };
     
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: window.innerWidth < 768 ? 'timeGridDay' : 'dayGridMonth',
@@ -559,12 +564,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     
                     <!-- Footer -->
-                    <div class="bg-gray-50 p-4 rounded-b-2xl flex flex-col sm:flex-row gap-2 sticky bottom-0">
-                        <button onclick="openEditTask('${event.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition">
-                            Edit Task
+                    <div class="bg-gray-50 p-4 rounded-b-2xl flex items-center justify-center gap-6 sticky bottom-0">
+                        <button onclick="openShowTask('${event.id}')" class="p-3 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-600 transition-all hover:scale-110 group" title="Lihat Detail">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/msoeawqm.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#9333ea,secondary:#e9d5ff"
+                                style="width:32px;height:32px">
+                            </lord-icon>
                         </button>
-                        <button onclick="closeTaskModal()" class="sm:w-auto px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-lg transition">
-                            Tutup (Esc)
+                        
+                        <button onclick="openEditTask('${event.id}')" class="p-3 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 transition-all hover:scale-110 group" title="Edit Task">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/wuvorxbv.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#2563eb,secondary:#bfdbfe"
+                                style="width:32px;height:32px">
+                            </lord-icon>
+                        </button>
+
+                        <button onclick="closeTaskModal()" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition-all hover:scale-110 group" title="Tutup">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/nqtddedc.json"
+                                trigger="hover"
+                                target=".group"
+                                colors="primary:#4b5563,secondary:#9ca3af"
+                                style="width:32px;height:32px">
+                            </lord-icon>
                         </button>
                     </div>
                 </div>
