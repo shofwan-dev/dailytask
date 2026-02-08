@@ -4,18 +4,40 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![WhatsApp](https://img.shields.io/badge/WhatsApp-API-25D366?style=for-the-badge&logo=whatsapp)
 
-Web aplikasi modern untuk manajemen task/to-do list dengan fitur **reminder otomatis via WhatsApp**. Jika task belum selesai sampai deadline, sistem akan otomatis mengirim notifikasi WhatsApp.
+Web aplikasi modern untuk manajemen task/to-do list dengan fitur **reminder otomatis via WhatsApp** dan **Project Management**. Jika task belum selesai sampai deadline, sistem akan otomatis mengirim notifikasi WhatsApp.
 
 ## ✨ Fitur Utama
 
+### Task Management
 - ✅ **CRUD Task** - Tambah, lihat, update, dan hapus task
 - ⏰ **Deadline Management** - Set tanggal dan jam deadline
+- 🔄 **Recurring Tasks** - Task berulang (daily, weekly, monthly)
+- 📋 **Task Duplication** - Duplikasi task dengan mudah
+- 📊 **Task Calendar** - Visualisasi task dalam kalender (FullCalendar)
+- 🔍 **Task Details** - Halaman detail lengkap untuk setiap task
+- ✅ **Bulk Actions** - Hapus multiple tasks sekaligus
+
+### Project Management
+- 📁 **CRUD Projects** - Kelola projects dengan mudah
+- 📊 **Project Progress** - Track progress dengan progress bar
+- 🎯 **Project Status** - Active, On Hold, Completed
+- 📈 **Project Statistics** - Total tasks, completed, pending
+- 🔗 **Task-Project Linking** - Hubungkan task dengan project
+- 📱 **Project Details** - Halaman detail project dengan task list
+- 🔄 **Project Duplication** - Duplikasi project beserta tasks
+
+### WhatsApp Integration
 - 📱 **WhatsApp Reminder** - Notifikasi otomatis via WhatsApp API
+- ⚙️ **WhatsApp Settings** - Konfigurasi API Key, Sender, Base URL
+- 🧪 **Test Connection** - Test kirim pesan WhatsApp
+
+### UI/UX
 - 🎨 **Modern UI** - Design premium dengan Tailwind CSS
-- 📊 **Dashboard Stats** - Statistik task (total, pending, completed)
+- 📊 **Dashboard Stats** - Statistik task dan project
 - 🔐 **Authentication** - Login & Register dengan validasi
 - 🌙 **Responsive Design** - Mobile-friendly interface
 - ⚡ **Real-time Toggle** - Update status task via AJAX
+- 🎯 **Settings Page** - Pengaturan profil dan WhatsApp
 
 ## 🛠️ Tech Stack
 
@@ -23,6 +45,8 @@ Web aplikasi modern untuk manajemen task/to-do list dengan fitur **reminder otom
 - **HTML5** - Struktur halaman
 - **Tailwind CSS** - Styling modern (CDN)
 - **JavaScript** - Interaksi & AJAX
+- **FullCalendar** - Kalender interaktif
+- **Lord Icon** - Animated icons
 - **Google Fonts (Inter)** - Typography premium
 
 ### Backend
@@ -56,6 +80,7 @@ cd dailytask
 2. **Install Dependencies**
 ```bash
 composer install
+npm install && npm run build  # Optional
 ```
 
 3. **Setup Environment**
@@ -91,10 +116,7 @@ DB_PORT=5432
 DB_DATABASE=dailytask
 DB_USERNAME=postgres
 DB_PASSWORD=your_password
-DB_PASSWORD=your_password
 ```
-
-> **📘 PostgreSQL Guide**: Untuk panduan lengkap setup PostgreSQL, lihat [POSTGRESQL.md](POSTGRESQL.md)
 
 5. **Konfigurasi WhatsApp API**
 
@@ -151,8 +173,6 @@ php artisan schedule:list
 tail -f storage/logs/laravel.log
 ```
 
-> **📘 Cronjob Setup Guide**: Untuk panduan lengkap setup cronjob (Linux, Windows, Systemd), testing, dan troubleshooting, lihat [CRONJOB_SETUP.md](CRONJOB_SETUP.md)
-
 ## 🔧 Konfigurasi WhatsApp API
 
 ### Endpoint
@@ -166,7 +186,7 @@ POST https://mpwa.mutekar.com/send-message
   "api_key": "YOUR_API_KEY",
   "sender": "628888xxxx",
   "number": "628123456789",
-  "message": "⏰ Reminder Task!\n\nTask: Submit laporan\nDeadline: Hari ini 17:00\n\nSegera dikerjakan ya!",
+  "message": "⏰ Reminder Task!\\n\\nTask: Submit laporan\\nDeadline: Hari ini 17:00\\n\\nSegera dikerjakan ya!",
   "footer": "DailyTask App"
 }
 ```
@@ -187,16 +207,33 @@ POST https://mpwa.mutekar.com/send-message
 | password | varchar | Hashed password |
 | created_at | timestamp | |
 
+### Tabel: projects
+| Field | Type | Keterangan |
+|-------|------|------------|
+| id | bigint | Primary key |
+| user_id | bigint | Foreign key to users |
+| name | varchar | Nama project |
+| description | text | Deskripsi (nullable) |
+| status | enum | active/on_hold/completed |
+| progress | integer | Progress 0-100 |
+| start_date | date | Tanggal mulai (nullable) |
+| end_date | date | Tanggal selesai (nullable) |
+| created_at | timestamp | |
+
 ### Tabel: tasks
 | Field | Type | Keterangan |
 |-------|------|------------|
 | id | bigint | Primary key |
 | user_id | bigint | Foreign key to users |
+| project_id | bigint | Foreign key to projects (nullable) |
 | title | varchar | Judul task |
 | description | text | Deskripsi (nullable) |
 | due_date | date | Tanggal deadline |
 | due_time | time | Jam deadline |
 | status | enum | pending/done |
+| recurrence_type | enum | none/daily/weekly/monthly |
+| recurrence_end_date | date | Tanggal akhir recurring (nullable) |
+| parent_task_id | bigint | ID task induk (untuk recurring) |
 | wa_notified | boolean | Sudah kirim WA? |
 | created_at | timestamp | |
 
@@ -379,6 +416,131 @@ sudo chown -R www-data:www-data storage bootstrap/cache
 sudo chmod -R 775 storage bootstrap/cache
 ```
 
+## 📚 API Documentation
+
+### Authentication
+
+#### POST /login
+Login to the application
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password",
+  "remember": true
+}
+```
+
+#### POST /register
+Register a new user
+
+**Request Body:**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone_number": "628123456789",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+```
+
+### Tasks
+
+#### GET /tasks
+Get all tasks for authenticated user
+
+#### POST /tasks
+Create a new task
+
+**Request Body:**
+```json
+{
+  "title": "New Task",
+  "description": "Task description (optional)",
+  "project_id": 1,
+  "due_date": "2026-02-10",
+  "due_time": "15:00",
+  "recurrence_type": "none",
+  "recurrence_end_date": null
+}
+```
+
+#### POST /tasks/{id}/toggle
+Toggle task status (pending ↔ done)
+
+#### DELETE /tasks/{id}
+Delete a task
+
+#### POST /tasks/{id}/duplicate
+Duplicate a task
+
+### Projects
+
+#### GET /projects
+Get all projects for authenticated user
+
+#### POST /projects
+Create a new project
+
+**Request Body:**
+```json
+{
+  "name": "New Project",
+  "description": "Project description",
+  "status": "active",
+  "start_date": "2026-02-01",
+  "end_date": "2026-03-01"
+}
+```
+
+#### GET /projects/{id}
+Get project details with tasks
+
+#### POST /projects/{id}/duplicate
+Duplicate a project
+
+## 📄 Changelog
+
+### [2.0.0] - 2026-02-08
+#### Added
+- ✨ **Project Management** - Full CRUD untuk projects
+- 📊 **Project Dashboard** - Statistics dan progress tracking
+- 🔗 **Task-Project Linking** - Hubungkan task dengan project
+- 📱 **Project Details Page** - Halaman detail project dengan task list
+- 🔄 **Project Duplication** - Duplikasi project beserta tasks
+- 📈 **Project Progress Bar** - Visual progress indicator
+- 🎯 **Project Status Management** - Active, On Hold, Completed
+- 📋 **Task Calendar** - FullCalendar integration untuk visualisasi task
+- 🔄 **Recurring Tasks** - Task berulang (daily, weekly, monthly)
+- 📅 **Recurrence End Date** - Set tanggal akhir untuk recurring tasks
+- 🔍 **Task Details Page** - Halaman detail lengkap untuk task
+- 📋 **Task Duplication** - Duplikasi task dengan mudah
+- ✅ **Bulk Delete Tasks** - Hapus multiple tasks sekaligus
+- ⚙️ **Settings Page** - Pengaturan profil dan WhatsApp
+- 🎨 **Responsive Design Improvements** - Better mobile experience
+- 📱 **Calendar Popup** - Detail task dalam popup kalender
+- 🔧 **Settings & Logout Buttons** - Di semua halaman (desktop)
+
+#### Improved
+- 🎨 **UI/UX Enhancements** - Modern design dengan animations
+- 📊 **Dashboard Statistics** - Tambah project stats
+- 🌙 **Responsive Layout** - Better mobile support
+- ⚡ **Performance** - Optimized queries dan caching
+
+### [1.0.0] - 2026-02-06
+#### Added
+- ✨ Initial release of DailyTask
+- 🔐 User authentication (Login & Register)
+- 📋 CRUD operations for tasks
+- ⏰ Deadline management (date + time)
+- 📱 WhatsApp reminder integration via MPWA API
+- 🎨 Modern UI with Tailwind CSS
+- 📊 Dashboard with statistics
+- ⚡ Real-time task status toggle via AJAX
+- 🔔 Automated scheduler for reminders
+
 ## 📄 License
 
 MIT License - bebas digunakan untuk project pribadi maupun komersial.
@@ -401,7 +563,14 @@ Developed with ❤️ by Full Stack Expert
 - [ ] 🎨 Theme customization
 - [ ] 📤 Export task to PDF/Excel
 - [ ] 👥 Team collaboration
+- [ ] 📎 File attachments
+- [ ] 💬 Comments on tasks
+- [ ] 📝 Activity log
 
 ---
 
 **⭐ Jika project ini membantu, jangan lupa kasih star!**
+
+**Version**: 2.0.0  
+**Last Updated**: 2026-02-08  
+**Status**: ✅ Production Ready

@@ -6,41 +6,45 @@
 <div class="min-h-screen px-4 py-8">
     <div class="max-w-7xl mx-auto">
         <!-- Header - Responsive -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 animate-fade-in">
-            <div>
-                <div class="flex items-center space-x-3 mb-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/cwwqfdik.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:40px;height:40px">
-                    </lord-icon>
-                    <h1 class="text-3xl md:text-4xl font-bold text-white">Dashboard</h1>
-                </div>
-                <p class="text-purple-200">Halo, {{ Auth::user()->name }}!</p>
-            </div>
-            <div class="flex flex-wrap gap-2 md:gap-3">
-                <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/hwuyodym.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Pengaturan</span>
-                </a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
+        <div class="mb-8 animate-fade-in">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+                <div class="md:flex-shrink-0">
+                    <div class="flex items-center space-x-3">
                         <lord-icon
-                            src="https://cdn.lordicon.com/moscwhoj.json"
+                            src="https://cdn.lordicon.com/cwwqfdik.json"
+                            trigger="loop"
+                            colors="primary:#ffffff,secondary:#ffffff"
+                            style="width:40px;height:40px">
+                        </lord-icon>
+                        <div>
+                            <h1 class="text-3xl md:text-4xl font-bold text-white">Dashboard</h1>
+                            <p class="text-purple-200 text-sm md:text-base mt-1">Halo, {{ Auth::user()->name }}!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 md:gap-3 md:self-center">
+                    <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
+                        <lord-icon
+                            src="https://cdn.lordicon.com/hwuyodym.json"
                             trigger="loop"
                             colors="primary:#ffffff,secondary:#ffffff"
                             style="width:20px;height:20px">
                         </lord-icon>
-                        <span>Logout</span>
-                    </button>
-                </form>
+                        <span>Pengaturan</span>
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/moscwhoj.json"
+                                trigger="loop"
+                                colors="primary:#ffffff,secondary:#ffffff"
+                                style="width:20px;height:20px">
+                            </lord-icon>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -314,10 +318,9 @@
     </div>
 </div>
 
-<!-- FullCalendar CSS & JS -->
+@push('styles')
+<!-- FullCalendar CSS -->
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-
 <!-- Custom Responsive CSS for FullCalendar -->
 <style>
 /* Responsive FullCalendar Header */
@@ -403,8 +406,11 @@
     border-color: #d1d5db !important;
 }
 </style>
+@endpush
 
 @push('scripts')
+<!-- FullCalendar JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
@@ -512,7 +518,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-6 rounded-t-2xl sticky top-0">
                         <div class="flex items-start justify-between">
                             <div class="flex-1 pr-4">
-                                <h3 class="text-xl font-bold text-white mb-3 break-words">${safeTitle}</h3>
+                                <p class="text-purple-200 text-xs font-semibold mb-1 uppercase tracking-wide">Task</p>
+                                <h3 class="text-xl font-bold text-black mb-3 break-words">${safeTitle}</h3>
                                 ${statusBadge}
                             </div>
                             <button onclick="closeTaskModal()" class="text-white hover:bg-white/20 rounded-lg p-2 transition flex-shrink-0">

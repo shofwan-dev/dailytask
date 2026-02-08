@@ -6,7 +6,7 @@
 <div class="min-h-screen px-4 py-8">
     <div class="max-w-4xl mx-auto">
         <!-- Header - Responsive -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 animate-fade-in">
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mb-8 animate-fade-in items-center">
             <div>
                 <div class="flex items-center space-x-3 mb-2">
                     <lord-icon
@@ -20,14 +20,14 @@
                 <p class="text-purple-200 text-sm md:text-base">Halo, {{ Auth::user()->name }}!</p>
             </div>
             <div class="flex flex-wrap gap-2">
-                <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
+                <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
                     <lord-icon
-                        src="https://cdn.lordicon.com/jxwksgwv.json"
+                        src="https://cdn.lordicon.com/hwuyodym.json"
                         trigger="loop"
                         colors="primary:#ffffff,secondary:#ffffff"
                         style="width:18px;height:18px">
                     </lord-icon>
-                    <span>Dashboard</span>
+                    <span>Pengaturan</span>
                 </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -41,6 +41,15 @@
                         <span>Logout</span>
                     </button>
                 </form>
+                <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/jxwksgwv.json"
+                        trigger="loop"
+                        colors="primary:#ffffff,secondary:#ffffff"
+                        style="width:18px;height:18px">
+                    </lord-icon>
+                    <span>Dashboard</span>
+                </a>
             </div>
         </div>
 
