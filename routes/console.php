@@ -13,3 +13,9 @@ Schedule::command('tasks:send-reminders')
     ->everyTenMinutes()
     ->withoutOverlapping()
     ->runInBackground();
+
+// Schedule daily task notifications at 8 AM
+Schedule::command('tasks:send-daily-notifications')
+    ->dailyAt('08:00')
+    ->withoutOverlapping()
+    ->runInBackground();

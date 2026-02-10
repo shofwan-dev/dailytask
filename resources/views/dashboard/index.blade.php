@@ -53,7 +53,7 @@
             <div class="bg-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Tasks</p>
+                        <p class="text-gray-500 text-sm font-medium">Total Task</p>
                         <p class="text-3xl font-bold text-gray-800 mt-1">{{ $stats['total'] }}</p>
                     </div>
                     <div class="bg-purple-100 p-3 rounded-lg">
@@ -70,7 +70,7 @@
             <div class="bg-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Pending</p>
+                        <p class="text-gray-500 text-sm font-medium">Belum Selesai</p>
                         <p class="text-3xl font-bold text-yellow-600 mt-1">{{ $stats['pending'] }}</p>
                     </div>
                     <div class="bg-yellow-100 p-3 rounded-lg">
@@ -87,7 +87,7 @@
             <div class="bg-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Completed</p>
+                        <p class="text-gray-500 text-sm font-medium">Selesai</p>
                         <p class="text-3xl font-bold text-green-600 mt-1">{{ $stats['done'] }}</p>
                     </div>
                     <div class="bg-green-100 p-3 rounded-lg">
@@ -198,17 +198,17 @@
                     <!-- Divider -->
                     <div class="h-12 w-px bg-gray-300"></div>
 
-                    <!-- Active Projects -->
+                    <!-- Pending Projects -->
                     <div class="flex items-center space-x-2">
                         <lord-icon
-                            src="https://cdn.lordicon.com/fihkmkwt.json"
+                            src="https://cdn.lordicon.com/kbtmbyzy.json"
                             trigger="loop"
-                            colors="primary:#16a34a,secondary:#86efac"
+                            colors="primary:#ca8a04,secondary:#fef3c7"
                             style="width:28px;height:28px">
                         </lord-icon>
                         <div>
-                            <p class="text-2xl font-bold text-green-600">{{ $projectStats['active'] }}</p>
-                            <p class="text-xs text-gray-600">Aktif</p>
+                            <p class="text-2xl font-bold text-yellow-600">{{ $projectStats['pending'] }}</p>
+                            <p class="text-xs text-gray-600">Belum Selesai</p>
                         </div>
                     </div>
 
@@ -218,13 +218,13 @@
                     <!-- Completed Projects -->
                     <div class="flex items-center space-x-2">
                         <lord-icon
-                            src="https://cdn.lordicon.com/yqzmiobz.json"
+                            src="https://cdn.lordicon.com/egiwmiit.json"
                             trigger="loop"
-                            colors="primary:#2563eb,secondary:#93c5fd"
+                            colors="primary:#16a34a,secondary:#bbf7d0"
                             style="width:28px;height:28px">
                         </lord-icon>
                         <div>
-                            <p class="text-2xl font-bold text-blue-600">{{ $projectStats['completed'] }}</p>
+                            <p class="text-2xl font-bold text-green-600">{{ $projectStats['completed'] }}</p>
                             <p class="text-xs text-gray-600">Selesai</p>
                         </div>
                     </div>

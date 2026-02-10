@@ -16,6 +16,8 @@ Web aplikasi modern untuk manajemen task/to-do list dengan fitur **reminder otom
 - 📊 **Task Calendar** - Visualisasi task dalam kalender (FullCalendar)
 - 🔍 **Task Details** - Halaman detail lengkap untuk setiap task
 - ✅ **Bulk Actions** - Hapus multiple tasks sekaligus
+- 📂 **Completed Tasks Section** - Section terpisah untuk task yang sudah selesai dengan timestamp
+- 🔔 **Daily Morning Notifications** - Notifikasi otomatis jam 8 pagi ke nomor penerima di settings
 
 ### Project Management
 - 📁 **CRUD Projects** - Kelola projects dengan mudah
@@ -163,6 +165,9 @@ Tambahkan baris berikut:
 # Test command reminder
 php artisan tasks:send-reminders
 
+# Test daily notifications (8 AM)
+php artisan tasks:send-daily-notifications
+
 # Lihat scheduled tasks
 php artisan schedule:list
 ```
@@ -194,6 +199,25 @@ POST https://mpwa.mutekar.com/send-message
 ### Format Nomor WhatsApp
 - Format: `628xxx` (tanpa +, tanpa spasi)
 - Contoh: `628123456789`
+
+### Penerima Notifikasi
+**PENTING:** Semua notifikasi WhatsApp (reminder overdue & daily morning) dikirim ke **Nomor Penerima Notifikasi** yang dikonfigurasi di halaman Settings > WhatsApp Gateway, BUKAN ke nomor telepon individual user.
+
+**Cara Kerja:**
+1. **Reminder Overdue** - Dikirim setiap 10 menit untuk task yang terlambat
+   - Berisi informasi user, task, project, dan deadline
+   - Dikirim ke nomor penerima di settings
+
+2. **Daily Morning Notification** - Dikirim jam 8 pagi setiap hari
+   - Berisi daftar semua task dari semua user untuk hari itu
+   - Dikelompokkan per user
+   - Dikirim ke nomor penerima di settings
+
+**Konfigurasi:**
+- Buka: Settings > WhatsApp Gateway
+- Isi field: **Nomor Penerima Notifikasi**
+- Bisa nomor pribadi (628xxx) atau ID Group (@g.us)
+
 
 ## 📁 Struktur Database
 
@@ -231,6 +255,7 @@ POST https://mpwa.mutekar.com/send-message
 | due_date | date | Tanggal deadline |
 | due_time | time | Jam deadline |
 | status | enum | pending/done |
+| completed_at | timestamp | Waktu task diselesaikan (nullable) |
 | recurrence_type | enum | none/daily/weekly/monthly |
 | recurrence_end_date | date | Tanggal akhir recurring (nullable) |
 | parent_task_id | bigint | ID task induk (untuk recurring) |
@@ -503,6 +528,19 @@ Duplicate a project
 
 ## 📄 Changelog
 
+### [2.1.0] - 2026-02-10
+#### Added
+- ✨ **Completed Tasks Section** - Task yang selesai ditampilkan di section terpisah di bawah
+- ⏰ **Completion Timestamp** - Tanggal dan waktu kapan task diselesaikan
+- 🔔 **Daily Morning Notifications** - Notifikasi otomatis jam 8 pagi berisi list semua task hari itu via WhatsApp
+- 📅 **Automated Daily Reminders** - Scheduler untuk kirim notifikasi pagi hari
+- 🔄 **Improved Toggle Behavior** - Redirect ke dashboard setelah toggle dari halaman detail task
+
+#### Improved
+- 🎨 **Task List UI** - Pemisahan visual yang jelas antara task aktif dan selesai
+- 📱 **Better UX** - Task completed otomatis pindah ke section bawah
+- ⚡ **Performance** - Optimized task queries dengan filtering status
+
 ### [2.0.0] - 2026-02-08
 #### Added
 - ✨ **Project Management** - Full CRUD untuk projects
@@ -571,6 +609,7 @@ Developed with ❤️ by Full Stack Expert
 
 **⭐ Jika project ini membantu, jangan lupa kasih star!**
 
-**Version**: 2.0.0  
-**Last Updated**: 2026-02-08  
+**Version**: 2.1.0  
+**Last Updated**: 2026-02-10  
 **Status**: ✅ Production Ready
+

@@ -168,22 +168,41 @@ class TaskController extends Controller
             ->with('success', '🗑️ Task berhasil dihapus!');
     }
 
-    public function toggleStatus(Task $task)
+    public function toggleStatus(Request $request, Task $task)
     {
         // Check ownership
         if ($task->user_id !== Auth::id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+            abort(403);
         }
 
-        $task->status = $task->status === 'pending' ? 'done' : 'pending';
+        $newStatus = $task->status === 'pending' ? 'done' : 'pending';
+        $task->status = $newStatus;
+        
+        // Set completed_at timestamp when marking as done
+        if ($newStatus === 'done') {
+            $task->completed_at = now();
+        } else {
+            $task->completed_at = null;
+        }
+        
         $task->save();
 
         // Recurrences are predefined, no need to create next task on completion
 
-        return response()->json([
-            'success' => true,
-            'status' => $task->status
-        ]);
+        // Handle AJAX request (from tasks.index)
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'status' => $task->status
+            ]);
+        }
+        
+        // Handle form submission (from tasks.show) - redirect to dashboard
+        return redirect()->route('dashboard')
+            ->with('success', $newStatus === 'done' ? '✅ Task ditandai selesai!' : '⏳ Task ditandai pending!');
     }
 
     public function bulkDestroy(Request $request)

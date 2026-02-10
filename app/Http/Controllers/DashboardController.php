@@ -132,16 +132,25 @@ class DashboardController extends Controller
         }
         
         // Get project statistics
+        $allProjects = Project::where('user_id', $user->id)->get();
+        
         $projects = Project::where('user_id', $user->id)
             ->with('tasks') // Eager load for accessors
             ->latest()
             ->limit(5)
             ->get();
         
+        // Project stats matching task stats pattern: total, pending, completed
         $projectStats = [
-            'total' => Project::where('user_id', $user->id)->count(),
-            'active' => Project::where('user_id', $user->id)->where('status', 'active')->count(),
-            'completed' => Project::where('user_id', $user->id)->where('status', 'completed')->count(),
+            'total' => $allProjects->count(),
+            // Pending: projects that are not 100% complete
+            'pending' => $allProjects->filter(function($project) {
+                return $project->progress < 100;
+            })->count(),
+            // Completed: projects that are 100% complete
+            'completed' => $allProjects->filter(function($project) {
+                return $project->progress >= 100;
+            })->count(),
         ];
         
         return view('dashboard.index', compact(
