@@ -405,6 +405,20 @@
     background-color: #d1d5db !important;
     border-color: #d1d5db !important;
 }
+
+/* Blinking animation for overdue tasks */
+@keyframes blink-overdue {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.fc-event-overdue {
+    animation: blink-overdue 1.5s ease-in-out infinite;
+}
 </style>
 @endpush
 
@@ -460,6 +474,16 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         // Swipe navigation for mobile
         navLinks: true,
+        // Add blinking effect to overdue tasks
+        eventDidMount: function(info) {
+            const props = info.event.extendedProps;
+            const taskDateTime = new Date(props.due_date + 'T' + props.due_time);
+            const isOverdue = taskDateTime < new Date() && props.status !== 'done';
+            
+            if (isOverdue) {
+                info.el.classList.add('fc-event-overdue');
+            }
+        },
         // Responsive
         windowResize: function(view) {
             if (window.innerWidth < 768) {

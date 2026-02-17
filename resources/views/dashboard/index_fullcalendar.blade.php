@@ -176,6 +176,21 @@
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 
 @push('scripts')
+<style>
+    /* Blinking animation for overdue tasks */
+    @keyframes blink-overdue {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.4;
+        }
+    }
+    
+    .fc-event-overdue {
+        animation: blink-overdue 1.5s ease-in-out infinite;
+    }
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
@@ -196,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 wa_notified: {{ $task->wa_notified ? 'true' : 'false' }},
                 due_date: '{{ $task->due_date->format('Y-m-d') }}',
                 due_time: '{{ $task->due_time }}',
+                isOverdue: {{ $task->isOverdue() ? 'true' : 'false' }}
             }
         },
         @endforeach
@@ -232,6 +248,12 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         // Swipe navigation for mobile
         navLinks: true,
+        // Add blinking effect to overdue tasks
+        eventDidMount: function(info) {
+            if (info.event.extendedProps.isOverdue && info.event.extendedProps.status !== 'done') {
+                info.el.classList.add('fc-event-overdue');
+            }
+        },
         // Responsive
         windowResize: function(view) {
             if (window.innerWidth < 768) {
