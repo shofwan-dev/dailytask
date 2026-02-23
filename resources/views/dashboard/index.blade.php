@@ -237,9 +237,9 @@
             <!-- Grid selalu 3 kolom di desktop, tidak peduli jumlah project -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($projects as $project)
-                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition overflow-hidden">
                     <div class="flex items-start justify-between mb-3">
-                        <div class="flex-1">
+                        <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2 mb-1">
                                 <h3 class="font-bold text-gray-800">{{ $project->name }}</h3>
                                 @if($project->status === 'completed')
@@ -251,7 +251,7 @@
                                 @endif
                             </div>
                             @if($project->description)
-                            <p class="text-gray-600 text-sm line-clamp-2">{{ $project->description }}</p>
+                            <p class="text-gray-600 text-sm line-clamp-2 break-words">{{ $project->description }}</p>
                             @endif
                         </div>
                         <a href="{{ route('projects.show', $project) }}" class="ml-4 bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-2 rounded-lg transition text-sm font-semibold">
