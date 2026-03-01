@@ -169,7 +169,7 @@
                         <input type="date" id="recurrence_end_date" name="recurrence_end_date" value="{{ old('recurrence_end_date') }}"
                             class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Task tidak akan dibuat lagi setelah tanggal ini.</p>
+                    <p class="text-xs text-gray-500 mt-1">Jika tidak diisi, default: Harian 30 hari, Mingguan 12 minggu, Bulanan 12 bulan.</p>
                 </div>
 
                 <script>

@@ -91,10 +91,32 @@ class TaskController extends Controller
         $baseTask = Task::create($validated);
         
         // Generate duplicates if recurrence is set
-        if ($recurrenceType !== 'none' && $recurrenceEndDate) {
+        if ($recurrenceType !== 'none') {
             $startDate = \Carbon\Carbon::parse($validated['due_date']);
-            $endDate = \Carbon\Carbon::parse($recurrenceEndDate);
             $nextDate = $startDate->copy();
+
+            // Tentukan end date: gunakan input user atau default
+            if ($recurrenceEndDate) {
+                $endDate = \Carbon\Carbon::parse($recurrenceEndDate);
+            } else {
+                // Default jika end date tidak diisi
+                switch ($recurrenceType) {
+                    case 'daily':
+                        $endDate = $startDate->copy()->addDays(30);   // 30 hari
+                        break;
+                    case 'weekly':
+                        $endDate = $startDate->copy()->addWeeks(12);  // 12 minggu
+                        break;
+                    case 'monthly':
+                        $endDate = $startDate->copy()->addMonths(12); // 12 bulan
+                        break;
+                    default:
+                        $endDate = $startDate->copy();
+                        break;
+                }
+                // Simpan end date default ke base task
+                $baseTask->update(['recurrence_end_date' => $endDate->format('Y-m-d')]);
+            }
             
             while (true) {
                 switch ($recurrenceType) {
@@ -119,6 +141,7 @@ class TaskController extends Controller
                 $newTaskData = $validated;
                 $newTaskData['due_date'] = $nextDate->format('Y-m-d');
                 $newTaskData['recurrence_type'] = $recurrenceType; // Keep type for UI badge
+                $newTaskData['recurrence_end_date'] = $endDate->format('Y-m-d');
                 Task::create($newTaskData);
             }
         }
@@ -144,6 +167,14 @@ class TaskController extends Controller
             'recurrence_type' => 'nullable|in:none,daily,weekly,monthly',
             'recurrence_end_date' => 'nullable|date|after:due_date',
         ]);
+
+        // Reset wa_notified jika tanggal atau jam deadline berubah
+        $dateChanged = $task->due_date->format('Y-m-d') !== $validated['due_date'];
+        $timeChanged = $task->due_time !== $validated['due_time'];
+
+        if ($dateChanged || $timeChanged) {
+            $validated['wa_notified'] = false;
+        }
 
         $task->update($validated);
 
