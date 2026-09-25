@@ -3,237 +3,148 @@
 @section('title', 'Tambah Task')
 
 @section('content')
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-2xl mx-auto">
-        <!-- Back Button -->
-        <div class="mb-6 animate-fade-in">
-            <a href="{{ route('tasks.index') }}" class="inline-flex items-center space-x-2 text-white hover:text-purple-200 transition">
-                <lord-icon
-                    src="https://cdn.lordicon.com/jxwksgwv.json"
-                    trigger="hover"
-                    colors="primary:#ffffff,secondary:#ffffff"
-                    style="width:20px;height:20px">
-                </lord-icon>
-                <span>Kembali</span>
-            </a>
+<div class="max-w-2xl mx-auto space-y-5">
+    {{-- Back --}}
+    <a href="{{ route('tasks.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition animate-fade-in">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Kembali ke Tasks
+    </a>
+
+    {{-- Form Card --}}
+    <div class="glass-card p-6 md:p-8 animate-fade-in" style="animation-delay: 0.05s;">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center">
+                <lord-icon src="https://cdn.lordicon.com/mecwbjnp.json" trigger="loop" delay="3000" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:24px;height:24px"></lord-icon>
+            </div>
+            <h1 class="text-xl font-bold text-white">Tambah Task Baru</h1>
         </div>
 
-        <!-- Form Card -->
-        <div class="bg-white rounded-2xl shadow-2xl p-8 animate-fade-in" style="animation-delay: 0.1s;">
-            <div class="flex items-center space-x-3 mb-6">
-                <div class="bg-purple-100 p-3 rounded-lg flex items-center justify-center">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/mecwbjnp.json"
-                        trigger="loop"
-                        colors="primary:#9333ea,secondary:#9333ea"
-                        style="width:32px;height:32px">
-                    </lord-icon>
-                </div>
-                <h1 class="text-3xl font-bold text-gray-800">Tambah Task Baru</h1>
+        @if($errors->any())
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
+            <ul class="list-disc list-inside text-red-400 text-sm space-y-1">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        <form method="POST" action="{{ route('tasks.store') }}" class="space-y-5">
+            @csrf
+
+            {{-- Title --}}
+            <div>
+                <label for="title" class="block text-sm font-medium text-white/60 mb-2">
+                    Judul Task <span class="text-red-400">*</span>
+                </label>
+                <input type="text" id="title" name="title" value="{{ old('title') }}" required
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm"
+                    placeholder="Contoh: Submit laporan bulanan">
             </div>
 
-            @if($errors->any())
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
-                <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
+            {{-- Description --}}
+            <div>
+                <label for="description" class="block text-sm font-medium text-white/60 mb-2">
+                    Deskripsi <span class="text-white/20 text-xs">(opsional)</span>
+                </label>
+                <textarea id="description" name="description" rows="3"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none resize-none text-sm"
+                    placeholder="Detail task...">{{ old('description') }}</textarea>
+            </div>
+
+            {{-- Project --}}
+            @if($projects->isNotEmpty())
+            <div>
+                <label for="project_id" class="block text-sm font-medium text-white/60 mb-2">
+                    Project <span class="text-white/20 text-xs">(opsional)</span>
+                </label>
+                <select id="project_id" name="project_id"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="background-color: rgba(255,255,255,0.03);">
+                    <option value="" style="background: #1a1a3e;">-- Pilih Project --</option>
+                    @foreach($projects as $project)
+                    <option value="{{ $project->id }}" {{ old('project_id', $selectedProjectId) == $project->id ? 'selected' : '' }} style="background: #1a1a3e;">
+                        {{ $project->name }}
+                    </option>
                     @endforeach
-                </ul>
+                </select>
             </div>
             @endif
 
-            <form method="POST" action="{{ route('tasks.store') }}" class="space-y-6">
-                @csrf
-
-                <!-- Title -->
+            {{-- Date and Time --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label for="title" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Judul Task <span class="text-red-500">*</span>
+                    <label for="due_date" class="block text-sm font-medium text-white/60 mb-2">
+                        Tanggal Deadline <span class="text-red-400">*</span>
                     </label>
-                    <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-                        placeholder="Contoh: Submit laporan bulanan">
+                    <input type="date" id="due_date" name="due_date" value="{{ old('due_date', date('Y-m-d')) }}" required
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="color-scheme: dark;">
                 </div>
-
-                <!-- Description -->
                 <div>
-                    <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Deskripsi <span class="text-gray-400 text-xs">(opsional)</span>
+                    <label for="due_time" class="block text-sm font-medium text-white/60 mb-2">
+                        Jam Deadline <span class="text-red-400">*</span>
                     </label>
-                    <textarea id="description" name="description" rows="4"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none"
-                        placeholder="Detail task yang perlu dikerjakan...">{{ old('description') }}</textarea>
+                    <input type="time" id="due_time" name="due_time" value="{{ old('due_time', '17:00') }}" required
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="color-scheme: dark;">
                 </div>
+            </div>
 
-                <!-- Project Selection -->
-                @if($projects->isNotEmpty())
-                <div>
-                    <label for="project_id" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Project <span class="text-gray-400 text-xs">(opsional)</span>
-                    </label>
-                    <select id="project_id" name="project_id"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
-                        <option value="">-- Pilih Project --</option>
-                        @foreach($projects as $project)
-                        <option value="{{ $project->id }}" {{ old('project_id', $selectedProjectId) == $project->id ? 'selected' : '' }}>
-                            {{ $project->name }}
-                        </option>
-                        @endforeach
-                    </select>
-                    <p class="text-xs text-gray-500 mt-1">Hubungkan task ini dengan project tertentu</p>
+            {{-- Recurrence --}}
+            <div>
+                <label for="recurrence_type" class="block text-sm font-medium text-white/60 mb-2">
+                    Ulangi Task
+                </label>
+                <select id="recurrence_type" name="recurrence_type"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="background-color: rgba(255,255,255,0.03);">
+                    <option value="none" {{ old('recurrence_type') == 'none' ? 'selected' : '' }} style="background: #1a1a3e;">Tidak Diulang</option>
+                    <option value="daily" {{ old('recurrence_type') == 'daily' ? 'selected' : '' }} style="background: #1a1a3e;">Setiap Hari</option>
+                    <option value="weekly" {{ old('recurrence_type') == 'weekly' ? 'selected' : '' }} style="background: #1a1a3e;">Setiap Minggu</option>
+                    <option value="monthly" {{ old('recurrence_type') == 'monthly' ? 'selected' : '' }} style="background: #1a1a3e;">Setiap Bulan</option>
+                </select>
+            </div>
+
+            {{-- Recurrence End Date --}}
+            <div id="recurrence_end_date_container" class="{{ old('recurrence_type', 'none') !== 'none' ? '' : 'hidden' }}">
+                <label for="recurrence_end_date" class="block text-sm font-medium text-white/60 mb-2">
+                    Sampai Tanggal <span class="text-white/20 text-xs">(opsional)</span>
+                </label>
+                <input type="date" id="recurrence_end_date" name="recurrence_end_date" value="{{ old('recurrence_end_date') }}"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="color-scheme: dark;">
+                <p class="text-white/20 text-xs mt-1.5">Default: Harian 30 hari, Mingguan 12 minggu, Bulanan 12 bulan.</p>
+            </div>
+
+            <script>
+                document.getElementById('recurrence_type').addEventListener('change', function() {
+                    const container = document.getElementById('recurrence_end_date_container');
+                    if (this.value !== 'none') {
+                        container.classList.remove('hidden');
+                    } else {
+                        container.classList.add('hidden');
+                        document.getElementById('recurrence_end_date').value = '';
+                    }
+                });
+            </script>
+
+            {{-- Info --}}
+            <div class="glass-card-light p-4 flex items-start gap-3">
+                <span class="text-lg">📱</span>
+                <div class="text-sm">
+                    <p class="text-violet-300 font-medium mb-0.5">Reminder WhatsApp Otomatis</p>
+                    <p class="text-white/30 text-xs">Jika task belum selesai sampai deadline, reminder dikirim ke WhatsApp ({{ Auth::user()->phone_number ?? 'belum diset' }}).</p>
                 </div>
-                @endif
+            </div>
 
-                <!-- Date and Time -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Due Date -->
-                    <div>
-                        <label for="due_date" class="block text-sm font-semibold text-gray-700 mb-2">
-                            Tanggal Deadline <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <lord-icon
-                                    src="https://cdn.lordicon.com/kbtmbyzy.json"
-                                    trigger="hover"
-                                    colors="primary:#9ca3af,secondary:#d1d5db"
-                                    style="width:20px;height:20px">
-                                </lord-icon>
-                            </div>
-                            <input type="date" id="due_date" name="due_date" value="{{ old('due_date', date('Y-m-d')) }}" required
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
-                        </div>
-                    </div>
-
-                    <!-- Due Time -->
-                    <div>
-                        <label for="due_time" class="block text-sm font-semibold text-gray-700 mb-2">
-                            Jam Deadline <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <lord-icon
-                                    src="https://cdn.lordicon.com/lupuorrc.json"
-                                    trigger="hover"
-                                    colors="primary:#9ca3af,secondary:#d1d5db"
-                                    style="width:20px;height:20px">
-                                </lord-icon>
-                            </div>
-                            <input type="time" id="due_time" name="due_time" value="{{ old('due_time', '17:00') }}" required
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recurrence Type -->
-                <div>
-                    <label for="recurrence_type" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Ulangi Task (Opsional)
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/lupuorrc.json" 
-                                trigger="loop"
-                                colors="primary:#9ca3af,secondary:#d1d5db"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                        </div>
-                        <select id="recurrence_type" name="recurrence_type"
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition appearance-none bg-white">
-                            <option value="none" {{ old('recurrence_type') == 'none' ? 'selected' : '' }}>Tidak Diulang</option>
-                            <option value="daily" {{ old('recurrence_type') == 'daily' ? 'selected' : '' }}>Setiap Hari (Jam Sama)</option>
-                            <option value="weekly" {{ old('recurrence_type') == 'weekly' ? 'selected' : '' }}>Setiap Minggu</option>
-                            <option value="monthly" {{ old('recurrence_type') == 'monthly' ? 'selected' : '' }}>Setiap Bulan</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recurrence End Date -->
-                <div id="recurrence_end_date_container" class="{{ old('recurrence_type', 'none') !== 'none' ? '' : 'hidden' }}">
-                    <label for="recurrence_end_date" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Sampai Tanggal (Berakhir) <span class="text-gray-400 text-xs">(opsional)</span>
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/kbtmbyzy.json"
-                                trigger="hover"
-                                colors="primary:#9ca3af,secondary:#d1d5db"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                        </div>
-                        <input type="date" id="recurrence_end_date" name="recurrence_end_date" value="{{ old('recurrence_end_date') }}"
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">Jika tidak diisi, default: Harian 30 hari, Mingguan 12 minggu, Bulanan 12 bulan.</p>
-                </div>
-
-                <script>
-                    document.getElementById('recurrence_type').addEventListener('change', function() {
-                        const container = document.getElementById('recurrence_end_date_container');
-                        if (this.value !== 'none') {
-                            container.classList.remove('hidden');
-                        } else {
-                            container.classList.add('hidden');
-                            document.getElementById('recurrence_end_date').value = '';
-                        }
-                    });
-                </script>
-
-                <!-- Info Box -->
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-                    <div class="flex items-start">
-                        <div class="mr-3 flex-shrink-0 mt-0.5">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/tftaqjwp.json"
-                                trigger="hover"
-                                colors="primary:#2563eb,secondary:#bfdbfe"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                        </div>
-                        <div class="text-sm text-blue-700">
-                            <p class="font-semibold mb-1">📱 Reminder WhatsApp Otomatis</p>
-                            <p>Jika task belum selesai sampai deadline, sistem akan otomatis mengirim reminder ke WhatsApp Anda ({{ Auth::user()->phone_number ?? 'belum diset' }}).</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Buttons -->
-                <div class="flex items-center space-x-4 pt-4">
-                    <button type="submit" class="flex-1 btn-primary text-white font-semibold py-3 rounded-lg shadow-lg">
-                        💾 Simpan Task
-                    </button>
-                    <a href="{{ route('tasks.index') }}" class="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition">
-                        Batal
-                    </a>
-                </div>
-            </form>
-        </div>
-
-        <!-- Tips Card -->
-        <div class="mt-6 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-6 text-white animate-fade-in" style="animation-delay: 0.2s;">
-            <h3 class="font-semibold mb-3 flex items-center">
-                <div class="mr-2 flex-shrink-0">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/lupuorrc.json"
-                        trigger="hover"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                </div>
-                Tips Produktivitas
-            </h3>
-            <ul class="space-y-2 text-sm text-purple-100">
-                <li>✨ Buat task dengan judul yang jelas dan spesifik</li>
-                <li>⏰ Set deadline yang realistis</li>
-                <li>📝 Tambahkan deskripsi untuk task yang kompleks</li>
-                <li>🔔 Pastikan nomor WhatsApp Anda aktif untuk menerima reminder</li>
-            </ul>
-        </div>
+            {{-- Buttons --}}
+            <div class="flex items-center gap-3 pt-2">
+                <button type="submit" class="flex-1 btn-primary text-white font-semibold py-3 rounded-xl text-sm">
+                    💾 Simpan Task
+                </button>
+                <a href="{{ route('tasks.index') }}" class="btn-ghost px-6 py-3 rounded-xl text-sm font-medium text-center">
+                    Batal
+                </a>
+            </div>
+        </form>
     </div>
 </div>
 @endsection

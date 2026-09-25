@@ -3,124 +3,88 @@
 @section('title', 'Pengaturan')
 
 @section('content')
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-        <!-- Header - Responsive -->
-        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mb-8 animate-fade-in items-center">
+<div class="max-w-4xl mx-auto space-y-6">
+    {{-- Header --}}
+    <div class="animate-fade-in">
+        <h1 class="text-2xl md:text-3xl font-bold text-white">Pengaturan</h1>
+        <p class="text-white/30 text-sm mt-1">Kelola preferensi akun dan sistem</p>
+    </div>
+
+    {{-- Settings Menu Grid --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        {{-- Profile --}}
+        <a href="{{ route('settings.profile') }}" class="glass-card p-6 card-hover block group animate-fade-in" style="animation-delay: 0.1s;">
+            <div class="flex items-start gap-4 mb-5">
+                <div class="w-12 h-12 rounded-2xl bg-violet-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-violet-500/20 transition">
+                    <lord-icon src="https://cdn.lordicon.com/dxjqoygy.json" trigger="loop" delay="3000" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:28px;height:28px"></lord-icon>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-violet-300 transition">Profil Pengguna</h3>
+                    <p class="text-white/40 text-sm mt-0.5">Kelola informasi pribadi akun Anda</p>
+                </div>
+            </div>
+            <ul class="space-y-2 pt-4 border-t border-white/5">
+                <li class="flex items-center gap-2 text-white/30 text-xs">
+                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Ubah nama dan email
+                </li>
+                <li class="flex items-center gap-2 text-white/30 text-xs">
+                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Update nomor telepon
+                </li>
+                <li class="flex items-center gap-2 text-white/30 text-xs">
+                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Ganti password
+                </li>
+            </ul>
+        </a>
+
+        {{-- WhatsApp --}}
+        <a href="{{ route('settings.whatsapp') }}" class="glass-card p-6 card-hover block group animate-fade-in" style="animation-delay: 0.15s;">
+            <div class="flex items-start gap-4 mb-5">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500/20 transition">
+                    <lord-icon src="https://cdn.lordicon.com/vmxvhdko.json" trigger="loop" delay="3000" colors="primary:#34d399,secondary:#6ee7b7" style="width:28px;height:28px"></lord-icon>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-300 transition">WhatsApp Gateway</h3>
+                    <p class="text-white/40 text-sm mt-0.5">Konfigurasi notifikasi WhatsApp</p>
+                </div>
+            </div>
+            <ul class="space-y-2 pt-4 border-t border-white/5">
+                <li class="flex items-center gap-2 text-white/30 text-xs">
+                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Setup API Key & Sender
+                </li>
+                <li class="flex items-center gap-2 text-white/30 text-xs">
+                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Konfigurasi Base URL
+                </li>
+                <li class="flex items-center gap-2 text-white/30 text-xs">
+                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Test koneksi Fonnte
+                </li>
+            </ul>
+        </a>
+    </div>
+
+    {{-- Account Info Summary --}}
+    <div class="glass-card p-6 mt-6 animate-fade-in" style="animation-delay: 0.2s;">
+        <h3 class="text-sm font-bold text-white/50 uppercase tracking-widest mb-5 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Informasi Sistem
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
-                <div class="flex items-center space-x-3 mb-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/hwuyodym.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:32px;height:32px">
-                    </lord-icon>
-                    <h1 class="text-3xl md:text-4xl font-bold text-white">Pengaturan</h1>
-                </div>
-                <p class="text-purple-200 text-sm md:text-base">Kelola akun dan konfigurasi aplikasi</p>
+                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">Nama</p>
+                <p class="font-semibold text-white text-sm">{{ Auth::user()->name }}</p>
             </div>
-            <div class="flex flex-wrap gap-2 md:gap-3">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/moscwhoj.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:18px;height:18px">
-                        </lord-icon>
-                        <span>Logout</span>
-                    </button>
-                </form>
-                <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base w-fit">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/jxwksgwv.json"
-                        trigger="hover"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:18px;height:18px">
-                    </lord-icon>
-                    <span>Kembali</span>
-                </a>
+            <div>
+                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">Email</p>
+                <p class="font-semibold text-white text-sm truncate" title="{{ Auth::user()->email }}">{{ Auth::user()->email }}</p>
             </div>
-        </div>
-
-        <!-- Settings Menu -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- User Profile -->
-            <a href="{{ route('settings.profile') }}" class="bg-white rounded-xl p-8 shadow-lg card-hover animate-fade-in" style="animation-delay: 0.1s;">
-                <div class="flex items-center space-x-4 mb-4">
-                    <div class="bg-purple-100 p-4 rounded-lg flex items-center justify-center">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/dxjqoygy.json"
-                            trigger="loop"
-                            colors="primary:#9333ea,secondary:#CA4D04"
-                            style="width:40px;height:40px">
-                        </lord-icon>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800">Profil Pengguna</h3>
-                        <p class="text-gray-600 text-sm">Kelola informasi akun Anda</p>
-                    </div>
-                </div>
-                <div class="border-t pt-4">
-                    <p class="text-sm text-gray-500">• Ubah nama dan email</p>
-                    <p class="text-sm text-gray-500">• Update nomor telepon</p>
-                    <p class="text-sm text-gray-500">• Ganti password</p>
-                </div>
-            </a>
-
-            <!-- WhatsApp Gateway -->
-            <a href="{{ route('settings.whatsapp') }}" class="bg-white rounded-xl p-8 shadow-lg card-hover animate-fade-in" style="animation-delay: 0.2s;">
-                <div class="flex items-center space-x-4 mb-4">
-                    <div class="bg-green-100 p-4 rounded-lg flex items-center justify-center">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/vmxvhdko.json"
-                            trigger="loop"
-                            colors="primary:#25D366,secondary:#128C7E"
-                            style="width:40px;height:40px">
-                        </lord-icon>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800">WhatsApp Gateway</h3>
-                        <p class="text-gray-600 text-sm">Konfigurasi notifikasi WhatsApp</p>
-                    </div>
-                </div>
-                <div class="border-t pt-4">
-                    <p class="text-sm text-gray-500">• API Key dan Sender</p>
-                    <p class="text-sm text-gray-500">• Base URL Gateway</p>
-                    <p class="text-sm text-gray-500">• Test koneksi</p>
-                </div>
-            </a>
-        </div>
-
-        <!-- Current User Info -->
-        <div class="mt-8 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-white animate-fade-in" style="animation-delay: 0.3s;">
-            <h3 class="text-lg font-semibold mb-3 flex items-center space-x-2">
-                <lord-icon
-                    src="https://cdn.lordicon.com/dxjqoygy.json"
-                    trigger="loop"
-                    colors="primary:#ffffff,secondary:#ffffff"
-                    style="width:24px;height:24px">
-                </lord-icon>
-                <span>Informasi Akun</span>
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-purple-200 text-sm">Nama</p>
-                    <p class="font-semibold">{{ Auth::user()->name }}</p>
-                </div>
-                <div>
-                    <p class="text-purple-200 text-sm">Email</p>
-                    <p class="font-semibold">{{ Auth::user()->email }}</p>
-                </div>
-                <div>
-                    <p class="text-purple-200 text-sm">Nomor Telepon</p>
-                    <p class="font-semibold">{{ Auth::user()->phone_number }}</p>
-                </div>
-                <div>
-                    <p class="text-purple-200 text-sm">Terdaftar Sejak</p>
-                    <p class="font-semibold">{{ Auth::user()->created_at->format('d M Y') }}</p>
-                </div>
+            <div>
+                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">WhatsApp</p>
+                <p class="font-semibold text-white text-sm">{{ Auth::user()->phone_number ?? '-' }}</p>
+            </div>
+            <div>
+                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">Terdaftar</p>
+                <p class="font-semibold text-white text-sm">{{ Auth::user()->created_at->format('d M Y') }}</p>
             </div>
         </div>
     </div>

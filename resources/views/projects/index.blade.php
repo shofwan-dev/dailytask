@@ -3,228 +3,148 @@
 @section('title', 'Projects')
 
 @section('content')
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mb-8 animate-fade-in items-center">
-            <div>
-                <div class="flex items-center space-x-3 mb-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/fhtaantg.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:40px;height:40px">
-                    </lord-icon>
-                    <h1 class="text-3xl md:text-4xl font-bold text-white">Projects</h1>
-                </div>
-                <p class="text-purple-200">Kelola semua project Anda</p>
-            </div>
-            <div class="flex flex-wrap gap-2 md:gap-3">
-                <a href="{{ route('projects.create') }}" class="bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg transition font-semibold flex items-center space-x-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/mecwbjnp.json"
-                        trigger="loop"
-                        colors="primary:#9333ea,secondary:#9333ea"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Tambah Project</span>
-                </a>
-                <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/hwuyodym.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Pengaturan</span>
-                </a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/moscwhoj.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:20px;height:20px">
-                        </lord-icon>
-                        <span>Logout</span>
-                    </button>
-                </form>
-                <a href="{{ route('dashboard') }}" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/wmwqvixz.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Dashboard</span>
-                </a>
-            </div>
+<div class="max-w-7xl mx-auto space-y-6">
+    {{-- Header --}}
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 animate-fade-in">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-white">Projects</h1>
+            <p class="text-white/30 text-sm mt-1">Kelola semua project Anda</p>
         </div>
+        <a href="{{ route('projects.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm w-fit">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Tambah Project
+        </a>
+    </div>
 
-        <!-- Projects Grid -->
-        @if($projects->isEmpty())
-        <div class="bg-white rounded-xl p-12 text-center shadow-lg animate-fade-in">
-            <lord-icon
-                src="https://cdn.lordicon.com/fhtaantg.json"
-                trigger="loop"
-                colors="primary:#9333ea,secondary:#e9d5ff"
-                style="width:80px;height:80px;margin:0 auto">
-            </lord-icon>
-            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Belum Ada Project</h3>
-            <p class="text-gray-600 mb-6">Mulai dengan membuat project pertama Anda</p>
-            <a href="{{ route('projects.create') }}" class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition">
-                <lord-icon
-                    src="https://cdn.lordicon.com/mecwbjnp.json"
-                    trigger="loop"
-                    colors="primary:#ffffff,secondary:#ffffff"
-                    style="width:20px;height:20px">
-                </lord-icon>
-                <span>Buat Project Baru</span>
-            </a>
+    {{-- Projects Grid --}}
+    @if($projects->isEmpty())
+    <div class="glass-card p-12 text-center animate-fade-in">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-500/10 flex items-center justify-center">
+            <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="loop" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:36px;height:36px"></lord-icon>
         </div>
-        @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
-            @foreach($projects as $project)
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
-                <!-- Project Header -->
-                <div class="p-6 {{ $project->status === 'completed' ? 'bg-green-50' : ($project->status === 'on_hold' ? 'bg-yellow-50' : 'bg-purple-50') }}">
-                    <div class="flex items-start justify-between mb-3">
-                        <h3 class="text-xl font-bold text-gray-800 flex-1 pr-2">{{ $project->name }}</h3>
+        <h3 class="text-lg font-bold text-white mb-2">Belum Ada Project</h3>
+        <p class="text-white/30 text-sm mb-6">Mulai dengan membuat project pertama Anda</p>
+        <a href="{{ route('projects.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Buat Project Baru
+        </a>
+    </div>
+    @else
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 animate-fade-in" style="animation-delay: 0.1s;">
+        @foreach($projects as $index => $project)
+        <div class="glass-card overflow-hidden card-hover animate-fade-in flex flex-col h-full" style="animation-delay: {{ 0.1 + ($index * 0.05) }}s;">
+            {{-- Project Header --}}
+            <div class="p-5 {{ $project->status === 'completed' ? 'bg-emerald-500/10' : ($project->status === 'on_hold' ? 'bg-amber-500/10' : 'bg-violet-500/10') }} border-b border-white/5 relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="flex items-start justify-between gap-3 mb-2">
+                        <h3 class="text-lg font-bold text-white flex-1 break-words leading-tight">
+                            <a href="{{ route('projects.show', $project) }}" class="hover:text-violet-300 transition">{{ $project->name }}</a>
+                        </h3>
                         @if($project->status === 'completed')
-                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Selesai</span>
+                        <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-[10px] font-bold uppercase tracking-wider flex-shrink-0 border border-emerald-500/20">Selesai</span>
                         @elseif($project->status === 'on_hold')
-                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Ditunda</span>
+                        <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-[10px] font-bold uppercase tracking-wider flex-shrink-0 border border-amber-500/20">Ditunda</span>
                         @else
-                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">Aktif</span>
+                        <span class="px-2.5 py-1 bg-violet-500/20 text-violet-300 rounded-lg text-[10px] font-bold uppercase tracking-wider flex-shrink-0 border border-violet-500/20">Aktif</span>
                         @endif
                     </div>
                     @if($project->description)
-                    <p class="text-gray-600 text-sm line-clamp-2">{{ $project->description }}</p>
+                    <p class="text-white/50 text-xs line-clamp-2">{{ $project->description }}</p>
                     @endif
                 </div>
+            </div>
 
-                <!-- Progress Bar -->
-                <div class="px-6 py-4 bg-gray-50">
+            {{-- Progress & Stats --}}
+            <div class="p-5 flex-1 flex flex-col justify-center">
+                {{-- Progress Bar --}}
+                <div class="mb-5">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-semibold text-gray-700">Progress</span>
-                        <span class="text-sm font-bold text-purple-600">{{ $project->progress }}%</span>
+                        <span class="text-xs font-semibold text-white/40 uppercase tracking-widest">Progress</span>
+                        <span class="text-xs font-bold text-violet-400">{{ $project->progress }}%</span>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="bg-gradient-to-r from-purple-500 to-indigo-600 h-2.5 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
-                    </div>
-                </div>
-
-                <!-- Stats - Horizontal Layout -->
-                <div class="px-6 py-4 border-t border-gray-100">
-                    <div class="flex items-center justify-between gap-3">
-                        <!-- Total Tasks -->
-                        <div class="flex items-center space-x-2">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/osuxyevn.json"
-                                trigger="hover"
-                                colors="primary:#6b7280,secondary:#9ca3af"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                            <div>
-                                <p class="text-lg font-bold text-gray-800">{{ $project->total_tasks }}</p>
-                                <p class="text-xs text-gray-500">Total</p>
-                            </div>
-                        </div>
-
-                        <!-- Completed -->
-                        <div class="flex items-center space-x-2">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/egiwmiit.json"
-                                trigger="hover"
-                                colors="primary:#16a34a,secondary:#bbf7d0"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                            <div>
-                                <p class="text-lg font-bold text-green-600">{{ $project->completed_tasks }}</p>
-                                <p class="text-xs text-gray-500">Selesai</p>
-                            </div>
-                        </div>
-
-                        <!-- Pending -->
-                        <div class="flex items-center space-x-2">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/kbtmbyzy.json"
-                                trigger="hover"
-                                colors="primary:#ca8a04,secondary:#fef08a"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                            <div>
-                                <p class="text-lg font-bold text-yellow-600">{{ $project->pending_tasks }}</p>
-                                <p class="text-xs text-gray-500">Pending</p>
-                            </div>
-                        </div>
+                    <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden border border-white/5">
+                        <div class="bg-gradient-to-r from-violet-500 to-indigo-500 h-1.5 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
                     </div>
                 </div>
 
-                <!-- Dates -->
+                {{-- Mini Stats Grid --}}
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-white/5 rounded-xl p-3 text-center border border-white/5">
+                        <p class="text-xs text-white/30 font-medium mb-1">Total</p>
+                        <p class="text-lg font-bold text-white">{{ $project->total_tasks }}</p>
+                    </div>
+                    <div class="bg-emerald-500/5 rounded-xl p-3 text-center border border-emerald-500/10">
+                        <p class="text-xs text-emerald-400/50 font-medium mb-1">Selesai</p>
+                        <p class="text-lg font-bold text-emerald-400">{{ $project->completed_tasks }}</p>
+                    </div>
+                    <div class="bg-amber-500/5 rounded-xl p-3 text-center border border-amber-500/10">
+                        <p class="text-xs text-amber-400/50 font-medium mb-1">Pending</p>
+                        <p class="text-lg font-bold text-amber-400">{{ $project->pending_tasks }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Dates & Actions --}}
+            <div class="mt-auto">
+                {{-- Dates --}}
                 @if($project->start_date || $project->end_date)
-                <div class="px-6 py-3 bg-gray-50 border-t border-gray-100">
-                    <div class="flex items-center justify-between text-xs text-gray-600">
+                <div class="px-5 py-3 bg-black/20 border-t border-white/5">
+                    <div class="flex items-center justify-between text-[11px] font-medium">
                         @if($project->start_date)
-                        <span>📅 {{ $project->start_date->format('d M Y') }}</span>
+                        <span class="text-white/40 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                            {{ $project->start_date->format('d M Y') }}
+                        </span>
                         @endif
                         @if($project->end_date)
-                        <span>🏁 {{ $project->end_date->format('d M Y') }}</span>
+                        <span class="text-white/40 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                            {{ $project->end_date->format('d M Y') }}
+                        </span>
                         @endif
                     </div>
                 </div>
                 @endif
 
-                <!-- Actions -->
-                <div class="px-6 py-4 bg-white flex flex-wrap gap-2">
-                    <a href="{{ route('projects.show', $project) }}" class="bg-sky-100 hover:bg-sky-200 text-sky-600 px-3 py-2 rounded-lg transition border border-blue-200 flex items-center justify-center" title="Lihat Detail">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/msoeawqm.json"
-                            trigger="loop"
-                            colors="primary:#0284c7,secondary:#0284c7"
-                            style="width:20px;height:20px">
-                        </lord-icon>
+                {{-- Actions --}}
+                <div class="px-5 py-4 border-t border-white/5 flex items-center gap-2">
+                    <a href="{{ route('projects.show', $project) }}" class="flex-1 btn-ghost py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-blue-400 hover:text-blue-300">
+                        <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="hover" colors="primary:#60a5fa,secondary:#93c5fd" style="width:16px;height:16px"></lord-icon>
+                        Detail
                     </a>
                     
-                    <a href="{{ route('projects.edit', $project) }}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-lg transition border border-blue-200 flex items-center justify-center" title="Edit Project">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/wuvorxbv.json"
-                            trigger="loop"
-                            colors="primary:#4b5563,secondary:#4b5563"
-                            style="width:20px;height:20px">
-                        </lord-icon>
+                    <a href="{{ route('projects.edit', $project) }}" class="flex-1 btn-ghost py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-white/50 hover:text-white">
+                        <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:16px;height:16px"></lord-icon>
+                        Edit
                     </a>
                     
-                    <form action="{{ route('projects.duplicate', $project) }}" method="POST" class="inline-flex">
-                        @csrf
-                        <button type="submit" class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-3 py-2 rounded-lg transition border border-blue-200 flex items-center justify-center" title="Duplikat Project">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/puvaffet.json"
-                                trigger="loop"
-                                colors="primary:#2563eb,secondary:#2563eb"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                        </button>
-                    </form>
-                    
-                    <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus project ini? Semua task terkait juga akan dihapus.')" class="inline-flex">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-2 rounded-lg transition border border-red-200 flex items-center justify-center" title="Hapus Project">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/wpyrrmcq.json"
-                                trigger="loop"
-                                colors="primary:#dc2626,secondary:#dc2626"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                        </button>
-                    </form>
+                    <div class="flex items-center gap-1">
+                        <form action="{{ route('projects.duplicate', $project) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition" title="Duplikat Project">
+                                <lord-icon src="https://cdn.lordicon.com/puvaffet.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:16px;height:16px"></lord-icon>
+                            </button>
+                        </form>
+                        
+                        <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus project ini? Semua task terkait juga akan dihapus.')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20 flex items-center justify-center text-red-400 transition" title="Hapus Project">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            @endforeach
         </div>
-        @endif
+        @endforeach
     </div>
+    @endif
 </div>
 @endsection

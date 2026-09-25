@@ -3,316 +3,176 @@
 @section('title', $project->name)
 
 @section('content')
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mb-8 animate-fade-in items-center">
-            <div class="flex-1">
-                <div class="flex items-center space-x-3 mb-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/fhtaantg.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:40px;height:40px">
-                    </lord-icon>
-                    <h1 class="text-3xl md:text-4xl font-bold text-white">{{ $project->name }}</h1>
-                </div>
-                @if($project->description)
-                <p class="text-purple-200">{{ $project->description }}</p>
+<div class="max-w-5xl mx-auto space-y-6">
+    {{-- Back & Header --}}
+    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 animate-fade-in">
+        <div>
+            <a href="{{ route('projects.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition mb-3">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Kembali ke Projects
+            </a>
+            <div class="flex items-center gap-3">
+                <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight">{{ $project->name }}</h1>
+                @if($project->status === 'completed')
+                <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">Selesai</span>
+                @elseif($project->status === 'on_hold')
+                <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 rounded-lg text-[10px] font-bold uppercase tracking-wider border border-amber-500/20">Ditunda</span>
+                @else
+                <span class="px-2.5 py-1 bg-violet-500/20 text-violet-300 rounded-lg text-[10px] font-bold uppercase tracking-wider border border-violet-500/20">Aktif</span>
                 @endif
             </div>
-            <div class="flex flex-wrap gap-2 md:gap-3">
-                <a href="{{ route('projects.edit', $project) }}" class="bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg transition font-semibold flex items-center space-x-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/wuvorxbv.json"
-                        trigger="loop"
-                        colors="primary:#9333ea,secondary:#9333ea"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Edit</span>
-                </a>
-                <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/hwuyodym.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Pengaturan</span>
-                </a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/moscwhoj.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:20px;height:20px">
-                        </lord-icon>
-                        <span>Logout</span>
-                    </button>
-                </form>
-                <a href="{{ route('projects.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/wmwqvixz.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Kembali</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 mb-8 animate-fade-in" style="animation-delay: 0.1s;">
-            <!-- Status -->
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Status</p>
-                        @if($project->status === 'completed')
-                        <p class="text-xl font-bold text-green-600 mt-1">Selesai</p>
-                        @elseif($project->status === 'on_hold')
-                        <p class="text-xl font-bold text-yellow-600 mt-1">Ditunda</p>
-                        @else
-                        <p class="text-xl font-bold text-purple-600 mt-1">Aktif</p>
-                        @endif
-                    </div>
-                    <div class="bg-purple-100 p-3 rounded-lg">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/fhtaantg.json"
-                            trigger="loop"
-                            colors="primary:#9333ea,secondary:#e9d5ff"
-                            style="width:32px;height:32px">
-                        </lord-icon>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Total Tasks -->
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Tasks</p>
-                        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $project->total_tasks }}</p>
-                    </div>
-                    <div class="bg-purple-100 p-3 rounded-lg">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/hisvnjlk.json"
-                            trigger="loop"
-                            colors="primary:#9333ea,secondary:#e9d5ff"
-                            style="width:32px;height:32px">
-                        </lord-icon>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Completed -->
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Selesai</p>
-                        <p class="text-3xl font-bold text-green-600 mt-1">{{ $project->completed_tasks }}</p>
-                    </div>
-                    <div class="bg-green-100 p-3 rounded-lg">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="loop"
-                            colors="primary:#16a34a,secondary:#bbf7d0"
-                            style="width:32px;height:32px">
-                        </lord-icon>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pending -->
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Pending</p>
-                        <p class="text-3xl font-bold text-yellow-600 mt-1">{{ $project->pending_tasks }}</p>
-                    </div>
-                    <div class="bg-yellow-100 p-3 rounded-lg">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/kbtmbyzy.json"
-                            trigger="loop"
-                            colors="primary:#ca8a04,secondary:#ca8a04"
-                            style="width:32px;height:32px">
-                        </lord-icon>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="bg-white rounded-xl p-6 shadow-lg mb-8 animate-fade-in" style="animation-delay: 0.2s;">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold text-gray-800">Progress Project</h2>
-                <span class="text-2xl font-bold text-purple-600">{{ $project->progress }}%</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-4">
-                <div class="bg-gradient-to-r from-purple-500 to-indigo-600 h-4 rounded-full transition-all duration-500 flex items-center justify-end pr-2" style="width: {{ $project->progress }}%">
-                    @if($project->progress > 10)
-                    <span class="text-white text-xs font-bold">{{ $project->progress }}%</span>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        <!-- Tasks List -->
-        <div class="bg-white rounded-xl shadow-lg p-6 animate-fade-in" style="animation-delay: 0.3s;">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl md:text-2xl font-bold text-gray-800">Tasks</h2>
-                <a href="{{ route('tasks.create') }}?project_id={{ $project->id }}" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition font-semibold flex items-center space-x-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/mecwbjnp.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Tambah Task</span>
-                </a>
-            </div>
-
-            @if($project->tasks->isEmpty())
-            <div class="text-center py-12">
-                <lord-icon
-                    src="https://cdn.lordicon.com/osuxyevn.json"
-                    trigger="loop"
-                    colors="primary:#9333ea,secondary:#e9d5ff"
-                    style="width:64px;height:64px;margin:0 auto">
-                </lord-icon>
-                <h3 class="text-lg font-bold text-gray-800 mt-4 mb-2">Belum Ada Task</h3>
-                <p class="text-gray-600 mb-4">Mulai dengan menambahkan task pertama untuk project ini</p>
-                <a href="{{ route('tasks.create') }}?project_id={{ $project->id }}" class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/mecwbjnp.json"
-                        trigger="hover"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Tambah Task</span>
-                </a>
-            </div>
-            @else
-            <div class="space-y-3">
-                @foreach($project->tasks as $task)
-                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-2">
-                                <h3 class="font-semibold text-gray-800">{{ $task->title }}</h3>
-                                @if($task->status === 'done')
-                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">✓ Selesai</span>
-                                @elseif($task->isOverdue())
-                                <span class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">⚠️ Terlambat</span>
-                                @else
-                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">⏳ Pending</span>
-                                @endif
-                            </div>
-                            @if($task->description)
-                            <p class="text-gray-600 text-sm mb-2 line-clamp-2">{{ $task->description }}</p>
-                            @endif
-                            <div class="flex items-center gap-4 text-sm text-gray-500">
-                                <span>📅 {{ $task->due_date->format('d M Y') }}</span>
-                                <span>🕐 {{ $task->due_time }}</span>
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <!-- Edit Button -->
-                            <a href="{{ route('tasks.edit', $task) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-3 py-2 rounded-lg transition" title="Edit Task">
-                                <lord-icon
-                                    src="https://cdn.lordicon.com/wuvorxbv.json"
-                                    trigger="hover"
-                                    colors="primary:#2563eb,secondary:#2563eb"
-                                    style="width:20px;height:20px">
-                                </lord-icon>
-                            </a>
-
-                            <!-- Toggle Status Button (AJAX) -->
-                            <button onclick="toggleTask({{ $task->id }})" class="bg-{{ $task->status === 'done' ? 'yellow' : 'green' }}-100 hover:bg-{{ $task->status === 'done' ? 'yellow' : 'green' }}-200 text-{{ $task->status === 'done' ? 'yellow' : 'green' }}-700 px-3 py-2 rounded-lg transition" title="{{ $task->status === 'done' ? 'Tandai Pending' : 'Tandai Selesai' }}">
-                                @if($task->status === 'done')
-                                <lord-icon
-                                    src="https://cdn.lordicon.com/kbtmbyzy.json"
-                                    trigger="hover"
-                                    colors="primary:#ca8a04,secondary:#ca8a04"
-                                    style="width:20px;height:20px">
-                                </lord-icon>
-                                @else
-                                <lord-icon
-                                    src="https://cdn.lordicon.com/egiwmiit.json"
-                                    trigger="hover"
-                                    colors="primary:#16a34a,secondary:#16a34a"
-                                    style="width:20px;height:20px">
-                                </lord-icon>
-                                @endif
-                            </button>
-
-                            <!-- Delete Button -->
-                            <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus task ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-2 rounded-lg transition" title="Hapus Task">
-                                    <lord-icon
-                                        src="https://cdn.lordicon.com/kfzfxczd.json"
-                                        trigger="hover"
-                                        colors="primary:#dc2626,secondary:#dc2626"
-                                        style="width:20px;height:20px">
-                                    </lord-icon>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
+            @if($project->description)
+            <p class="text-white/50 text-sm mt-2 max-w-2xl">{{ $project->description }}</p>
             @endif
         </div>
+        
+        <div class="flex items-center gap-2">
+            <a href="{{ route('projects.edit', $project) }}" class="btn-ghost px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:18px;height:18px"></lord-icon>
+                Edit
+            </a>
+            <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus project ini? Semua task didalamnya akan ikut terhapus.')" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-ghost px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 text-red-400 hover:text-red-300 hover:bg-red-500/10">
+                    <lord-icon src="https://cdn.lordicon.com/kfzfxczd.json" trigger="hover" colors="primary:#f87171,secondary:#fca5a5" style="width:18px;height:18px"></lord-icon>
+                    Hapus
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {{-- Stats Grid --}}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-fade-in" style="animation-delay: 0.1s;">
+        <div class="glass-card p-5">
+            <p class="text-white/30 text-xs font-medium uppercase tracking-widest mb-1">Total Task</p>
+            <p class="text-3xl font-bold text-white">{{ $project->total_tasks }}</p>
+        </div>
+        <div class="glass-card p-5 border border-emerald-500/20" style="background: rgba(16, 185, 129, 0.03);">
+            <p class="text-emerald-400/50 text-xs font-medium uppercase tracking-widest mb-1">Selesai</p>
+            <p class="text-3xl font-bold text-emerald-400">{{ $project->completed_tasks }}</p>
+        </div>
+        <div class="glass-card p-5 border border-amber-500/20" style="background: rgba(245, 158, 11, 0.03);">
+            <p class="text-amber-400/50 text-xs font-medium uppercase tracking-widest mb-1">Pending</p>
+            <p class="text-3xl font-bold text-amber-400">{{ $project->pending_tasks }}</p>
+        </div>
+        <div class="glass-card p-5 border border-violet-500/20" style="background: rgba(139, 92, 246, 0.03);">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-violet-400/50 text-xs font-medium uppercase tracking-widest">Progress</p>
+                <span class="text-sm font-bold text-violet-400">{{ $project->progress }}%</span>
+            </div>
+            <div class="w-full bg-white/5 rounded-full h-2 mt-4">
+                <div class="bg-gradient-to-r from-violet-500 to-indigo-500 h-2 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Tasks List --}}
+    <div class="glass-card p-4 md:p-6 animate-fade-in" style="animation-delay: 0.2s;">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <lord-icon src="https://cdn.lordicon.com/bjgdeprq.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:24px;height:24px"></lord-icon>
+                Daftar Task
+            </h2>
+            <a href="{{ route('tasks.create') }}?project_id={{ $project->id }}" class="btn-primary text-white font-semibold px-4 py-2 rounded-xl inline-flex items-center justify-center gap-2 text-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Tambah Task
+            </a>
+        </div>
+
+        @if($project->tasks->isEmpty())
+        <div class="text-center py-12 bg-white/5 rounded-2xl border border-white/5">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-500/10 flex items-center justify-center">
+                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:36px;height:36px"></lord-icon>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Belum ada task</h3>
+            <p class="text-white/30 text-sm">Project ini belum memiliki task apapun.</p>
+        </div>
+        @else
+        <div class="space-y-2">
+            @foreach($project->tasks as $task)
+            <div class="glass-card-light p-4 flex flex-col sm:flex-row sm:items-center gap-4 transition hover:bg-white/[0.08]" id="taskCard-{{ $task->id }}">
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-start gap-3">
+                        <button onclick="toggleTask({{ $task->id }})" class="mt-0.5 flex-shrink-0 w-6 h-6 rounded border {{ $task->status === 'done' ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-white/20 text-transparent hover:border-emerald-500' }} flex items-center justify-center transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </button>
+                        <div>
+                            <a href="{{ route('tasks.show', $task) }}" class="font-medium text-sm {{ $task->status === 'done' ? 'text-white/40 line-through' : 'text-white hover:text-violet-300 transition' }}">
+                                {{ $task->title }}
+                            </a>
+                            <div class="flex items-center gap-3 mt-1.5 text-[11px]">
+                                <span class="text-white/30 flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    {{ $task->due_date->format('d M') }}, {{ \Carbon\Carbon::parse($task->due_time)->format('H:i') }}
+                                </span>
+                                
+                                @if($task->status !== 'done' && $task->isOverdue())
+                                <span class="text-red-400 font-medium">⚠️ Overdue</span>
+                                @endif
+                                
+                                @if($task->wa_notified)
+                                <span class="text-emerald-400 font-medium" title="Notifikasi WA terkirim">📱 Notified</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2 sm:ml-auto pl-9 sm:pl-0">
+                    <a href="{{ route('tasks.edit', $task) }}" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-blue-500/20 flex items-center justify-center text-white/50 hover:text-blue-400 transition" title="Edit">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    </a>
+                    <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Hapus task ini?')" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500/20 flex items-center justify-center text-white/50 hover:text-red-400 transition" title="Hapus">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @endif
     </div>
 </div>
-@endsection
 
 @push('scripts')
 <script>
-// function toggleTask(taskId) {
-//     // ... (implementation same as task index) ...
-//     // For specific project view, we can just reload or update UI via AJAX
-//     // Re-using the logic from index if possible
-//     fetch(`{{ url('tasks') }}/${taskId}/toggle`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         if (data.success) {
-//              window.location.reload();
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//         alert('Terjadi kesalahan saat mengupdate status task');
-//     });
-// }
 function toggleTask(taskId) {
+    const card = document.getElementById('taskCard-' + taskId);
+    if (card) {
+        card.style.opacity = '0.5';
+    }
+    
     fetch(`{{ url('tasks') }}/${taskId}/toggle`, {
-        method: 'POST', // Ensure your route supports POST or PUT
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
     })
     .then(response => {
         if (response.ok) {
-             window.location.reload();
+            window.location.reload(); // Reload to update project progress calculation
         } else {
-             alert('Gagal mengupdate status');
+            alert('Gagal mengupdate status');
+            if (card) card.style.opacity = '1';
         }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        console.error('Error:', error);
+        if (card) card.style.opacity = '1';
+    });
 }
 </script>
 @endpush
+@endsection

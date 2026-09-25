@@ -3,199 +3,157 @@
 @section('title', 'Pengaturan WhatsApp')
 
 @section('content')
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-3xl mx-auto">
-        <!-- Header -->
-        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mb-8 animate-fade-in items-center">
-            <div>
-                <div class="flex items-center space-x-2 mb-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/vmxvhdko.json"
-                        trigger="loop"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:32px;height:32px">
-                    </lord-icon>
-                    <h1 class="text-3xl md:text-4xl font-bold text-white">WhatsApp Gateway</h1>
-                </div>
-                <p class="text-purple-200">Konfigurasi notifikasi WhatsApp untuk reminder task</p>
+<div class="max-w-4xl mx-auto space-y-6">
+    {{-- Header & Back --}}
+    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 animate-fade-in">
+        <div>
+            <a href="{{ route('settings.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition mb-3">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Kembali ke Pengaturan
+            </a>
+            <div class="flex items-center gap-3">
+                <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight">WhatsApp Gateway</h1>
             </div>
-            <div class="flex flex-wrap gap-2 md:gap-3">
-                <form method="POST" action="{{ route('logout') }}">
+            <p class="text-white/50 text-sm mt-2">Konfigurasi notifikasi WhatsApp untuk reminder task</p>
+        </div>
+    </div>
+
+    @if(session('success'))
+    <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2 animate-fade-in">
+        <lord-icon src="https://cdn.lordicon.com/egiwmiit.json" trigger="loop" colors="primary:#34d399,secondary:#34d399" style="width:20px;height:20px"></lord-icon>
+        {{ session('success') }}
+    </div>
+    @endif
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {{-- Left Col: Form --}}
+        <div class="lg:col-span-3 space-y-6">
+            {{-- Main Form --}}
+            <div class="glass-card p-6 md:p-8 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center">
+                        <lord-icon src="https://cdn.lordicon.com/hwuyodym.json" trigger="hover" colors="primary:#34d399,secondary:#6ee7b7" style="width:24px;height:24px"></lord-icon>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Konfigurasi Gateway</h2>
+                </div>
+                
+                <form method="POST" action="{{ route('settings.whatsapp.update') }}" class="space-y-5">
                     @csrf
-                    <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/moscwhoj.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:20px;height:20px">
-                        </lord-icon>
-                        <span>Logout</span>
-                    </button>
+                    @method('PUT')
+                    
+                    {{-- API Key --}}
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">API Key</label>
+                        <input type="text" name="wa_api_key" value="{{ old('wa_api_key', $waApiKey) }}" required
+                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm font-mono"
+                               placeholder="Contoh: v#_9s8df7234...">
+                        @error('wa_api_key')
+                        <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Sender --}}
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">Nomor Pengirim (Sender)</label>
+                        <input type="text" name="wa_sender" value="{{ old('wa_sender', $waSender) }}" required
+                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm"
+                               placeholder="628123456789">
+                        @error('wa_sender')
+                        <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Base URL --}}
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">Base URL Gateway</label>
+                        <input type="url" name="wa_base_url" value="{{ old('wa_base_url', $waBaseUrl) }}" required
+                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm font-mono"
+                               placeholder="https://api.fonnte.com">
+                        @error('wa_base_url')
+                        <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Recipient --}}
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">Nomor Penerima Default</label>
+                        <input type="text" name="wa_recipient" value="{{ old('wa_recipient', $waRecipient) }}" required
+                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm"
+                               placeholder="628123456789">
+                        <p class="text-white/30 text-xs mt-1.5">Nomor (628xxx) atau ID Group (@g.us)</p>
+                        @error('wa_recipient')
+                        <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="pt-2 border-t border-white/5">
+                        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-semibold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-lg">
+                            <lord-icon src="https://cdn.lordicon.com/sbiheqdr.json" trigger="loop" delay="3000" colors="primary:#ffffff,secondary:#ffffff" style="width:20px;height:20px"></lord-icon>
+                            Simpan Konfigurasi
+                        </button>
+                    </div>
                 </form>
-                <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 self-start md:self-auto">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/jxwksgwv.json"
-                        trigger="hover"
-                        colors="primary:#ffffff,secondary:#ffffff"
-                        style="width:20px;height:20px">
-                    </lord-icon>
-                    <span>Kembali</span>
-                </a>
             </div>
         </div>
 
-        <!-- WhatsApp Settings Form -->
-        <div class="bg-white rounded-xl shadow-lg p-8 mb-6 animate-fade-in" style="animation-delay: 0.1s;">
-            <div class="flex items-center space-x-2 mb-6">
-                <lord-icon
-                    src="https://cdn.lordicon.com/hwuyodym.json"
-                    trigger="loop"
-                    colors="primary:#1f2937,secondary:#1f2937"
-                    style="width:28px;height:28px">
-                </lord-icon>
-                <h2 class="text-2xl font-bold text-gray-800">Konfigurasi Gateway</h2>
+        {{-- Right Col: Test & Info --}}
+        <div class="lg:col-span-2 space-y-6">
+            {{-- Info Card --}}
+            <div class="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-5 animate-fade-in" style="animation-delay: 0.15s;">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                        <lord-icon src="https://cdn.lordicon.com/vacmyjrh.json" trigger="loop" delay="4000" colors="primary:#60a5fa,secondary:#93c5fd" style="width:20px;height:20px"></lord-icon>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-blue-400 mb-2">Informasi Penting</h3>
+                        <ul class="text-xs text-blue-400/70 space-y-2">
+                            <li class="flex gap-2">
+                                <span class="text-blue-400">•</span>
+                                Pastikan nomor sender aktif dan terhubung ke Fonnte/Gateway Anda.
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-blue-400">•</span>
+                                Nomor telepon diinput tanpa tanda (+) dan diawali 62.
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="text-blue-400">•</span>
+                                Test koneksi di bawah ini untuk memastikan API merespons.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            
-            <form method="POST" action="{{ route('settings.whatsapp.update') }}">
-                @csrf
-                @method('PUT')
+
+            {{-- Test Connection --}}
+            <div class="glass-card p-6 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/15 flex items-center justify-center">
+                        <lord-icon src="https://cdn.lordicon.com/yqzmiobz.json" trigger="hover" colors="primary:#ec4899,secondary:#f472b6" style="width:24px;height:24px"></lord-icon>
+                    </div>
+                    <h2 class="text-lg font-bold text-white">Test Koneksi</h2>
+                </div>
                 
                 <div class="space-y-4">
-                    <!-- API Key -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">API Key</label>
-                        <input type="text" name="wa_api_key" value="{{ old('wa_api_key', $waApiKey) }}" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('wa_api_key') border-red-500 @enderror"
-                               placeholder="Masukkan API Key dari WhatsApp Gateway"
-                               required>
-                        <p class="text-sm text-gray-500 mt-1">Dapatkan API Key dari dashboard WhatsApp Gateway Anda</p>
-                        @error('wa_api_key')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <label class="block text-xs font-medium text-white/60 mb-2">Kirim ke Nomor</label>
+                        <input type="text" id="testNumber" 
+                               class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/20 focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500/50 transition outline-none text-sm"
+                               placeholder="{{ $waRecipient ?: '628123456789' }}"
+                               value="{{ $waRecipient }}">
                     </div>
-
-                    <!-- Sender -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Pengirim (Sender)</label>
-                        <input type="text" name="wa_sender" value="{{ old('wa_sender', $waSender) }}" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('wa_sender') border-red-500 @enderror"
-                               placeholder="628123456789"
-                               required>
-                        <p class="text-sm text-gray-500 mt-1">Nomor WhatsApp yang terhubung dengan gateway (format: 628xxx)</p>
-                        @error('wa_sender')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Base URL -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Base URL Gateway</label>
-                        <input type="url" name="wa_base_url" value="{{ old('wa_base_url', $waBaseUrl) }}" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('wa_base_url') border-red-500 @enderror"
-                               placeholder="https://mpwa.mutekar.com"
-                               required>
-                        <p class="text-sm text-gray-500 mt-1">URL endpoint WhatsApp Gateway API</p>
-                        @error('wa_base_url')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Recipient -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Penerima Notifikasi</label>
-                        <input type="text" name="wa_recipient" value="{{ old('wa_recipient', $waRecipient) }}" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('wa_recipient') border-red-500 @enderror"
-                               placeholder="628123456789 atau ID Group"
-                               required>
-                        <p class="text-sm text-gray-500 mt-1">Masukkan nomor WhatsApp (628xxx) atau ID Group (@g.us)</p>
-                        @error('wa_recipient')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="mt-6">
-                    <button type="submit" class="w-full btn-primary text-white px-6 py-3 rounded-lg font-semibold shadow-lg flex items-center justify-center space-x-2">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/sbiheqdr.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:24px;height:24px">
-                        </lord-icon>
-                        <span>Simpan Konfigurasi</span>
+                    
+                    <button type="button" onclick="testWhatsApp()" class="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-2.5 rounded-xl text-sm flex items-center justify-center gap-2 transition border border-white/10">
+                        <lord-icon src="https://cdn.lordicon.com/lbqloinw.json" trigger="loop" delay="2000" colors="primary:#ffffff,secondary:#ffffff" style="width:18px;height:18px"></lord-icon>
+                        Kirim Pesan Test
                     </button>
                 </div>
-            </form>
-        </div>
 
-        <!-- Test Connection -->
-        <div class="bg-white rounded-xl shadow-lg p-8 mb-6 animate-fade-in" style="animation-delay: 0.15s;">
-            <div class="flex items-center space-x-2 mb-4">
-                <lord-icon
-                    src="https://cdn.lordicon.com/yqzmiobz.json"
-                    trigger="loop"
-                    colors="primary:#1f2937,secondary:#ec4899"
-                    style="width:28px;height:28px">
-                </lord-icon>
-                <h2 class="text-2xl font-bold text-gray-800">Test Koneksi</h2>
-            </div>
-            <p class="text-gray-600 mb-4">Kirim pesan test untuk memastikan konfigurasi WhatsApp Gateway sudah benar</p>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Penerima Test (Opsional)</label>
-                    <input type="text" id="testNumber" 
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                           placeholder="{{ $waRecipient ?: '628123456789' }}"
-                           value="{{ $waRecipient }}">
-                    <p class="text-sm text-gray-500 mt-1">Kosongkan untuk menggunakan nomor penerima default</p>
-                </div>
-                
-                <button type="button" onclick="testWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition flex items-center justify-center space-x-2">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/lbqloinw.json"
-                        trigger="loop"
-                        colors="primary:#ffff,secondary:#ffff"
-                        style="width:24px;height:24px">
-                    </lord-icon>
-                    <span>Kirim Pesan Test</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Info Card -->
-        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 animate-fade-in" style="animation-delay: 0.2s;">
-            <div class="flex items-start space-x-3">
-                <div class="flex-shrink-0 mt-1">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/vacmyjrh.json"
-                        trigger="hover"
-                        colors="primary:#2563eb,secondary:#bfdbfe"
-                        style="width:24px;height:24px">
-                    </lord-icon>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-blue-900 mb-2 flex items-center space-x-2">
-                        <span>Informasi Penting</span>
-                    </h3>
-                    <ul class="text-sm text-blue-800 space-y-1">
-                        <li>• Pastikan nomor WhatsApp Anda sudah terhubung dengan gateway</li>
-                        <li>• API Key dapat diperoleh dari dashboard WhatsApp Gateway</li>
-                        <li>• Gunakan tombol "Test Koneksi" untuk memastikan konfigurasi sudah benar</li>
-                        <li>• Notifikasi akan dikirim ke nomor telepon yang terdaftar di profil Anda</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Test Result -->
-        <div id="testResult" class="mt-6 hidden">
-            <div class="rounded-xl p-6 shadow-lg">
-                <div class="flex items-center space-x-3">
-                    <div id="testIconWrapper">
-                        <!-- Icon will be injected here -->
-                    </div>
-                    <p id="testMessage" class="font-semibold"></p>
+                {{-- Test Result --}}
+                <div id="testResult" class="mt-4 hidden p-4 rounded-xl border text-sm flex items-start gap-3">
+                    <div id="testIconWrapper" class="flex-shrink-0 mt-0.5"></div>
+                    <p id="testMessage" class="leading-relaxed"></p>
                 </div>
             </div>
         </div>
@@ -208,50 +166,43 @@ function testWhatsApp() {
     const resultDiv = document.getElementById('testResult');
     const iconWrapper = document.getElementById('testIconWrapper');
     const message = document.getElementById('testMessage');
-    
     const testNumber = document.getElementById('testNumber').value;
     
-    // Show loading
-    resultDiv.className = 'mt-6 bg-blue-50 border border-blue-200 rounded-xl p-6';
+    // UI Loading state
+    resultDiv.className = 'mt-4 p-4 rounded-xl border text-sm flex items-start gap-3 bg-blue-500/10 border-blue-500/20 text-blue-400';
     resultDiv.classList.remove('hidden');
-    iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#2563eb,secondary:#bfdbfe" style="width:24px;height:24px"></lord-icon>';
-    message.textContent = 'Mengirim pesan test...';
-    message.className = 'font-semibold text-blue-900';
+    iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#60a5fa,secondary:#93c5fd" style="width:20px;height:20px"></lord-icon>';
+    message.textContent = 'Mengirim pesan test ke Gateway...';
     
     fetch("{{ route('settings.whatsapp.test') }}", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        body: JSON.stringify({
-            test_number: testNumber
-        })
+        body: JSON.stringify({ test_number: testNumber })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            resultDiv.className = 'mt-6 bg-green-50 border border-green-200 rounded-xl p-6';
-            iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/egiwmiit.json" trigger="in" colors="primary:#16a34a,secondary:#bbf7d0" style="width:24px;height:24px"></lord-icon>';
-            message.textContent = '✅ ' + data.message;
-            message.className = 'font-semibold text-green-900';
+            resultDiv.className = 'mt-4 p-4 rounded-xl border text-sm flex items-start gap-3 bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
+            iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/egiwmiit.json" trigger="in" colors="primary:#34d399,secondary:#6ee7b7" style="width:20px;height:20px"></lord-icon>';
+            message.textContent = data.message;
         } else {
-            resultDiv.className = 'mt-6 bg-red-50 border border-red-200 rounded-xl p-6';
-            iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/bazyvshu.json" trigger="in" colors="primary:#dc2626,secondary:#fecaca" style="width:24px;height:24px"></lord-icon>';
-            message.textContent = '❌ ' + data.message;
-            message.className = 'font-semibold text-red-900';
+            resultDiv.className = 'mt-4 p-4 rounded-xl border text-sm flex items-start gap-3 bg-red-500/10 border-red-500/20 text-red-400';
+            iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/bazyvshu.json" trigger="in" colors="primary:#f87171,secondary:#fca5a5" style="width:20px;height:20px"></lord-icon>';
+            message.textContent = 'Gagal: ' + data.message;
         }
         
-        // Hide after 5 seconds
         setTimeout(() => {
             resultDiv.classList.add('hidden');
-        }, 5000);
+        }, 8000);
     })
     .catch(error => {
-        resultDiv.className = 'mt-6 bg-red-50 border border-red-200 rounded-xl p-6';
-        iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/bazyvshu.json" trigger="in" colors="primary:#dc2626,secondary:#fecaca" style="width:24px;height:24px"></lord-icon>';
-        message.textContent = '❌ Error: ' + error.message;
-        message.className = 'font-semibold text-red-900';
+        resultDiv.className = 'mt-4 p-4 rounded-xl border text-sm flex items-start gap-3 bg-red-500/10 border-red-500/20 text-red-400';
+        iconWrapper.innerHTML = '<lord-icon src="https://cdn.lordicon.com/bazyvshu.json" trigger="in" colors="primary:#f87171,secondary:#fca5a5" style="width:20px;height:20px"></lord-icon>';
+        message.textContent = 'Error koneksi: ' + error.message;
     });
 }
 </script>

@@ -3,444 +3,320 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="min-h-screen px-4 py-8">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header - Responsive -->
-        <div class="mb-8 animate-fade-in">
-            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-                <div class="md:flex-shrink-0">
-                    <div class="flex items-center space-x-3">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/cwwqfdik.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:40px;height:40px">
-                        </lord-icon>
-                        <div>
-                            <h1 class="text-3xl md:text-4xl font-bold text-white">Dashboard</h1>
-                            <p class="text-purple-200 text-sm md:text-base mt-1">Halo, {{ Auth::user()->name }}!</p>
-                        </div>
-                    </div>
+<div class="max-w-7xl mx-auto space-y-6">
+    {{-- Welcome & Today's Focus --}}
+    <div class="animate-fade-in">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-2">
+            <div>
+                <p class="text-white/40 text-sm font-medium">Selamat datang kembali,</p>
+                <h1 class="text-2xl md:text-3xl font-bold text-white">{{ Auth::user()->name }} 👋</h1>
+            </div>
+            <a href="{{ route('tasks.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm w-fit">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Tambah Task
+            </a>
+        </div>
+    </div>
+
+    {{-- Stats Cards --}}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 animate-fade-in" style="animation-delay: 0.05s;">
+        <div class="stat-card">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                    <lord-icon src="https://cdn.lordicon.com/osuxyevn.json" trigger="loop" delay="3000" colors="primary:#8b5cf6,secondary:#c4b5fd" style="width:22px;height:22px"></lord-icon>
                 </div>
-                <div class="flex flex-wrap gap-2 md:gap-3 md:self-center">
-                    <a href="{{ route('settings.index') }}" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/hwuyodym.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:20px;height:20px">
-                        </lord-icon>
-                        <span>Pengaturan</span>
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="bg-white/20 hover:bg-white/30 text-white px-3 md:px-4 py-2 rounded-lg transition backdrop-blur-sm border border-white/30 flex items-center space-x-2 text-sm md:text-base">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/moscwhoj.json"
-                                trigger="loop"
-                                colors="primary:#ffffff,secondary:#ffffff"
-                                style="width:20px;height:20px">
-                            </lord-icon>
-                            <span>Logout</span>
-                        </button>
-                    </form>
+                <div>
+                    <p class="text-2xl font-bold text-white">{{ $stats['total'] }}</p>
+                    <p class="text-white/30 text-xs font-medium">Total Task</p>
                 </div>
             </div>
         </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 animate-fade-in" style="animation-delay: 0.1s;">
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Task</p>
-                        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $stats['total'] }}</p>
-                    </div>
-                    <div class="bg-purple-100 p-3 rounded-lg">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/osuxyevn.json"
-                            trigger="loop"
-                            colors="primary:#9333ea,secondary:#e9d5ff"
-                            style="width:32px;height:32px">
-                        </lord-icon>
-                    </div>
+        <div class="stat-card">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <lord-icon src="https://cdn.lordicon.com/kbtmbyzy.json" trigger="loop" delay="3000" colors="primary:#f59e0b,secondary:#fbbf24" style="width:22px;height:22px"></lord-icon>
                 </div>
-            </div>
-
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Belum Selesai</p>
-                        <p class="text-3xl font-bold text-yellow-600 mt-1">{{ $stats['pending'] }}</p>
-                    </div>
-                    <div class="bg-yellow-100 p-3 rounded-lg">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/kbtmbyzy.json"
-                            trigger="loop"
-                            colors="primary:#ca8a04,secondary:#ca8a04"
-                            style="width:32px;height:32px">
-                        </lord-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Selesai</p>
-                        <p class="text-3xl font-bold text-green-600 mt-1">{{ $stats['done'] }}</p>
-                    </div>
-                    <div class="bg-green-100 p-3 rounded-lg">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="loop"
-                            colors="primary:#16a34a,secondary:#bbf7d0"
-                            style="width:32px;height:32px">
-                        </lord-icon>
-                    </div>
+                <div>
+                    <p class="text-2xl font-bold text-amber-400">{{ $stats['pending'] }}</p>
+                    <p class="text-white/30 text-xs font-medium">Pending</p>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 animate-fade-in" style="animation-delay: 0.2s;">
-            <a href="{{ route('tasks.create') }}" class="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-4 md:p-6 shadow-lg card-hover text-white">
-                <div class="flex items-center space-x-3 md:space-x-4">
-                    <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/mecwbjnp.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:28px;height:28px">
-                        </lord-icon>
-                    </div>
-                    <div>
-                        <h3 class="text-lg md:text-xl font-bold">Tambah Task Baru</h3>
-                        <p class="text-purple-100 text-xs md:text-sm">Buat task baru dengan reminder WhatsApp</p>
-                    </div>
+        <div class="stat-card">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                    <lord-icon src="https://cdn.lordicon.com/egiwmiit.json" trigger="loop" delay="3000" colors="primary:#10b981,secondary:#6ee7b7" style="width:22px;height:22px"></lord-icon>
                 </div>
-            </a>
+                <div>
+                    <p class="text-2xl font-bold text-emerald-400">{{ $stats['done'] }}</p>
+                    <p class="text-white/30 text-xs font-medium">Selesai</p>
+                </div>
+            </div>
+        </div>
 
-            <a href="{{ route('tasks.index') }}" class="bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl p-4 md:p-6 shadow-lg card-hover text-white">
-                <div class="flex items-center space-x-3 md:space-x-4">
-                    <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/msoeawqm.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:28px;height:28px">
-                        </lord-icon>
-                    </div>
-                    <div>
-                        <h3 class="text-lg md:text-xl font-bold">Lihat Semua Task</h3>
-                        <p class="text-blue-100 text-xs md:text-sm">Kelola dan update task Anda</p>
-                    </div>
+        <div class="stat-card">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                    <lord-icon src="https://cdn.lordicon.com/wdnwtnyn.json" trigger="loop" delay="3000" colors="primary:#ef4444,secondary:#fca5a5" style="width:22px;height:22px"></lord-icon>
                 </div>
-            </a>
+                <div>
+                    <p class="text-2xl font-bold text-red-400">{{ $stats['overdue'] }}</p>
+                    <p class="text-white/30 text-xs font-medium">Overdue</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <a href="{{ route('projects.index') }}" class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-4 md:p-6 shadow-lg card-hover text-white">
-                <div class="flex items-center space-x-3 md:space-x-4">
-                    <div class="bg-white/20 p-3 md:p-4 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/fhtaantg.json"
-                            trigger="loop"
-                            colors="primary:#ffffff,secondary:#ffffff"
-                            style="width:28px;height:28px">
-                        </lord-icon>
-                    </div>
-                    <div>
-                        <h3 class="text-lg md:text-xl font-bold">Kelola Projects</h3>
-                        <p class="text-green-100 text-xs md:text-sm">Lihat dan kelola semua project</p>
-                    </div>
-                </div>
+    {{-- Quick Actions --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 animate-fade-in" style="animation-delay: 0.1s;">
+        <a href="{{ route('tasks.create') }}" class="glass-card p-4 card-hover flex items-center gap-4 group">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center flex-shrink-0 group-hover:from-violet-500/30 group-hover:to-indigo-500/30 transition">
+                <lord-icon src="https://cdn.lordicon.com/mecwbjnp.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:24px;height:24px"></lord-icon>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold text-sm">Tambah Task Baru</h3>
+                <p class="text-white/30 text-xs">Buat task dengan reminder WA</p>
+            </div>
+        </a>
+
+        <a href="{{ route('tasks.index') }}" class="glass-card p-4 card-hover flex items-center gap-4 group">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center flex-shrink-0 group-hover:from-blue-500/30 group-hover:to-cyan-500/30 transition">
+                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="hover" colors="primary:#60a5fa,secondary:#93c5fd" style="width:24px;height:24px"></lord-icon>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold text-sm">Lihat Semua Task</h3>
+                <p class="text-white/30 text-xs">Kelola dan update task</p>
+            </div>
+        </a>
+
+        <a href="{{ route('projects.index') }}" class="glass-card p-4 card-hover flex items-center gap-4 group">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0 group-hover:from-emerald-500/30 group-hover:to-teal-500/30 transition">
+                <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="hover" colors="primary:#34d399,secondary:#6ee7b7" style="width:24px;height:24px"></lord-icon>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold text-sm">Kelola Projects</h3>
+                <p class="text-white/30 text-xs">Lihat semua project</p>
+            </div>
+        </a>
+    </div>
+
+    {{-- Projects Summary --}}
+    @if($projectStats['total'] > 0)
+    <div class="glass-card p-5 md:p-6 animate-fade-in" style="animation-delay: 0.15s;">
+        <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-2">
+                <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="loop" delay="5000" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:24px;height:24px"></lord-icon>
+                <h2 class="text-lg font-bold text-white">Projects</h2>
+            </div>
+            <a href="{{ route('projects.index') }}" class="text-violet-400 hover:text-violet-300 font-medium text-sm flex items-center gap-1 transition">
+                <span>Semua</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
             </a>
         </div>
 
-        <!-- Projects Summary -->
-        @if($projectStats['total'] > 0)
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in" style="animation-delay: 0.25s;">
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center space-x-3">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/fhtaantg.json"
-                        trigger="loop"
-                        colors="primary:#9333ea,secondary:#e9d5ff"
-                        style="width:32px;height:32px">
-                    </lord-icon>
-                    <h2 class="text-xl md:text-2xl font-bold text-gray-800">Projects Terbaru</h2>
-                </div>
-                <a href="{{ route('projects.index') }}" class="text-purple-600 hover:text-purple-700 font-semibold text-sm flex items-center space-x-1">
-                    <span>Lihat Semua</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+        {{-- Project Stats Mini --}}
+        <div class="flex items-center gap-6 mb-5 pb-5 border-b border-white/5">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-violet-400"></div>
+                <span class="text-white/40 text-xs">Total</span>
+                <span class="text-white font-bold text-sm">{{ $projectStats['total'] }}</span>
             </div>
-
-
-            <!-- Project Stats Mini - Horizontal Layout -->
-            <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 mb-6">
-                <div class="flex items-center justify-between w-full px-4">
-                    <!-- Total Projects -->
-                    <div class="flex items-center space-x-2">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/hisvnjlk.json"
-                            trigger="loop"
-                            colors="primary:#9333ea,secondary:#c084fc"
-                            style="width:28px;height:28px">
-                        </lord-icon>
-                        <div>
-                            <p class="text-2xl font-bold text-purple-600">{{ $projectStats['total'] }}</p>
-                            <p class="text-xs text-gray-600">Total</p>
-                        </div>
-                    </div>
-
-                    <!-- Divider -->
-                    <div class="h-12 w-px bg-gray-300"></div>
-
-                    <!-- Pending Projects -->
-                    <div class="flex items-center space-x-2">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/kbtmbyzy.json"
-                            trigger="loop"
-                            colors="primary:#ca8a04,secondary:#fef3c7"
-                            style="width:28px;height:28px">
-                        </lord-icon>
-                        <div>
-                            <p class="text-2xl font-bold text-yellow-600">{{ $projectStats['pending'] }}</p>
-                            <p class="text-xs text-gray-600">Belum Selesai</p>
-                        </div>
-                    </div>
-
-                    <!-- Divider -->
-                    <div class="h-12 w-px bg-gray-300"></div>
-
-                    <!-- Completed Projects -->
-                    <div class="flex items-center space-x-2">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="loop"
-                            colors="primary:#16a34a,secondary:#bbf7d0"
-                            style="width:28px;height:28px">
-                        </lord-icon>
-                        <div>
-                            <p class="text-2xl font-bold text-green-600">{{ $projectStats['completed'] }}</p>
-                            <p class="text-xs text-gray-600">Selesai</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+                <span class="text-white/40 text-xs">Aktif</span>
+                <span class="text-amber-400 font-bold text-sm">{{ $projectStats['pending'] }}</span>
             </div>
-
-
-
-            <!-- Recent Projects - Responsive Grid -->
-            <!-- Grid selalu 3 kolom di desktop, tidak peduli jumlah project -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach($projects as $project)
-                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition overflow-hidden">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2 mb-1">
-                                <h3 class="font-bold text-gray-800">{{ $project->name }}</h3>
-                                @if($project->status === 'completed')
-                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Selesai</span>
-                                @elseif($project->status === 'on_hold')
-                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Ditunda</span>
-                                @else
-                                <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">Aktif</span>
-                                @endif
-                            </div>
-                            @if($project->description)
-                            <p class="text-gray-600 text-sm line-clamp-2 break-words">{{ $project->description }}</p>
-                            @endif
-                        </div>
-                        <a href="{{ route('projects.show', $project) }}" class="ml-4 bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-2 rounded-lg transition text-sm font-semibold">
-                            Detail
-                        </a>
-                    </div>
-                    
-                    <!-- Progress Bar -->
-                    <div class="mb-3">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs font-semibold text-gray-600">Progress</span>
-                            <span class="text-xs font-bold text-purple-600">{{ $project->progress }}%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 h-2 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
-                        </div>
-                    </div>
-
-                    <!-- Task Stats -->
-                    <div class="flex items-center gap-4 text-sm text-gray-600">
-                        <span>📋 {{ $project->total_tasks }} tasks</span>
-                        <span>✅ {{ $project->completed_tasks }} selesai</span>
-                        <span>⏳ {{ $project->pending_tasks }} pending</span>
-                    </div>
-                </div>
-                @endforeach
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                <span class="text-white/40 text-xs">Selesai</span>
+                <span class="text-emerald-400 font-bold text-sm">{{ $projectStats['completed'] }}</span>
             </div>
         </div>
-        @endif
 
-        <!-- Calendar View - FullCalendar -->
-        <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 animate-fade-in" style="animation-delay: 0.3s;">
-            <!-- Calendar Header -->
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                <div class="flex items-center space-x-3 mb-4 md:mb-0">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/fhtaantg.json"
-                        trigger="loop"
-                        colors="primary:#9333ea,secondary:#e9d5ff"
-                        style="width:32px;height:32px">
-                    </lord-icon>
-                    <h2 class="text-xl md:text-2xl font-bold text-gray-800">
-                        Kalender Task
-                    </h2>
+        {{-- Recent Projects --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            @foreach($projects as $project)
+            <a href="{{ route('projects.show', $project) }}" class="glass-card-light p-4 card-hover block group">
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="font-semibold text-white text-sm group-hover:text-violet-300 transition truncate flex-1">{{ $project->name }}</h3>
+                    @if($project->status === 'completed')
+                    <span class="ml-2 px-2 py-0.5 bg-emerald-500/15 text-emerald-400 rounded-full text-[10px] font-semibold flex-shrink-0">Selesai</span>
+                    @elseif($project->status === 'on_hold')
+                    <span class="ml-2 px-2 py-0.5 bg-amber-500/15 text-amber-400 rounded-full text-[10px] font-semibold flex-shrink-0">Ditunda</span>
+                    @else
+                    <span class="ml-2 px-2 py-0.5 bg-violet-500/15 text-violet-400 rounded-full text-[10px] font-semibold flex-shrink-0">Aktif</span>
+                    @endif
                 </div>
                 
-                <!-- Legend -->
-                <div class="flex items-center space-x-3 text-xs md:text-sm text-gray-600">
-                    <span class="flex items-center">
-                        <span class="w-3 h-3 bg-red-500 rounded-full mr-1"></span> Overdue
-                    </span>
-                    <span class="flex items-center">
-                        <span class="w-3 h-3 bg-yellow-500 rounded-full mr-1"></span> Pending
-                    </span>
-                    <span class="flex items-center">
-                        <span class="w-3 h-3 bg-green-500 rounded-full mr-1"></span> Done
-                    </span>
+                {{-- Progress Bar --}}
+                <div class="mb-3">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-white/30 text-[10px] font-medium">Progress</span>
+                        <span class="text-violet-400 text-[10px] font-bold">{{ $project->progress }}%</span>
+                    </div>
+                    <div class="w-full bg-white/5 rounded-full h-1.5">
+                        <div class="bg-gradient-to-r from-violet-500 to-indigo-500 h-1.5 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- FullCalendar Container -->
-            <div id="calendar"></div>
+                {{-- Task Stats --}}
+                <div class="flex items-center gap-3 text-[11px] text-white/30">
+                    <span>📋 {{ $project->total_tasks }}</span>
+                    <span>✅ {{ $project->completed_tasks }}</span>
+                    <span>⏳ {{ $project->pending_tasks }}</span>
+                </div>
+            </a>
+            @endforeach
         </div>
+    </div>
+    @endif
+
+    {{-- Calendar View --}}
+    <div class="glass-card p-4 md:p-6 animate-fade-in" style="animation-delay: 0.2s;">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-5 gap-3">
+            <div class="flex items-center gap-2">
+                <lord-icon src="https://cdn.lordicon.com/kbtmbyzy.json" trigger="loop" delay="5000" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:24px;height:24px"></lord-icon>
+                <h2 class="text-lg font-bold text-white">Kalender Task</h2>
+            </div>
+            
+            {{-- Legend --}}
+            <div class="flex items-center gap-4 text-xs text-white/40">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span> Overdue
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 bg-amber-500 rounded-full"></span> Pending
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span> Done
+                </span>
+            </div>
+        </div>
+
+        <div id="calendar"></div>
     </div>
 </div>
 
 @push('styles')
-<!-- FullCalendar CSS -->
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
-<!-- Custom Responsive CSS for FullCalendar -->
 <style>
-/* Responsive FullCalendar Header */
-@media (max-width: 767px) {
-    /* Toolbar responsive */
-    .fc .fc-toolbar {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.5rem 0;
-    }
-    
-    .fc .fc-toolbar-chunk {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-    
-    /* Title smaller */
-    .fc .fc-toolbar-title {
-        font-size: 1.125rem !important; /* 18px */
-        font-weight: 600;
-    }
-    
-    /* Buttons smaller */
-    .fc .fc-button {
-        padding: 0.25rem 0.5rem !important;
-        font-size: 0.75rem !important; /* 12px */
-    }
-    
-    /* View buttons compact */
-    .fc .fc-button-group {
-        display: flex;
-        gap: 0.25rem;
-    }
-    
-    /* Icon buttons */
-    .fc .fc-prev-button,
-    .fc .fc-next-button {
-        padding: 0.25rem 0.5rem !important;
-    }
-    
-    /* Today button */
-    .fc .fc-today-button {
-        padding: 0.25rem 0.75rem !important;
-    }
+/* FullCalendar Dark Theme */
+.fc {
+    --fc-border-color: rgba(255, 255, 255, 0.06);
+    --fc-page-bg-color: transparent;
+    --fc-neutral-bg-color: rgba(255, 255, 255, 0.02);
+    --fc-today-bg-color: rgba(139, 92, 246, 0.08);
+    --fc-event-border-color: transparent;
 }
 
-/* Desktop - ensure proper spacing */
-@media (min-width: 768px) {
-    .fc .fc-toolbar {
-        margin-bottom: 1rem;
-    }
-    
-    .fc .fc-toolbar-title {
-        font-size: 1.5rem !important;
-        font-weight: 700;
-    }
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number,
+.fc .fc-timegrid-slot-label-cushion {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
 }
 
-/* General improvements */
+.fc .fc-daygrid-day-number {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.fc .fc-day-today .fc-daygrid-day-number {
+    color: #a78bfa;
+    font-weight: 700;
+}
+
+.fc .fc-toolbar-title {
+    color: white !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+}
+
 .fc .fc-button {
-    border-radius: 0.5rem;
-    transition: all 0.2s;
-}
-
-.fc .fc-button:hover {
-    transform: translateY(-1px);
+    border-radius: 8px !important;
+    transition: all 0.2s !important;
+    font-size: 0.8rem !important;
+    padding: 6px 12px !important;
 }
 
 .fc .fc-button-primary {
-    background-color: #9333ea !important;
-    border-color: #9333ea !important;
+    background-color: rgba(139, 92, 246, 0.2) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+    color: #a78bfa !important;
 }
 
 .fc .fc-button-primary:hover {
-    background-color: #7e22ce !important;
-    border-color: #7e22ce !important;
+    background-color: rgba(139, 92, 246, 0.35) !important;
+}
+
+.fc .fc-button-primary.fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+    background-color: rgba(139, 92, 246, 0.4) !important;
+    border-color: rgba(139, 92, 246, 0.5) !important;
 }
 
 .fc .fc-button-primary:disabled {
-    background-color: #d1d5db !important;
-    border-color: #d1d5db !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* Blinking animation for overdue tasks */
+.fc-event {
+    border-radius: 6px !important;
+    padding: 2px 6px !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+}
+
 @keyframes blink-overdue {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.4;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
 }
 
 .fc-event-overdue {
     animation: blink-overdue 1.5s ease-in-out infinite;
 }
+
+@media (max-width: 767px) {
+    .fc .fc-toolbar {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .fc .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    .fc .fc-toolbar-title {
+        font-size: 1rem !important;
+    }
+    .fc .fc-button {
+        padding: 4px 8px !important;
+        font-size: 0.7rem !important;
+    }
+}
 </style>
 @endpush
 
 @push('scripts')
-<!-- FullCalendar JS -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
-    
-    // Prepare events from tasks
     const events = @json($calendarEvents);
     
-    // Helper for task navigation
     window.openEditTask = function(taskId) {
-        const url = '{{ route("tasks.edit", ":id") }}'.replace(':id', taskId);
-        window.location.href = url;
+        window.location.href = '{{ route("tasks.edit", ":id") }}'.replace(':id', taskId);
     };
 
     window.openShowTask = function(taskId) {
-        const url = '{{ route("tasks.show", ":id") }}'.replace(':id', taskId);
-        window.location.href = url;
+        window.location.href = '{{ route("tasks.show", ":id") }}'.replace(':id', taskId);
     };
     
     const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -462,30 +338,17 @@ document.addEventListener('DOMContentLoaded', function() {
         eventClick: function(info) {
             showTaskModal(info.event);
         },
-        eventTimeFormat: {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        },
-        slotLabelFormat: {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        },
-        // Swipe navigation for mobile
+        eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+        slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
         navLinks: true,
-        // Add blinking effect to overdue tasks
         eventDidMount: function(info) {
             const props = info.event.extendedProps;
             const taskDateTime = new Date(props.due_date + 'T' + props.due_time);
-            const isOverdue = taskDateTime < new Date() && props.status !== 'done';
-            
-            if (isOverdue) {
+            if (taskDateTime < new Date() && props.status !== 'done') {
                 info.el.classList.add('fc-event-overdue');
             }
         },
-        // Responsive
-        windowResize: function(view) {
+        windowResize: function() {
             if (window.innerWidth < 768) {
                 calendar.changeView('timeGridDay');
             } else {
@@ -496,167 +359,114 @@ document.addEventListener('DOMContentLoaded', function() {
     
     calendar.render();
     
-    // Function to show task modal
     function showTaskModal(event) {
         const props = event.extendedProps;
         const status = props.status;
         const description = props.description || 'Tidak ada deskripsi';
         const waNotified = props.wa_notified;
-        const is_virtual = props.is_virtual;
         
-        // Determine status badge
         let statusBadge = '';
         if (status === 'done') {
-            statusBadge = '<span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">\u2705 Selesai</span>';
+            statusBadge = '<span class="px-3 py-1 bg-emerald-500/15 text-emerald-400 rounded-full text-xs font-semibold">✅ Selesai</span>';
         } else {
             const taskDateTime = new Date(props.due_date + 'T' + props.due_time);
             if (taskDateTime < new Date()) {
-                statusBadge = '<span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-semibold">\u26a0\ufe0f Terlambat</span>';
+                statusBadge = '<span class="px-3 py-1 bg-red-500/15 text-red-400 rounded-full text-xs font-semibold">⚠️ Terlambat</span>';
             } else {
-                statusBadge = '<span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-semibold">\u23f3 Pending</span>';
+                statusBadge = '<span class="px-3 py-1 bg-amber-500/15 text-amber-400 rounded-full text-xs font-semibold">⏳ Pending</span>';
             }
         }
         
-        // Format date and time
         const taskDateTime = new Date(props.due_date + 'T' + props.due_time);
-        const formattedDate = taskDateTime.toLocaleDateString('id-ID', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-        const formattedTime = taskDateTime.toLocaleTimeString('id-ID', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-        });
+        const formattedDate = taskDateTime.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const formattedTime = taskDateTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         
-        // Escape HTML
         const safeDescription = description.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
         const safeTitle = event.title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
         
-        // Create modal HTML
         const modalHTML = `
-            <div id="taskModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
-                <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-                    <!-- Header -->
-                    <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-6 rounded-t-2xl sticky top-0">
+            <div id="taskModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-fade-in">
+                <div class="absolute inset-0 bg-black/60 backdrop-filter backdrop-blur-sm" onclick="closeTaskModal()"></div>
+                <div class="relative w-full max-w-md max-h-[85vh] overflow-y-auto rounded-2xl" style="background: linear-gradient(180deg, #1e1e3f 0%, #151530 100%); border: 1px solid rgba(255,255,255,0.08);">
+                    <div class="p-6 border-b border-white/5">
                         <div class="flex items-start justify-between">
                             <div class="flex-1 pr-4">
-                                <p class="text-purple-200 text-xs font-semibold mb-1 uppercase tracking-wide">Task</p>
-                                <h3 class="text-xl font-bold text-black mb-3 break-words">${safeTitle}</h3>
+                                <p class="text-violet-400 text-[10px] font-bold uppercase tracking-widest mb-2">Task</p>
+                                <h3 class="text-lg font-bold text-white mb-3 break-words">${safeTitle}</h3>
                                 ${statusBadge}
                             </div>
-                            <button onclick="closeTaskModal()" class="text-white hover:bg-white/20 rounded-lg p-2 transition flex-shrink-0">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button onclick="closeTaskModal()" class="text-white/30 hover:text-white p-1 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                             </button>
                         </div>
                     </div>
                     
-                    <!-- Content -->
                     <div class="p-6 space-y-4">
-                        <!-- Date & Time -->
-                        <div class="flex items-start space-x-3">
-                            <div class="bg-purple-100 p-2 rounded-lg flex-shrink-0">
-                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
-                            <div class="flex-1">
-                                <p class="text-sm text-gray-500 mb-1">Tanggal & Waktu</p>
-                                <p class="font-semibold text-gray-800">${formattedDate}</p>
-                                <p class="text-purple-600 font-semibold text-lg">${formattedTime}</p>
+                            <div>
+                                <p class="text-white/30 text-xs mb-0.5">Deadline</p>
+                                <p class="text-white text-sm font-medium">${formattedDate}</p>
+                                <p class="text-violet-400 font-bold text-base">${formattedTime}</p>
                             </div>
                         </div>
                         
-                        <!-- Description -->
-                        <div class="flex items-start space-x-3">
-                            <div class="bg-purple-100 p-2 rounded-lg flex-shrink-0">
-                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
-                            <div class="flex-1">
-                                <p class="text-sm text-gray-500 mb-1">Deskripsi</p>
-                                <p class="text-gray-800 leading-relaxed">${safeDescription}</p>
+                            <div>
+                                <p class="text-white/30 text-xs mb-0.5">Deskripsi</p>
+                                <p class="text-white/70 text-sm leading-relaxed">${safeDescription}</p>
                             </div>
                         </div>
                         
-                        <!-- WhatsApp Notification -->
                         ${waNotified ? `
-                        <div class="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-lg p-3">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                            </svg>
-                            <span class="text-green-700 text-sm font-semibold">Notifikasi WhatsApp terkirim</span>
+                        <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/15 rounded-xl p-3">
+                            <span class="text-emerald-400 text-sm font-medium">📱 Notifikasi WA terkirim</span>
                         </div>
                         ` : ''}
                     </div>
                     
-                    <!-- Footer -->
-                    <div class="bg-gray-50 p-4 rounded-b-2xl flex items-center justify-center gap-6 sticky bottom-0">
-                        <button onclick="openShowTask('${event.id}')" class="p-3 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-600 transition-all hover:scale-110 group" title="Lihat Detail">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/msoeawqm.json"
-                                trigger="hover"
-                                target=".group"
-                                colors="primary:#9333ea,secondary:#e9d5ff"
-                                style="width:32px;height:32px">
-                            </lord-icon>
+                    <div class="p-4 border-t border-white/5 flex items-center justify-center gap-3">
+                        <button onclick="openShowTask('${event.id}')" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:18px;height:18px"></lord-icon>
+                            Detail
                         </button>
-                        
-                        <button onclick="openEditTask('${event.id}')" class="p-3 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 transition-all hover:scale-110 group" title="Edit Task">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/wuvorxbv.json"
-                                trigger="hover"
-                                target=".group"
-                                colors="primary:#2563eb,secondary:#bfdbfe"
-                                style="width:32px;height:32px">
-                            </lord-icon>
+                        <button onclick="openEditTask('${event.id}')" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                            <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#60a5fa,secondary:#93c5fd" style="width:18px;height:18px"></lord-icon>
+                            Edit
                         </button>
-
-                        <button onclick="closeTaskModal()" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition-all hover:scale-110 group" title="Tutup">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/nqtddedc.json"
-                                trigger="hover"
-                                target=".group"
-                                colors="primary:#4b5563,secondary:#9ca3af"
-                                style="width:32px;height:32px">
-                            </lord-icon>
+                        <button onclick="closeTaskModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                            Tutup
                         </button>
                     </div>
                 </div>
             </div>
         `;
         
-        // Append to body
         document.body.insertAdjacentHTML('beforeend', modalHTML);
-        
-        // Add click event to close on backdrop
-        const modal = document.getElementById('taskModal');
-        modal.addEventListener('click', function(e) {
-            if (e.target.id === 'taskModal') {
-                closeTaskModal();
-            }
-        });
     }
-    // Function to close modal
+
     window.closeTaskModal = function() {
         const modal = document.getElementById('taskModal');
         if (modal) {
-            modal.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.remove();
-            }, 200);
+            modal.style.opacity = '0';
+            modal.style.transition = 'opacity 0.2s ease';
+            setTimeout(() => modal.remove(), 200);
         }
     };
 
-    // Add keydown event for Escape key
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeTaskModal();
-        }
+        if (event.key === 'Escape') closeTaskModal();
     });
 });
 </script>
