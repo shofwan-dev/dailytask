@@ -22,10 +22,61 @@
             font-family: 'Inter', sans-serif;
         }
         
-        body {
-            background: #0f0f23;
-            min-height: 100vh;
+        /* ===== Theme Variables & Light Mode Overrides ===== */
+        :root {
+            --bg-body: #0f0f23;
+            --text-main: rgba(255, 255, 255, 0.9);
         }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-mode {
+            --bg-body: #f8fafc;
+            --text-main: #0f172a;
+        }
+
+        /* Generic Text Overrides for Light Mode */
+        .light-mode .text-white:not(.btn-primary, .btn-primary *, .bg-gradient-to-br, .bg-gradient-to-br *, .keep-white, .bottom-nav-fab *) { color: #0f172a !important; }
+        .light-mode .text-white\/90:not(.btn-primary, .btn-primary *, .bg-gradient-to-br, .bg-gradient-to-br *, .keep-white) { color: rgba(15, 23, 42, 0.9) !important; }
+        .light-mode .text-white\/80:not(.btn-primary, .btn-primary *, .bg-gradient-to-br, .bg-gradient-to-br *, .keep-white) { color: rgba(15, 23, 42, 0.8) !important; }
+        .light-mode .text-white\/70 { color: rgba(15, 23, 42, 0.7) !important; }
+        .light-mode .text-white\/60 { color: rgba(15, 23, 42, 0.6) !important; }
+        .light-mode .text-white\/50 { color: rgba(15, 23, 42, 0.5) !important; }
+        .light-mode .text-white\/40 { color: rgba(15, 23, 42, 0.5) !important; }
+        .light-mode .text-white\/30 { color: rgba(15, 23, 42, 0.4) !important; }
+        .light-mode .text-white\/25 { color: rgba(15, 23, 42, 0.4) !important; }
+        .light-mode .text-white\/20 { color: rgba(15, 23, 42, 0.3) !important; }
+
+        /* Component Overrides for Light Mode */
+        .light-mode .sidebar { background: #ffffff; border-right: 1px solid #e2e8f0; }
+        .light-mode .sidebar-nav-item:not(.active) { color: #64748b; }
+        .light-mode .sidebar-nav-item:hover:not(.active) { background: #f1f5f9; color: #0f172a; }
+        .light-mode .sidebar-nav-item.active { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.2); }
+        .light-mode .topbar, .light-mode .bottom-nav { background: rgba(255, 255, 255, 0.95); border-color: #e2e8f0; }
+        .light-mode .glass-card, .light-mode .stat-card { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .light-mode .glass-card-light { background: #f8fafc; border-color: #e2e8f0; }
+        .light-mode .glass-card:hover, .light-mode .stat-card:hover { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .light-mode .btn-ghost { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+        .light-mode .btn-ghost:hover { background: #e2e8f0; color: #0f172a; }
+        .light-mode .bg-white\/5 { background-color: #f1f5f9 !important; }
+        .light-mode .border-white\/5, .light-mode .border-white\/10 { border-color: #e2e8f0 !important; }
+        .light-mode input.bg-transparent, .light-mode select { color: #0f172a; }
+        .light-mode input::placeholder { color: #94a3b8 !important; }
+        .light-mode .search-input-wrapper { background: #ffffff; border-color: #e2e8f0; }
+        .light-mode .checkbox-custom { background: #ffffff; border-color: #cbd5e1; }
+        .light-mode #mobileSidebar { background: #ffffff !important; }
+        .light-mode .bottom-nav-item:not(.active) { color: #64748b; }
+        
+        /* Modals & Toasts in Light Mode */
+        .light-mode .toast { background: #ffffff; border-color: #e2e8f0; color: #0f172a; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .light-mode .toast .text-white { color: #0f172a !important; }
+        .light-mode #taskModal > div:last-child { background: #ffffff !important; border-color: #e2e8f0 !important; }
+        .light-mode #taskModal h3, .light-mode #taskModal p.text-white { color: #0f172a !important; }
         
         /* ===== Sidebar ===== */
         .sidebar {
@@ -449,6 +500,16 @@
                     </kbd>
                 </button>
 
+                {{-- Theme Toggle --}}
+                <button onclick="toggleTheme()" class="btn-ghost p-2 rounded-xl text-white/60 hover:text-white transition" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+                    <svg class="w-5 h-5 hidden dark-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <svg class="w-5 h-5 light-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </button>
+
                 {{-- User Avatar --}}
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-indigo-400 flex items-center justify-center text-white text-sm font-bold cursor-pointer" title="{{ Auth::user()->name }}">
@@ -611,6 +672,46 @@
     @endif
 
     <script>
+        // ===== Theme Toggle =====
+        function applyTheme(isLight) {
+            const btn = document.getElementById('themeToggleBtn');
+            if (isLight) {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+                if(btn) {
+                    btn.querySelector('.dark-icon').classList.remove('hidden');
+                    btn.querySelector('.light-icon').classList.add('hidden');
+                }
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+                if(btn) {
+                    btn.querySelector('.light-icon').classList.remove('hidden');
+                    btn.querySelector('.dark-icon').classList.add('hidden');
+                }
+            }
+            
+            // Dispatch event for components like FullCalendar that might need to re-render
+            window.dispatchEvent(new Event('themeChanged'));
+        }
+
+        function toggleTheme() {
+            const isLight = !document.body.classList.contains('light-mode');
+            applyTheme(isLight);
+        }
+
+        // Initialize Theme (Follow device setting or localStorage)
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                applyTheme(savedTheme === 'light');
+            } else {
+                // Check device preference
+                const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+                applyTheme(prefersLight);
+            }
+        })();
+
         // ===== Toast =====
         function dismissToast() {
             const container = document.getElementById('toastContainer');
