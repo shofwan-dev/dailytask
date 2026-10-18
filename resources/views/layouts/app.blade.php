@@ -52,6 +52,50 @@
         .light-mode .text-white\/25 { color: rgba(15, 23, 42, 0.4) !important; }
         .light-mode .text-white\/20 { color: rgba(15, 23, 42, 0.3) !important; }
 
+        /* ===== Dark Mode WCAG AA Contrast Overrides (Fajar UI/UX Standard) ===== */
+        body:not(.light-mode) .text-white\/20,
+        html.dark .text-white\/20 {
+            color: rgba(255, 255, 255, 0.58) !important;
+        }
+        body:not(.light-mode) .text-white\/25,
+        html.dark .text-white\/25 {
+            color: rgba(255, 255, 255, 0.64) !important;
+        }
+        body:not(.light-mode) .text-white\/30,
+        html.dark .text-white\/30 {
+            color: rgba(255, 255, 255, 0.72) !important;
+        }
+        body:not(.light-mode) .text-white\/40,
+        html.dark .text-white\/40 {
+            color: rgba(255, 255, 255, 0.80) !important;
+        }
+        body:not(.light-mode) .text-white\/50,
+        html.dark .text-white\/50 {
+            color: rgba(255, 255, 255, 0.86) !important;
+        }
+        body:not(.light-mode) .text-white\/60,
+        html.dark .text-white\/60 {
+            color: rgba(255, 255, 255, 0.90) !important;
+        }
+        body:not(.light-mode) input::placeholder,
+        body:not(.light-mode) textarea::placeholder,
+        html.dark input::placeholder,
+        html.dark textarea::placeholder {
+            color: rgba(255, 255, 255, 0.45) !important;
+        }
+        body:not(.light-mode) .border-white\/5,
+        html.dark .border-white\/5 {
+            border-color: rgba(255, 255, 255, 0.10) !important;
+        }
+        body:not(.light-mode) .border-white\/10,
+        html.dark .border-white\/10 {
+            border-color: rgba(255, 255, 255, 0.16) !important;
+        }
+        body:not(.light-mode) .bg-white\/5,
+        html.dark .bg-white\/5 {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
         /* Component Overrides for Light Mode */
         .light-mode .sidebar { background: #ffffff; border-right: 1px solid #e2e8f0; }
         .light-mode .sidebar-nav-item:not(.active) { color: #64748b; }
@@ -108,7 +152,7 @@
             gap: 12px;
             padding: 10px 16px;
             border-radius: 10px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.78);
             font-weight: 500;
             font-size: 0.875rem;
             transition: all 0.2s ease;
@@ -117,8 +161,8 @@
         }
         
         .sidebar-nav-item:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
         }
         
         .sidebar-nav-item.active {
@@ -313,19 +357,21 @@
             align-items: center;
             gap: 2px;
             padding: 6px 0;
-            font-size: 0.625rem;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.6875rem;
+            color: rgba(255, 255, 255, 0.78);
             transition: all 0.2s ease;
             text-decoration: none;
             flex: 1;
+            font-weight: 500;
         }
 
         .bottom-nav-item.active {
             color: #a78bfa;
+            font-weight: 600;
         }
 
         .bottom-nav-item:hover {
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff;
         }
 
         .bottom-nav-fab {
@@ -426,48 +472,48 @@
 
             {{-- Navigation --}}
             <nav class="flex-1 overflow-y-auto py-4 space-y-1">
-                <p class="sidebar-label text-[10px] font-bold uppercase tracking-widest text-white/25 px-5 mb-2">Menu</p>
+                <p class="sidebar-label text-[10px] font-bold uppercase tracking-widest text-violet-400 px-5 mb-2">Menu</p>
                 
                 <a href="{{ route('dashboard') }}" class="sidebar-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <lord-icon src="https://cdn.lordicon.com/wmwqvixz.json" trigger="hover" colors="primary:{{ request()->routeIs('dashboard') ? '#a78bfa' : '#9ca3af' }},secondary:{{ request()->routeIs('dashboard') ? '#c4b5fd' : '#d1d5db' }}" style="width:22px;height:22px"></lord-icon>
+                    <lord-icon src="https://cdn.lordicon.com/wmwqvixz.json" trigger="hover" colors="primary:{{ request()->routeIs('dashboard') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('dashboard') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                     <span class="sidebar-label">Dashboard</span>
                 </a>
                 
                 <a href="{{ route('tasks.index') }}" class="sidebar-nav-item {{ request()->routeIs('tasks.*') ? 'active' : '' }}">
-                    <lord-icon src="https://cdn.lordicon.com/bjgdeprq.json" trigger="hover" colors="primary:{{ request()->routeIs('tasks.*') ? '#a78bfa' : '#9ca3af' }},secondary:{{ request()->routeIs('tasks.*') ? '#c4b5fd' : '#d1d5db' }}" style="width:22px;height:22px"></lord-icon>
+                    <lord-icon src="https://cdn.lordicon.com/bjgdeprq.json" trigger="hover" colors="primary:{{ request()->routeIs('tasks.*') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('tasks.*') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                     <span class="sidebar-label">Tasks</span>
                 </a>
                 
                 <a href="{{ route('projects.index') }}" class="sidebar-nav-item {{ request()->routeIs('projects.*') ? 'active' : '' }}">
-                    <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="hover" colors="primary:{{ request()->routeIs('projects.*') ? '#a78bfa' : '#9ca3af' }},secondary:{{ request()->routeIs('projects.*') ? '#c4b5fd' : '#d1d5db' }}" style="width:22px;height:22px"></lord-icon>
+                    <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="hover" colors="primary:{{ request()->routeIs('projects.*') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('projects.*') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                     <span class="sidebar-label">Projects</span>
                 </a>
 
-                <div class="my-4 mx-5 border-t border-white/5"></div>
-                <p class="sidebar-label text-[10px] font-bold uppercase tracking-widest text-white/25 px-5 mb-2">System</p>
+                <div class="my-4 mx-5 border-t border-white/10"></div>
+                <p class="sidebar-label text-[10px] font-bold uppercase tracking-widest text-violet-400 px-5 mb-2">System</p>
                 
                 <a href="{{ route('settings.index') }}" class="sidebar-nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
-                    <lord-icon src="https://cdn.lordicon.com/hwuyodym.json" trigger="hover" colors="primary:{{ request()->routeIs('settings.*') ? '#a78bfa' : '#9ca3af' }},secondary:{{ request()->routeIs('settings.*') ? '#c4b5fd' : '#d1d5db' }}" style="width:22px;height:22px"></lord-icon>
+                    <lord-icon src="https://cdn.lordicon.com/hwuyodym.json" trigger="hover" colors="primary:{{ request()->routeIs('settings.*') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('settings.*') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                     <span class="sidebar-label">Pengaturan</span>
                 </a>
             </nav>
 
             {{-- User Section --}}
-            <div class="border-t border-white/5 p-4">
+            <div class="border-t border-white/10 p-4">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-indigo-400 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                     </div>
                     <div class="sidebar-user-info flex-1 min-w-0">
                         <p class="text-white text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
-                        <p class="text-white/40 text-xs truncate">{{ Auth::user()->email }}</p>
+                        <p class="text-slate-300 text-xs truncate">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" class="mt-3">
                     @csrf
-                    <button type="submit" class="sidebar-nav-item w-full text-red-400/70 hover:text-red-400 hover:bg-red-500/10 !mx-0">
+                    <button type="submit" class="sidebar-nav-item w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 !mx-0">
                         <lord-icon src="https://cdn.lordicon.com/moscwhoj.json" trigger="hover" colors="primary:#f87171,secondary:#fca5a5" style="width:20px;height:20px"></lord-icon>
-                        <span class="sidebar-label">Logout</span>
+                        <span class="sidebar-label font-medium">Logout</span>
                     </button>
                 </form>
             </div>
@@ -491,17 +537,17 @@
 
                 {{-- Search Trigger --}}
                 <button onclick="openSearchModal()" class="flex items-center gap-2 btn-ghost px-3 py-2 rounded-xl text-sm cursor-pointer" id="searchTrigger">
-                    <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
-                    <span class="hidden sm:inline text-white/40 text-xs">Cari...</span>
-                    <kbd class="hidden sm:inline-flex items-center gap-0.5 rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-white/30 border border-white/10">
+                    <span class="hidden sm:inline text-slate-300 text-xs font-medium">Cari...</span>
+                    <kbd class="hidden sm:inline-flex items-center gap-0.5 rounded bg-white/10 px-1.5 py-0.5 text-[10px] text-slate-300 border border-white/15">
                         Ctrl+K
                     </kbd>
                 </button>
 
                 {{-- Theme Toggle --}}
-                <button onclick="toggleTheme()" class="btn-ghost p-2 rounded-xl text-white/60 hover:text-white transition" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+                <button onclick="toggleTheme()" class="btn-ghost p-2 rounded-xl text-slate-300 hover:text-white transition" id="themeToggleBtn" title="Toggle Light/Dark Mode">
                     <svg class="w-5 h-5 hidden dark-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
                     </svg>
@@ -537,7 +583,7 @@
                     </div>
                     <span class="text-white font-bold text-lg">DailyTask</span>
                 </div>
-                <button onclick="closeMobileSidebar()" class="text-white/40 hover:text-white p-1">
+                <button onclick="closeMobileSidebar()" class="text-slate-300 hover:text-white p-1">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -558,7 +604,7 @@
                     <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:22px;height:22px"></lord-icon>
                     <span>Projects</span>
                 </a>
-                <div class="my-4 mx-5 border-t border-white/5"></div>
+                <div class="my-4 mx-5 border-t border-white/10"></div>
                 <a href="{{ route('settings.index') }}" class="sidebar-nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
                     <lord-icon src="https://cdn.lordicon.com/hwuyodym.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:22px;height:22px"></lord-icon>
                     <span>Pengaturan</span>
@@ -566,7 +612,7 @@
             </nav>
 
             {{-- User --}}
-            <div class="border-t border-white/5 p-4">
+            <div class="border-t border-white/10 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-indigo-400 flex items-center justify-center text-white text-sm font-bold">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -577,9 +623,9 @@
                 </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="sidebar-nav-item w-full text-red-400/70 hover:text-red-400 hover:bg-red-500/10 !mx-0">
+                    <button type="submit" class="sidebar-nav-item w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 !mx-0">
                         <lord-icon src="https://cdn.lordicon.com/moscwhoj.json" trigger="hover" colors="primary:#f87171,secondary:#fca5a5" style="width:20px;height:20px"></lord-icon>
-                        <span>Logout</span>
+                        <span class="font-medium">Logout</span>
                     </button>
                 </form>
             </div>
@@ -588,11 +634,11 @@
         {{-- Bottom Navigation (Mobile) --}}
         <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-20 md:hidden flex items-end justify-around px-2 pb-[env(safe-area-inset-bottom)]">
             <a href="{{ route('dashboard') }}" class="bottom-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                <lord-icon src="https://cdn.lordicon.com/wmwqvixz.json" trigger="hover" colors="primary:{{ request()->routeIs('dashboard') ? '#a78bfa' : '#6b7280' }},secondary:{{ request()->routeIs('dashboard') ? '#c4b5fd' : '#9ca3af' }}" style="width:22px;height:22px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/wmwqvixz.json" trigger="hover" colors="primary:{{ request()->routeIs('dashboard') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('dashboard') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                 <span>Home</span>
             </a>
             <a href="{{ route('tasks.index') }}" class="bottom-nav-item {{ request()->routeIs('tasks.*') ? 'active' : '' }}">
-                <lord-icon src="https://cdn.lordicon.com/bjgdeprq.json" trigger="hover" colors="primary:{{ request()->routeIs('tasks.*') ? '#a78bfa' : '#6b7280' }},secondary:{{ request()->routeIs('tasks.*') ? '#c4b5fd' : '#9ca3af' }}" style="width:22px;height:22px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/bjgdeprq.json" trigger="hover" colors="primary:{{ request()->routeIs('tasks.*') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('tasks.*') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                 <span>Tasks</span>
             </a>
             <a href="{{ route('tasks.create') }}" class="bottom-nav-item">
@@ -601,14 +647,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                     </svg>
                 </div>
-                <span class="mt-1">Tambah</span>
+                <span class="mt-1 font-semibold text-white">Tambah</span>
             </a>
             <a href="{{ route('projects.index') }}" class="bottom-nav-item {{ request()->routeIs('projects.*') ? 'active' : '' }}">
-                <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="hover" colors="primary:{{ request()->routeIs('projects.*') ? '#a78bfa' : '#6b7280' }},secondary:{{ request()->routeIs('projects.*') ? '#c4b5fd' : '#9ca3af' }}" style="width:22px;height:22px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="hover" colors="primary:{{ request()->routeIs('projects.*') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('projects.*') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                 <span>Projects</span>
             </a>
             <a href="{{ route('settings.index') }}" class="bottom-nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
-                <lord-icon src="https://cdn.lordicon.com/hwuyodym.json" trigger="hover" colors="primary:{{ request()->routeIs('settings.*') ? '#a78bfa' : '#6b7280' }},secondary:{{ request()->routeIs('settings.*') ? '#c4b5fd' : '#9ca3af' }}" style="width:22px;height:22px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/hwuyodym.json" trigger="hover" colors="primary:{{ request()->routeIs('settings.*') ? '#a78bfa' : '#cbd5e1' }},secondary:{{ request()->routeIs('settings.*') ? '#c4b5fd' : '#94a3b8' }}" style="width:22px;height:22px"></lord-icon>
                 <span>Setting</span>
             </a>
         </nav>
@@ -626,11 +672,11 @@
                     <input 
                         type="text" 
                         id="searchInput" 
-                        class="flex-1 bg-transparent text-white text-base outline-none placeholder:text-white/30 py-3" 
+                        class="flex-1 bg-transparent text-white text-base outline-none placeholder:text-slate-400 py-3" 
                         placeholder="Cari task atau project..."
                         autocomplete="off"
                     >
-                    <kbd class="rounded bg-white/5 px-2 py-1 text-[10px] text-white/30 border border-white/10">ESC</kbd>
+                    <kbd class="rounded bg-white/10 px-2 py-1 text-[10px] text-slate-300 border border-white/15">ESC</kbd>
                 </div>
                 <div id="searchResults" class="max-h-[50vh] overflow-y-auto"></div>
             </div>
@@ -648,7 +694,7 @@
         <div class="toast toast-success">
             <lord-icon src="https://cdn.lordicon.com/egiwmiit.json" trigger="in" colors="primary:#10b981,secondary:#10b981" style="width:22px;height:22px"></lord-icon>
             <span class="text-white text-sm font-medium">{{ session('success') }}</span>
-            <button onclick="dismissToast()" class="ml-2 text-white/40 hover:text-white transition">
+            <button onclick="dismissToast()" class="ml-2 text-slate-300 hover:text-white transition" aria-label="Tutup notifikasi">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -662,7 +708,7 @@
         <div class="toast toast-error">
             <lord-icon src="https://cdn.lordicon.com/wdnwtnyn.json" trigger="in" colors="primary:#ef4444,secondary:#ef4444" style="width:22px;height:22px"></lord-icon>
             <span class="text-white text-sm font-medium">{{ session('error') }}</span>
-            <button onclick="dismissToast()" class="ml-2 text-white/40 hover:text-white transition">
+            <button onclick="dismissToast()" class="ml-2 text-slate-300 hover:text-white transition" aria-label="Tutup notifikasi">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -677,6 +723,8 @@
             const btn = document.getElementById('themeToggleBtn');
             if (isLight) {
                 document.body.classList.add('light-mode');
+                document.documentElement.classList.remove('dark');
+                document.body.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
                 if(btn) {
                     btn.querySelector('.dark-icon').classList.remove('hidden');
@@ -684,6 +732,8 @@
                 }
             } else {
                 document.body.classList.remove('light-mode');
+                document.documentElement.classList.add('dark');
+                document.body.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
                 if(btn) {
                     btn.querySelector('.light-icon').classList.remove('hidden');
@@ -814,7 +864,7 @@
 
             if (matched.length === 0) {
                 resultsContainer.innerHTML = `
-                    <div class="px-4 py-8 text-center text-white/30 text-sm">
+                    <div class="px-4 py-8 text-center text-slate-400 text-sm">
                         Tidak ditemukan hasil untuk "${query}"
                     </div>
                 `;
@@ -822,10 +872,10 @@
             }
 
             resultsContainer.innerHTML = `
-                <div class="border-t border-white/5 mt-1 pt-1">
-                    <p class="px-4 py-2 text-[10px] text-white/25 font-bold uppercase tracking-widest">Navigasi</p>
+                <div class="border-t border-white/10 mt-1 pt-1">
+                    <p class="px-4 py-2 text-[10px] text-violet-400 font-bold uppercase tracking-widest">Navigasi</p>
                     ${matched.map(s => `
-                        <a href="${s.url}" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-lg mx-1 transition text-white/70 hover:text-white">
+                        <a href="${s.url}" class="flex items-center gap-3 px-4 py-3 hover:bg-white/10 rounded-lg mx-1 transition text-slate-200 hover:text-white font-medium">
                             <span class="text-base">${s.icon}</span>
                             <span class="text-sm">${s.label}</span>
                         </a>

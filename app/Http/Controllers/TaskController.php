@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
@@ -70,7 +71,12 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'due_date' => 'required|date',
             'due_time' => 'required',
-            'project_id' => 'nullable|exists:projects,id',
+            'project_id' => [
+                'nullable',
+                Rule::exists('projects', 'id')->where(function ($query) {
+                    $query->where('user_id', Auth::id());
+                }),
+            ],
             'recurrence_type' => 'nullable|in:none,daily,weekly,monthly',
             'recurrence_end_date' => 'nullable|date|after:due_date',
         ]);
@@ -163,7 +169,12 @@ class TaskController extends Controller
             'due_date' => 'required|date',
             'due_time' => 'required',
             'status' => 'required|in:pending,done',
-            'project_id' => 'nullable|exists:projects,id',
+            'project_id' => [
+                'nullable',
+                Rule::exists('projects', 'id')->where(function ($query) {
+                    $query->where('user_id', Auth::id());
+                }),
+            ],
             'recurrence_type' => 'nullable|in:none,daily,weekly,monthly',
             'recurrence_end_date' => 'nullable|date|after:due_date',
         ]);

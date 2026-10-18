@@ -8,7 +8,7 @@
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 animate-fade-in">
         <div>
             <h1 class="text-2xl md:text-3xl font-bold text-white">Projects</h1>
-            <p class="text-white/30 text-sm mt-1">Kelola semua project Anda</p>
+            <p class="text-slate-300 text-sm mt-1">Kelola semua project Anda</p>
         </div>
         <a href="{{ route('projects.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm w-fit">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,7 +25,7 @@
             <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="loop" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:36px;height:36px"></lord-icon>
         </div>
         <h3 class="text-lg font-bold text-white mb-2">Belum Ada Project</h3>
-        <p class="text-white/30 text-sm mb-6">Mulai dengan membuat project pertama Anda</p>
+        <p class="text-slate-300 text-sm mb-6">Mulai dengan membuat project pertama Anda</p>
         <a href="{{ route('projects.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
@@ -38,7 +38,7 @@
         @foreach($projects as $index => $project)
         <div class="glass-card overflow-hidden card-hover animate-fade-in flex flex-col h-full" style="animation-delay: {{ 0.1 + ($index * 0.05) }}s;">
             {{-- Project Header --}}
-            <div class="p-5 {{ $project->status === 'completed' ? 'bg-emerald-500/10' : ($project->status === 'on_hold' ? 'bg-amber-500/10' : 'bg-violet-500/10') }} border-b border-white/5 relative overflow-hidden">
+            <div class="p-5 {{ $project->status === 'completed' ? 'bg-emerald-500/10' : ($project->status === 'on_hold' ? 'bg-amber-500/10' : 'bg-violet-500/10') }} border-b border-white/10 relative overflow-hidden">
                 <div class="relative z-10">
                     <div class="flex items-start justify-between gap-3 mb-2">
                         <h3 class="text-lg font-bold text-white flex-1 break-words leading-tight">
@@ -53,7 +53,7 @@
                         @endif
                     </div>
                     @if($project->description)
-                    <p class="text-white/50 text-xs line-clamp-2">{{ $project->description }}</p>
+                    <p class="text-slate-300 text-xs line-clamp-2">{{ $project->description }}</p>
                     @endif
                 </div>
             </div>
@@ -63,26 +63,26 @@
                 {{-- Progress Bar --}}
                 <div class="mb-5">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-semibold text-white/40 uppercase tracking-widest">Progress</span>
+                        <span class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Progress</span>
                         <span class="text-xs font-bold text-violet-400">{{ $project->progress }}%</span>
                     </div>
-                    <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden border border-white/5">
+                    <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden border border-white/10">
                         <div class="bg-gradient-to-r from-violet-500 to-indigo-500 h-1.5 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
                     </div>
                 </div>
 
                 {{-- Mini Stats Grid --}}
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-white/5 rounded-xl p-3 text-center border border-white/5">
-                        <p class="text-xs text-white/30 font-medium mb-1">Total</p>
+                    <div class="bg-white/5 rounded-xl p-3 text-center border border-white/10">
+                        <p class="text-xs text-slate-300 font-semibold mb-1">Total</p>
                         <p class="text-lg font-bold text-white">{{ $project->total_tasks }}</p>
                     </div>
-                    <div class="bg-emerald-500/5 rounded-xl p-3 text-center border border-emerald-500/10">
-                        <p class="text-xs text-emerald-400/50 font-medium mb-1">Selesai</p>
+                    <div class="bg-emerald-500/5 rounded-xl p-3 text-center border border-emerald-500/20">
+                        <p class="text-xs text-emerald-300 font-semibold mb-1">Selesai</p>
                         <p class="text-lg font-bold text-emerald-400">{{ $project->completed_tasks }}</p>
                     </div>
-                    <div class="bg-amber-500/5 rounded-xl p-3 text-center border border-amber-500/10">
-                        <p class="text-xs text-amber-400/50 font-medium mb-1">Pending</p>
+                    <div class="bg-amber-500/5 rounded-xl p-3 text-center border border-amber-500/20">
+                        <p class="text-xs text-amber-300 font-semibold mb-1">Pending</p>
                         <p class="text-lg font-bold text-amber-400">{{ $project->pending_tasks }}</p>
                     </div>
                 </div>
@@ -92,17 +92,17 @@
             <div class="mt-auto">
                 {{-- Dates --}}
                 @if($project->start_date || $project->end_date)
-                <div class="px-5 py-3 bg-black/20 border-t border-white/5">
+                <div class="px-5 py-3 bg-black/30 border-t border-white/10">
                     <div class="flex items-center justify-between text-[11px] font-medium">
                         @if($project->start_date)
-                        <span class="text-white/40 flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                        <span class="text-slate-300 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
                             {{ $project->start_date->format('d M Y') }}
                         </span>
                         @endif
                         @if($project->end_date)
-                        <span class="text-white/40 flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                        <span class="text-slate-300 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
                             {{ $project->end_date->format('d M Y') }}
                         </span>
                         @endif
@@ -111,22 +111,22 @@
                 @endif
 
                 {{-- Actions --}}
-                <div class="px-5 py-4 border-t border-white/5 flex items-center gap-2">
+                <div class="px-5 py-4 border-t border-white/10 flex items-center gap-2">
                     <a href="{{ route('projects.show', $project) }}" class="flex-1 btn-ghost py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-blue-400 hover:text-blue-300">
                         <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="hover" colors="primary:#60a5fa,secondary:#93c5fd" style="width:16px;height:16px"></lord-icon>
                         Detail
                     </a>
                     
-                    <a href="{{ route('projects.edit', $project) }}" class="flex-1 btn-ghost py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-white/50 hover:text-white">
-                        <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:16px;height:16px"></lord-icon>
+                    <a href="{{ route('projects.edit', $project) }}" class="flex-1 btn-ghost py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+                        <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#cbd5e1,secondary:#94a3b8" style="width:16px;height:16px"></lord-icon>
                         Edit
                     </a>
                     
                     <div class="flex items-center gap-1">
                         <form action="{{ route('projects.duplicate', $project) }}" method="POST">
                             @csrf
-                            <button type="submit" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition" title="Duplikat Project">
-                                <lord-icon src="https://cdn.lordicon.com/puvaffet.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:16px;height:16px"></lord-icon>
+                            <button type="submit" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition" title="Duplikat Project">
+                                <lord-icon src="https://cdn.lordicon.com/puvaffet.json" trigger="hover" colors="primary:#cbd5e1,secondary:#94a3b8" style="width:16px;height:16px"></lord-icon>
                             </button>
                         </form>
                         

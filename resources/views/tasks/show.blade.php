@@ -6,7 +6,7 @@
 <div class="max-w-3xl mx-auto space-y-5">
     {{-- Back Button --}}
     <div class="animate-fade-in">
-        <a href="{{ route('tasks.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition">
+        <a href="{{ route('tasks.index') }}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -17,7 +17,7 @@
     {{-- Main Card --}}
     <div class="glass-card overflow-hidden animate-fade-in" style="animation-delay: 0.1s;">
         {{-- Header --}}
-        <div class="p-6 md:p-8 {{ $task->status === 'done' ? 'bg-emerald-500/10' : ($task->isOverdue() ? 'bg-red-500/10' : 'bg-violet-500/10') }} border-b border-white/5 relative overflow-hidden">
+        <div class="p-6 md:p-8 {{ $task->status === 'done' ? 'bg-emerald-500/10' : ($task->isOverdue() ? 'bg-red-500/10' : 'bg-violet-500/10') }} border-b border-white/10 relative overflow-hidden">
             {{-- Decorative gradient --}}
             <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br {{ $task->status === 'done' ? 'from-emerald-500/20' : ($task->isOverdue() ? 'from-red-500/20' : 'from-violet-500/20') }} to-transparent rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
             
@@ -57,7 +57,7 @@
                         <lord-icon src="https://cdn.lordicon.com/kbtmbyzy.json" trigger="loop" delay="2000" colors="primary:#60a5fa,secondary:#93c5fd" style="width:28px;height:28px"></lord-icon>
                     </div>
                     <div>
-                        <p class="text-xs text-white/40 font-medium mb-1 uppercase tracking-wider">Tenggat Waktu</p>
+                        <p class="text-xs text-slate-300 font-semibold mb-1 uppercase tracking-wider">Tenggat Waktu</p>
                         <p class="text-base font-bold text-white">{{ $task->due_date->format('l, d F Y') }}</p>
                         <p class="text-blue-400 font-semibold">{{ \Carbon\Carbon::parse($task->due_time)->format('H:i') }} WIB</p>
                     </div>
@@ -69,7 +69,7 @@
                         <lord-icon src="https://cdn.lordicon.com/qjuahhae.json" trigger="loop" delay="3000" colors="primary:#818cf8,secondary:#a5b4fc" style="width:28px;height:28px"></lord-icon>
                     </div>
                     <div>
-                        <p class="text-xs text-white/40 font-medium mb-1 uppercase tracking-wider">Pengulangan</p>
+                        <p class="text-xs text-slate-300 font-semibold mb-1 uppercase tracking-wider">Pengulangan</p>
                         @if($task->recurrence_type !== 'none')
                         <p class="text-base font-bold text-white capitalize">{{ $task->recurrence_type }}</p>
                         <p class="text-indigo-400 font-semibold text-sm">
@@ -80,7 +80,7 @@
                             @endif
                         </p>
                         @else
-                        <p class="text-base font-bold text-white/50">Tidak Berulang</p>
+                        <p class="text-base font-bold text-slate-400">Tidak Berulang</p>
                         @endif
                     </div>
                 </div>
@@ -88,11 +88,11 @@
 
             {{-- Description --}}
             <div>
-                <h3 class="text-sm font-bold text-white/50 uppercase tracking-widest mb-3 flex items-center gap-2">
-                    <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:18px;height:18px"></lord-icon>
+                <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#cbd5e1,secondary:#94a3b8" style="width:18px;height:18px"></lord-icon>
                     Deskripsi
                 </h3>
-                <div class="glass-card-light p-6 text-white/80 leading-relaxed whitespace-pre-line text-sm border border-white/5">
+                <div class="glass-card-light p-6 text-slate-200 leading-relaxed whitespace-pre-line text-sm border border-white/10">
                     {{ $task->description ?: 'Tidak ada deskripsi untuk task ini.' }}
                 </div>
             </div>
@@ -105,14 +105,14 @@
                 </div>
                 <div>
                     <p class="text-emerald-400 font-bold text-sm">Notifikasi WhatsApp Terkirim</p>
-                    <p class="text-emerald-400/60 text-xs mt-0.5">Pengingat telah dikirim ke nomor Anda dengan sukses.</p>
+                    <p class="text-emerald-300/80 text-xs mt-0.5">Pengingat telah dikirim ke nomor Anda dengan sukses.</p>
                 </div>
             </div>
             @endif
         </div>
 
         {{-- Actions Footer --}}
-        <div class="p-6 md:p-8 bg-black/20 border-t border-white/5 flex flex-col sm:flex-row gap-3">
+        <div class="p-6 md:p-8 bg-black/30 border-t border-white/10 flex flex-col sm:flex-row gap-3">
             <form action="{{ route('tasks.toggle', $task) }}" method="POST" class="flex-1">
                 @csrf
                 <button type="submit" class="w-full justify-center flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition transform hover:-translate-y-0.5 shadow-lg {{ $task->status === 'done' ? 'bg-amber-500 hover:bg-amber-400' : 'bg-emerald-500 hover:bg-emerald-400' }}">

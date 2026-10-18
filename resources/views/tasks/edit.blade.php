@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-2xl mx-auto space-y-5">
     {{-- Back --}}
-    <a href="{{ route('tasks.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition animate-fade-in">
+    <a href="{{ route('tasks.index') }}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition animate-fade-in">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
@@ -23,7 +23,7 @@
 
         @if($errors->any())
         <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
-            <ul class="list-disc list-inside text-red-400 text-sm space-y-1">
+            <ul class="list-disc list-inside text-red-400 text-sm space-y-1 font-medium">
                 @foreach($errors->all() as $error)
                 <li>{{ $error }}</li>
                 @endforeach
@@ -37,27 +37,27 @@
 
             {{-- Title --}}
             <div>
-                <label for="title" class="block text-sm font-medium text-white/60 mb-2">
+                <label for="title" class="block text-sm font-semibold text-slate-200 mb-2">
                     Judul Task <span class="text-red-400">*</span>
                 </label>
                 <input type="text" id="title" name="title" value="{{ old('title', $task->title) }}" required
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm">
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm">
             </div>
 
             {{-- Description --}}
             <div>
-                <label for="description" class="block text-sm font-medium text-white/60 mb-2">
-                    Deskripsi <span class="text-white/20 text-xs">(opsional)</span>
+                <label for="description" class="block text-sm font-semibold text-slate-200 mb-2">
+                    Deskripsi <span class="text-slate-400 text-xs font-normal">(opsional)</span>
                 </label>
                 <textarea id="description" name="description" rows="4"
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none resize-none text-sm">{{ old('description', $task->description) }}</textarea>
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none resize-none text-sm">{{ old('description', $task->description) }}</textarea>
             </div>
 
             {{-- Project --}}
             @if($projects->isNotEmpty())
             <div>
-                <label for="project_id" class="block text-sm font-medium text-white/60 mb-2">
-                    Project <span class="text-white/20 text-xs">(opsional)</span>
+                <label for="project_id" class="block text-sm font-semibold text-slate-200 mb-2">
+                    Project <span class="text-slate-400 text-xs font-normal">(opsional)</span>
                 </label>
                 <select id="project_id" name="project_id"
                     class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="background-color: rgba(255,255,255,0.03);">
@@ -74,14 +74,14 @@
             {{-- Date and Time --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label for="due_date" class="block text-sm font-medium text-white/60 mb-2">
+                    <label for="due_date" class="block text-sm font-semibold text-slate-200 mb-2">
                         Tanggal Deadline <span class="text-red-400">*</span>
                     </label>
                     <input type="date" id="due_date" name="due_date" value="{{ old('due_date', $task->due_date->format('Y-m-d')) }}" required
                         class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="color-scheme: dark;">
                 </div>
                 <div>
-                    <label for="due_time" class="block text-sm font-medium text-white/60 mb-2">
+                    <label for="due_time" class="block text-sm font-semibold text-slate-200 mb-2">
                         Jam Deadline <span class="text-red-400">*</span>
                     </label>
                     <input type="time" id="due_time" name="due_time" value="{{ old('due_time', $task->due_time) }}" required
@@ -91,7 +91,7 @@
 
             {{-- Recurrence --}}
             <div>
-                <label for="recurrence_type" class="block text-sm font-medium text-white/60 mb-2">
+                <label for="recurrence_type" class="block text-sm font-semibold text-slate-200 mb-2">
                     Ulangi Task
                 </label>
                 <select id="recurrence_type" name="recurrence_type"
@@ -105,12 +105,12 @@
 
             {{-- Recurrence End Date --}}
             <div id="recurrence_end_date_container" class="{{ old('recurrence_type', $task->recurrence_type) !== 'none' ? '' : 'hidden' }}">
-                <label for="recurrence_end_date" class="block text-sm font-medium text-white/60 mb-2">
-                    Sampai Tanggal <span class="text-white/20 text-xs">(opsional)</span>
+                <label for="recurrence_end_date" class="block text-sm font-semibold text-slate-200 mb-2">
+                    Sampai Tanggal <span class="text-slate-400 text-xs font-normal">(opsional)</span>
                 </label>
                 <input type="date" id="recurrence_end_date" name="recurrence_end_date" value="{{ old('recurrence_end_date', $task->recurrence_end_date ? $task->recurrence_end_date->format('Y-m-d') : '') }}"
                     class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="color-scheme: dark;">
-                <p class="text-white/20 text-xs mt-1.5">Jika tidak diisi, default: Harian 30 hari, Mingguan 12 minggu, Bulanan 12 bulan.</p>
+                <p class="text-slate-400 text-xs mt-1.5 font-medium">Jika tidak diisi, default: Harian 30 hari, Mingguan 12 minggu, Bulanan 12 bulan.</p>
             </div>
 
             <script>
@@ -126,8 +126,8 @@
             </script>
 
             {{-- Status --}}
-            <div class="pt-2 border-t border-white/5">
-                <label for="status" class="block text-sm font-medium text-white/60 mb-2">
+            <div class="pt-2 border-t border-white/10">
+                <label for="status" class="block text-sm font-semibold text-slate-200 mb-2">
                     Status Task
                 </label>
                 <select id="status" name="status" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="background-color: rgba(255,255,255,0.03);">
@@ -141,7 +141,7 @@
                 <button type="submit" class="flex-1 btn-primary text-white font-semibold py-3 rounded-xl text-sm">
                     💾 Update Task
                 </button>
-                <a href="{{ route('tasks.index') }}" class="btn-ghost px-6 py-3 rounded-xl text-sm font-medium text-center">
+                <a href="{{ route('tasks.index') }}" class="btn-ghost px-6 py-3 rounded-xl text-sm font-medium text-slate-200 text-center">
                     Batal
                 </a>
             </div>

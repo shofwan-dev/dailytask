@@ -8,7 +8,7 @@
     <div class="animate-fade-in">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-2">
             <div>
-                <p class="text-white/40 text-sm font-medium">Selamat datang kembali,</p>
+                <p class="text-slate-300 text-sm font-medium">Selamat datang kembali,</p>
                 <h1 class="text-2xl md:text-3xl font-bold text-white">{{ Auth::user()->name }} 👋</h1>
             </div>
             <a href="{{ route('tasks.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm w-fit">
@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <p class="text-2xl font-bold text-white">{{ $stats['total'] }}</p>
-                    <p class="text-white/30 text-xs font-medium">Total Task</p>
+                    <p class="text-slate-300 text-xs font-semibold">Total Task</p>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 </div>
                 <div>
                     <p class="text-2xl font-bold text-amber-400">{{ $stats['pending'] }}</p>
-                    <p class="text-white/30 text-xs font-medium">Pending</p>
+                    <p class="text-slate-300 text-xs font-semibold">Pending</p>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div>
                     <p class="text-2xl font-bold text-emerald-400">{{ $stats['done'] }}</p>
-                    <p class="text-white/30 text-xs font-medium">Selesai</p>
+                    <p class="text-slate-300 text-xs font-semibold">Selesai</p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                 </div>
                 <div>
                     <p class="text-2xl font-bold text-red-400">{{ $stats['overdue'] }}</p>
-                    <p class="text-white/30 text-xs font-medium">Overdue</p>
+                    <p class="text-slate-300 text-xs font-semibold">Overdue</p>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             </div>
             <div>
                 <h3 class="text-white font-semibold text-sm">Tambah Task Baru</h3>
-                <p class="text-white/30 text-xs">Buat task dengan reminder WA</p>
+                <p class="text-slate-300 text-xs">Buat task dengan reminder WA</p>
             </div>
         </a>
 
@@ -89,7 +89,7 @@
             </div>
             <div>
                 <h3 class="text-white font-semibold text-sm">Lihat Semua Task</h3>
-                <p class="text-white/30 text-xs">Kelola dan update task</p>
+                <p class="text-slate-300 text-xs">Kelola dan update task</p>
             </div>
         </a>
 
@@ -99,7 +99,7 @@
             </div>
             <div>
                 <h3 class="text-white font-semibold text-sm">Kelola Projects</h3>
-                <p class="text-white/30 text-xs">Lihat semua project</p>
+                <p class="text-slate-300 text-xs">Lihat semua project</p>
             </div>
         </a>
     </div>
@@ -112,7 +112,7 @@
                 <lord-icon src="https://cdn.lordicon.com/fhtaantg.json" trigger="loop" delay="5000" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:24px;height:24px"></lord-icon>
                 <h2 class="text-lg font-bold text-white">Projects</h2>
             </div>
-            <a href="{{ route('projects.index') }}" class="text-violet-400 hover:text-violet-300 font-medium text-sm flex items-center gap-1 transition">
+            <a href="{{ route('projects.index') }}" class="text-violet-400 hover:text-violet-300 font-semibold text-sm flex items-center gap-1 transition">
                 <span>Semua</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -121,20 +121,20 @@
         </div>
 
         {{-- Project Stats Mini --}}
-        <div class="flex items-center gap-6 mb-5 pb-5 border-b border-white/5">
+        <div class="flex items-center gap-6 mb-5 pb-5 border-b border-white/10">
             <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-violet-400"></div>
-                <span class="text-white/40 text-xs">Total</span>
+                <span class="text-slate-300 text-xs font-medium">Total</span>
                 <span class="text-white font-bold text-sm">{{ $projectStats['total'] }}</span>
             </div>
             <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-amber-400"></div>
-                <span class="text-white/40 text-xs">Aktif</span>
+                <span class="text-slate-300 text-xs font-medium">Aktif</span>
                 <span class="text-amber-400 font-bold text-sm">{{ $projectStats['pending'] }}</span>
             </div>
             <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
-                <span class="text-white/40 text-xs">Selesai</span>
+                <span class="text-slate-300 text-xs font-medium">Selesai</span>
                 <span class="text-emerald-400 font-bold text-sm">{{ $projectStats['completed'] }}</span>
             </div>
         </div>
@@ -157,16 +157,16 @@
                 {{-- Progress Bar --}}
                 <div class="mb-3">
                     <div class="flex items-center justify-between mb-1.5">
-                        <span class="text-white/30 text-[10px] font-medium">Progress</span>
+                        <span class="text-slate-300 text-[10px] font-semibold">Progress</span>
                         <span class="text-violet-400 text-[10px] font-bold">{{ $project->progress }}%</span>
                     </div>
-                    <div class="w-full bg-white/5 rounded-full h-1.5">
+                    <div class="w-full bg-white/10 rounded-full h-1.5">
                         <div class="bg-gradient-to-r from-violet-500 to-indigo-500 h-1.5 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
                     </div>
                 </div>
 
                 {{-- Task Stats --}}
-                <div class="flex items-center gap-3 text-[11px] text-white/30">
+                <div class="flex items-center gap-3 text-[11px] text-slate-300 font-medium">
                     <span>📋 {{ $project->total_tasks }}</span>
                     <span>✅ {{ $project->completed_tasks }}</span>
                     <span>⏳ {{ $project->pending_tasks }}</span>
@@ -186,7 +186,7 @@
             </div>
             
             {{-- Legend --}}
-            <div class="flex items-center gap-4 text-xs text-white/40">
+            <div class="flex items-center gap-4 text-xs text-slate-300 font-medium">
                 <span class="flex items-center gap-1.5">
                     <span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span> Overdue
                 </span>
@@ -218,12 +218,14 @@
 .fc .fc-col-header-cell-cushion,
 .fc .fc-daygrid-day-number,
 .fc .fc-timegrid-slot-label-cushion {
-    color: rgba(255, 255, 255, 0.5);
+    color: #cbd5e1;
     font-size: 0.8rem;
+    font-weight: 500;
 }
 
 .fc .fc-daygrid-day-number {
-    color: rgba(255, 255, 255, 0.6);
+    color: #cbd5e1;
+    font-weight: 600;
 }
 
 .fc .fc-day-today .fc-daygrid-day-number {
@@ -261,9 +263,9 @@
 }
 
 .fc .fc-button-primary:disabled {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.08) !important;
-    color: rgba(255, 255, 255, 0.2) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .fc-event {
@@ -387,15 +389,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalHTML = `
             <div id="taskModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-fade-in">
                 <div class="absolute inset-0 bg-black/60 backdrop-filter backdrop-blur-sm" onclick="closeTaskModal()"></div>
-                <div class="relative w-full max-w-md max-h-[85vh] overflow-y-auto rounded-2xl" style="background: linear-gradient(180deg, #1e1e3f 0%, #151530 100%); border: 1px solid rgba(255,255,255,0.08);">
-                    <div class="p-6 border-b border-white/5">
+                <div class="relative w-full max-w-md max-h-[85vh] overflow-y-auto rounded-2xl" style="background: linear-gradient(180deg, #1e1e3f 0%, #151530 100%); border: 1px solid rgba(255,255,255,0.12);">
+                    <div class="p-6 border-b border-white/10">
                         <div class="flex items-start justify-between">
                             <div class="flex-1 pr-4">
                                 <p class="text-violet-400 text-[10px] font-bold uppercase tracking-widest mb-2">Task</p>
                                 <h3 class="text-lg font-bold text-white mb-3 break-words">${safeTitle}</h3>
                                 ${statusBadge}
                             </div>
-                            <button onclick="closeTaskModal()" class="text-white/30 hover:text-white p-1 transition">
+                            <button onclick="closeTaskModal()" class="text-slate-300 hover:text-white p-1 transition" title="Tutup">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
@@ -405,27 +407,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     <div class="p-6 space-y-4">
                         <div class="flex items-start gap-3">
-                            <div class="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                            <div class="w-9 h-9 rounded-lg bg-violet-500/15 flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-white/30 text-xs mb-0.5">Deadline</p>
-                                <p class="text-white text-sm font-medium">${formattedDate}</p>
+                                <p class="text-slate-400 text-xs mb-0.5 font-medium">Deadline</p>
+                                <p class="text-white text-sm font-semibold">${formattedDate}</p>
                                 <p class="text-violet-400 font-bold text-base">${formattedTime}</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start gap-3">
-                            <div class="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                            <div class="w-9 h-9 rounded-lg bg-violet-500/15 flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-white/30 text-xs mb-0.5">Deskripsi</p>
-                                <p class="text-white/70 text-sm leading-relaxed">${safeDescription}</p>
+                                <p class="text-slate-400 text-xs mb-0.5 font-medium">Deskripsi</p>
+                                <p class="text-slate-200 text-sm leading-relaxed">${safeDescription}</p>
                             </div>
                         </div>
                         
@@ -436,16 +438,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         ` : ''}
                     </div>
                     
-                    <div class="p-4 border-t border-white/5 flex items-center justify-center gap-3">
-                        <button onclick="openShowTask('${event.id}')" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                    <div class="p-4 border-t border-white/10 flex items-center justify-center gap-3">
+                        <button onclick="openShowTask('${event.id}')" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-slate-200 hover:text-white">
                             <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:18px;height:18px"></lord-icon>
                             Detail
                         </button>
-                        <button onclick="openEditTask('${event.id}')" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                        <button onclick="openEditTask('${event.id}')" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-slate-200 hover:text-white">
                             <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#60a5fa,secondary:#93c5fd" style="width:18px;height:18px"></lord-icon>
                             Edit
                         </button>
-                        <button onclick="closeTaskModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                        <button onclick="closeTaskModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-slate-200 hover:text-white">
                             Tutup
                         </button>
                     </div>

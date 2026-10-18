@@ -7,7 +7,7 @@
     {{-- Header & Back --}}
     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 animate-fade-in">
         <div>
-            <a href="{{ route('settings.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition mb-3">
+            <a href="{{ route('settings.index') }}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition mb-3">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
@@ -16,7 +16,7 @@
             <div class="flex items-center gap-3">
                 <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight">Profil Pengguna</h1>
             </div>
-            <p class="text-white/50 text-sm mt-2">Kelola informasi akun Anda</p>
+            <p class="text-slate-300 text-sm mt-2">Kelola informasi akun Anda</p>
         </div>
         
         <div>
@@ -53,9 +53,9 @@
                 
                 {{-- Name --}}
                 <div>
-                    <label class="block text-sm font-medium text-white/60 mb-2">Nama Lengkap</label>
+                    <label class="block text-sm font-semibold text-slate-200 mb-2">Nama Lengkap</label>
                     <input type="text" name="name" value="{{ old('name', Auth::user()->name) }}" required
-                           class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm">
+                           class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm">
                     @error('name')
                     <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
                     @enderror
@@ -63,9 +63,9 @@
 
                 {{-- Email --}}
                 <div>
-                    <label class="block text-sm font-medium text-white/60 mb-2">Email</label>
+                    <label class="block text-sm font-semibold text-slate-200 mb-2">Email</label>
                     <input type="email" name="email" value="{{ old('email', Auth::user()->email) }}" required
-                           class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm">
+                           class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm">
                     @error('email')
                     <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
                     @enderror
@@ -73,17 +73,17 @@
 
                 {{-- Phone --}}
                 <div>
-                    <label class="block text-sm font-medium text-white/60 mb-2">Nomor Telepon (WhatsApp)</label>
+                    <label class="block text-sm font-semibold text-slate-200 mb-2">Nomor Telepon (WhatsApp)</label>
                     <input type="text" name="phone_number" value="{{ old('phone_number', Auth::user()->phone_number) }}" required
-                           class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm"
+                           class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm"
                            placeholder="628123456789">
-                    <p class="text-white/30 text-xs mt-1.5">Format: 628xxxxxxxxx (tanpa +)</p>
+                    <p class="text-slate-300 text-xs mt-1.5 font-medium">Format: 628xxxxxxxxx (tanpa +)</p>
                     @error('phone_number')
                     <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="pt-2 border-t border-white/5">
+                <div class="pt-2 border-t border-white/10">
                     <button type="submit" class="w-full btn-primary text-white font-semibold py-3 rounded-xl text-sm flex items-center justify-center gap-2">
                         <lord-icon src="https://cdn.lordicon.com/sbiheqdr.json" trigger="loop" delay="3000" colors="primary:#ffffff,secondary:#ffffff" style="width:20px;height:20px"></lord-icon>
                         Simpan Perubahan
@@ -107,7 +107,7 @@
                 
                 {{-- Current Password --}}
                 <div>
-                    <label class="block text-sm font-medium text-white/60 mb-2">Password Saat Ini</label>
+                    <label class="block text-sm font-semibold text-slate-200 mb-2">Password Saat Ini</label>
                     <input type="password" name="current_password" required
                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition outline-none text-sm">
                     @error('current_password')
@@ -117,10 +117,10 @@
 
                 {{-- New Password --}}
                 <div>
-                    <label class="block text-sm font-medium text-white/60 mb-2">Password Baru</label>
+                    <label class="block text-sm font-semibold text-slate-200 mb-2">Password Baru</label>
                     <input type="password" name="password" required
                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition outline-none text-sm">
-                    <p class="text-white/30 text-xs mt-1.5">Minimal 8 karakter</p>
+                    <p class="text-slate-300 text-xs mt-1.5 font-medium">Minimal 8 karakter</p>
                     @error('password')
                     <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
                     @enderror
@@ -128,12 +128,12 @@
 
                 {{-- Confirm Password --}}
                 <div>
-                    <label class="block text-sm font-medium text-white/60 mb-2">Konfirmasi Password Baru</label>
+                    <label class="block text-sm font-semibold text-slate-200 mb-2">Konfirmasi Password Baru</label>
                     <input type="password" name="password_confirmation" required
                            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition outline-none text-sm">
                 </div>
 
-                <div class="pt-2 border-t border-white/5">
+                <div class="pt-2 border-t border-white/10">
                     <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-semibold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-lg">
                         <lord-icon src="https://cdn.lordicon.com/rqqkvjqf.json" trigger="loop" delay="3000" colors="primary:#ffffff,secondary:#ffffff" style="width:20px;height:20px"></lord-icon>
                         Update Password

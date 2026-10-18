@@ -69,10 +69,10 @@ class SettingsController extends Controller
     public function updateWhatsapp(Request $request)
     {
         $validated = $request->validate([
-            'wa_api_key' => 'required|string',
-            'wa_sender' => 'required|string',
-            'wa_base_url' => 'required|url',
-            'wa_recipient' => 'required|string',
+            'wa_api_key' => 'required|string|max:255',
+            'wa_sender' => 'required|string|max:30',
+            'wa_base_url' => 'required|url|max:255',
+            'wa_recipient' => 'required|string|max:30',
         ]);
         
         Setting::set('wa_api_key', $validated['wa_api_key']);
@@ -116,7 +116,7 @@ class SettingsController extends Controller
             // Ensure no trailing slash
             $waBaseUrl = rtrim($waBaseUrl, '/');
             
-            $response = \Illuminate\Support\Facades\Http::post($waBaseUrl . '/send-message', [
+            $response = \Illuminate\Support\Facades\Http::timeout(15)->post($waBaseUrl . '/send-message', [
                 'api_key' => $waApiKey,
                 'sender' => $waSender,
                 'number' => $waRecipient,
@@ -129,15 +129,22 @@ class SettingsController extends Controller
                     'message' => 'Pesan test berhasil dikirim ke ' . $waRecipient
                 ]);
             } else {
+                \Illuminate\Support\Facades\Log::warning('WhatsApp test message failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal mengirim pesan: ' . $response->body()
+                    'message' => 'Gagal mengirim pesan (HTTP ' . $response->status() . '). Silakan periksa kembali konfigurasi WhatsApp Gateway Anda.'
                 ]);
             }
         } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('WhatsApp test exception', [
+                'error' => $e->getMessage()
+            ]);
             return response()->json([
                 'success' => false,
-                'message' => 'Error: ' . $e->getMessage()
+                'message' => 'Terjadi kendala saat menghubungi server WhatsApp Gateway. Silakan periksa koneksi atau URL gateway.'
             ]);
         }
     }

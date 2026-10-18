@@ -1,8 +1,14 @@
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+/**
+ * Test Task Creation Utility Script
+ * 
+ * Run: php scripts/create_test_task.php
+ */
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+require __DIR__.'/../vendor/autoload.php';
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
 $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
 echo "=== CREATING TEST TASK ===\n";

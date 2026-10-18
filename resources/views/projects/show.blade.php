@@ -7,7 +7,7 @@
     {{-- Back & Header --}}
     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 animate-fade-in">
         <div>
-            <a href="{{ route('projects.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition mb-3">
+            <a href="{{ route('projects.index') }}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition mb-3">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
@@ -24,13 +24,13 @@
                 @endif
             </div>
             @if($project->description)
-            <p class="text-white/50 text-sm mt-2 max-w-2xl">{{ $project->description }}</p>
+            <p class="text-slate-300 text-sm mt-2 max-w-2xl">{{ $project->description }}</p>
             @endif
         </div>
         
         <div class="flex items-center gap-2">
-            <a href="{{ route('projects.edit', $project) }}" class="btn-ghost px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
-                <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:18px;height:18px"></lord-icon>
+            <a href="{{ route('projects.edit', $project) }}" class="btn-ghost px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 text-slate-200">
+                <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#cbd5e1,secondary:#94a3b8" style="width:18px;height:18px"></lord-icon>
                 Edit
             </a>
             <form action="{{ route('projects.destroy', $project) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus project ini? Semua task didalamnya akan ikut terhapus.')" class="inline">
@@ -47,23 +47,23 @@
     {{-- Stats Grid --}}
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-fade-in" style="animation-delay: 0.1s;">
         <div class="glass-card p-5">
-            <p class="text-white/30 text-xs font-medium uppercase tracking-widest mb-1">Total Task</p>
+            <p class="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-1">Total Task</p>
             <p class="text-3xl font-bold text-white">{{ $project->total_tasks }}</p>
         </div>
-        <div class="glass-card p-5 border border-emerald-500/20" style="background: rgba(16, 185, 129, 0.03);">
-            <p class="text-emerald-400/50 text-xs font-medium uppercase tracking-widest mb-1">Selesai</p>
+        <div class="glass-card p-5 border border-emerald-500/20" style="background: rgba(16, 185, 129, 0.05);">
+            <p class="text-emerald-300 text-xs font-semibold uppercase tracking-wider mb-1">Selesai</p>
             <p class="text-3xl font-bold text-emerald-400">{{ $project->completed_tasks }}</p>
         </div>
-        <div class="glass-card p-5 border border-amber-500/20" style="background: rgba(245, 158, 11, 0.03);">
-            <p class="text-amber-400/50 text-xs font-medium uppercase tracking-widest mb-1">Pending</p>
+        <div class="glass-card p-5 border border-amber-500/20" style="background: rgba(245, 158, 11, 0.05);">
+            <p class="text-amber-300 text-xs font-semibold uppercase tracking-wider mb-1">Pending</p>
             <p class="text-3xl font-bold text-amber-400">{{ $project->pending_tasks }}</p>
         </div>
-        <div class="glass-card p-5 border border-violet-500/20" style="background: rgba(139, 92, 246, 0.03);">
+        <div class="glass-card p-5 border border-violet-500/20" style="background: rgba(139, 92, 246, 0.05);">
             <div class="flex items-center justify-between mb-1">
-                <p class="text-violet-400/50 text-xs font-medium uppercase tracking-widest">Progress</p>
+                <p class="text-violet-300 text-xs font-semibold uppercase tracking-wider">Progress</p>
                 <span class="text-sm font-bold text-violet-400">{{ $project->progress }}%</span>
             </div>
-            <div class="w-full bg-white/5 rounded-full h-2 mt-4">
+            <div class="w-full bg-white/10 rounded-full h-2 mt-4">
                 <div class="bg-gradient-to-r from-violet-500 to-indigo-500 h-2 rounded-full transition-all duration-500" style="width: {{ $project->progress }}%"></div>
             </div>
         </div>
@@ -85,12 +85,12 @@
         </div>
 
         @if($project->tasks->isEmpty())
-        <div class="text-center py-12 bg-white/5 rounded-2xl border border-white/5">
+        <div class="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
             <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-500/10 flex items-center justify-center">
                 <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:36px;height:36px"></lord-icon>
             </div>
             <h3 class="text-lg font-bold text-white mb-2">Belum ada task</h3>
-            <p class="text-white/30 text-sm">Project ini belum memiliki task apapun.</p>
+            <p class="text-slate-300 text-sm">Project ini belum memiliki task apapun.</p>
         </div>
         @else
         <div class="space-y-2">
@@ -98,17 +98,17 @@
             <div class="glass-card-light p-4 flex flex-col sm:flex-row sm:items-center gap-4 transition hover:bg-white/[0.08]" id="taskCard-{{ $task->id }}">
                 <div class="flex-1 min-w-0">
                     <div class="flex items-start gap-3">
-                        <button onclick="toggleTask({{ $task->id }})" class="mt-0.5 flex-shrink-0 w-6 h-6 rounded border {{ $task->status === 'done' ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-white/20 text-transparent hover:border-emerald-500' }} flex items-center justify-center transition">
+                        <button onclick="toggleTask({{ $task->id }})" class="mt-0.5 flex-shrink-0 w-6 h-6 rounded border {{ $task->status === 'done' ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-white/30 text-transparent hover:border-emerald-400' }} flex items-center justify-center transition">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                             </svg>
                         </button>
                         <div>
-                            <a href="{{ route('tasks.show', $task) }}" class="font-medium text-sm {{ $task->status === 'done' ? 'text-white/40 line-through' : 'text-white hover:text-violet-300 transition' }}">
+                            <a href="{{ route('tasks.show', $task) }}" class="font-medium text-sm {{ $task->status === 'done' ? 'text-slate-400 line-through opacity-75' : 'text-white hover:text-violet-300 transition' }}">
                                 {{ $task->title }}
                             </a>
                             <div class="flex items-center gap-3 mt-1.5 text-[11px]">
-                                <span class="text-white/30 flex items-center gap-1">
+                                <span class="text-slate-300 flex items-center gap-1 font-medium">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     {{ $task->due_date->format('d M') }}, {{ \Carbon\Carbon::parse($task->due_time)->format('H:i') }}
                                 </span>
@@ -126,13 +126,13 @@
                 </div>
                 
                 <div class="flex items-center gap-2 sm:ml-auto pl-9 sm:pl-0">
-                    <a href="{{ route('tasks.edit', $task) }}" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-blue-500/20 flex items-center justify-center text-white/50 hover:text-blue-400 transition" title="Edit">
+                    <a href="{{ route('tasks.edit', $task) }}" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-blue-500/20 flex items-center justify-center text-slate-300 hover:text-blue-400 transition" title="Edit">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                     </a>
                     <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Hapus task ini?')" class="inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500/20 flex items-center justify-center text-white/50 hover:text-red-400 transition" title="Hapus">
+                        <button type="submit" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500/20 flex items-center justify-center text-slate-300 hover:text-red-400 transition" title="Hapus">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
                     </form>

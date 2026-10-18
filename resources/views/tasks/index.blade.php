@@ -8,7 +8,7 @@
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 animate-fade-in">
         <div>
             <h1 class="text-2xl md:text-3xl font-bold text-white">My Tasks</h1>
-            <p class="text-white/30 text-sm mt-1">Kelola semua task Anda</p>
+            <p class="text-slate-300 text-sm mt-1">Kelola semua task Anda</p>
         </div>
         <a href="{{ route('tasks.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm w-fit">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,15 +22,15 @@
     <div class="grid grid-cols-3 gap-3 animate-fade-in" style="animation-delay: 0.05s;">
         <div class="stat-card">
             <p class="text-2xl font-bold text-white">{{ $tasks->count() }}</p>
-            <p class="text-white/30 text-xs font-medium">Total</p>
+            <p class="text-slate-300 text-xs font-semibold">Total</p>
         </div>
         <div class="stat-card">
             <p class="text-2xl font-bold text-amber-400">{{ $tasks->where('status', 'pending')->count() }}</p>
-            <p class="text-white/30 text-xs font-medium">Pending</p>
+            <p class="text-slate-300 text-xs font-semibold">Pending</p>
         </div>
         <div class="stat-card">
             <p class="text-2xl font-bold text-emerald-400">{{ $tasks->where('status', 'done')->count() }}</p>
-            <p class="text-white/30 text-xs font-medium">Selesai</p>
+            <p class="text-slate-300 text-xs font-semibold">Selesai</p>
         </div>
     </div>
 
@@ -39,14 +39,14 @@
         <div class="flex items-center gap-3 flex-wrap">
             <div class="flex items-center gap-2">
                 <input type="checkbox" id="selectAll" class="checkbox-custom" onclick="toggleSelectAll()">
-                <span class="text-white/40 text-xs font-medium">Pilih Semua</span>
+                <span class="text-slate-300 text-xs font-semibold">Pilih Semua</span>
             </div>
 
             <form method="GET" action="{{ route('tasks.index') }}">
-                <select name="project_id" onchange="this.form.submit()" class="bg-white/5 border border-white/10 text-white/70 text-xs rounded-lg px-3 py-2 focus:ring-violet-500 focus:border-violet-500 cursor-pointer" style="background-color: rgba(255,255,255,0.03);">
-                    <option value="" style="background: #1a1a3e;">Semua Project</option>
+                <select name="project_id" onchange="this.form.submit()" class="bg-white/5 border border-white/15 text-slate-200 text-xs rounded-lg px-3 py-2 focus:ring-violet-500 focus:border-violet-500 cursor-pointer" style="background-color: rgba(255,255,255,0.05);">
+                    <option value="" style="background: #1a1a3e; color: #ffffff;">Semua Project</option>
                     @foreach($projects as $project)
-                        <option value="{{ $project->id }}" {{ request('project_id') == $project->id ? 'selected' : '' }} style="background: #1a1a3e;">
+                        <option value="{{ $project->id }}" {{ request('project_id') == $project->id ? 'selected' : '' }} style="background: #1a1a3e; color: #ffffff;">
                             {{ $project->name }}
                         </option>
                     @endforeach
@@ -54,7 +54,7 @@
             </form>
         </div>
 
-        <button type="submit" form="bulkDeleteForm" id="bulkDeleteBtn" class="text-red-400/50 hover:text-red-400 px-3 py-2 rounded-lg text-xs font-medium transition flex items-center gap-2 cursor-not-allowed opacity-50" disabled>
+        <button type="submit" form="bulkDeleteForm" id="bulkDeleteBtn" class="text-red-400 hover:text-red-300 px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 cursor-not-allowed opacity-50" disabled>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
             </svg>
@@ -74,7 +74,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
             </svg>
         </div>
-        <input type="text" name="title" required class="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-white/20" placeholder="Ketik task baru, tekan Enter...">
+        <input type="text" name="title" required class="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-slate-400" placeholder="Ketik task baru, tekan Enter...">
         <input type="hidden" name="due_date" value="{{ date('Y-m-d') }}">
         <input type="hidden" name="due_time" value="17:00">
         <input type="hidden" name="recurrence_type" value="none">
@@ -85,7 +85,7 @@
 
     {{-- Pending Tasks --}}
     <div class="space-y-2" id="pendingTasksList">
-        <h2 class="text-sm font-bold text-white/40 uppercase tracking-widest flex items-center gap-2 mb-3 animate-fade-in" style="animation-delay: 0.15s;">
+        <h2 class="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2 mb-3 animate-fade-in" style="animation-delay: 0.15s;">
             <div class="w-2 h-2 rounded-full bg-amber-400"></div>
             Task Aktif
         </h2>
@@ -106,7 +106,7 @@
                         <h3 class="text-white font-medium text-sm break-words flex-1">{{ $task->title }}</h3>
                         
                         {{-- Toggle Button --}}
-                        <button onclick="toggleTask({{ $task->id }}, this)" class="flex-shrink-0 w-7 h-7 rounded-lg bg-white/5 hover:bg-emerald-500/15 flex items-center justify-center text-white/20 hover:text-emerald-400 transition group" title="Tandai Selesai">
+                        <button onclick="toggleTask({{ $task->id }}, this)" class="flex-shrink-0 w-7 h-7 rounded-lg bg-white/5 border border-white/10 hover:border-emerald-500/30 hover:bg-emerald-500/15 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition group" title="Tandai Selesai">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
@@ -114,24 +114,24 @@
                     </div>
                     
                     @if($task->description)
-                    <p class="text-white/30 text-xs mt-1 line-clamp-2 break-words">{{ $task->description }}</p>
+                    <p class="text-slate-300 text-xs mt-1 line-clamp-2 break-words">{{ $task->description }}</p>
                     @endif
 
                     <div class="flex flex-wrap items-center gap-2 mt-2.5">
                         {{-- Project Badge --}}
                         @if($task->project)
-                        <a href="{{ route('projects.show', $task->project) }}" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-violet-500/10 text-violet-400 hover:bg-violet-500/20 transition">
+                        <a href="{{ route('projects.show', $task->project) }}" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-violet-500/15 text-violet-300 hover:bg-violet-500/25 transition">
                             📁 {{ $task->project->name }}
                         </a>
                         @endif
 
                         {{-- Date --}}
-                        <span class="text-white/25 text-[11px] flex items-center gap-1">
+                        <span class="text-slate-300 text-[11px] font-medium flex items-center gap-1">
                             📅 {{ $task->due_date->format('d M') }}
                         </span>
 
                         {{-- Time --}}
-                        <span class="text-white/25 text-[11px]">
+                        <span class="text-slate-300 text-[11px] font-medium">
                             ⏰ {{ \Carbon\Carbon::parse($task->due_time)->format('H:i') }}
                         </span>
 
@@ -164,17 +164,17 @@
 
             {{-- Actions --}}
             <div class="flex items-center gap-1 mt-3 pt-3 border-t border-white/5 justify-end">
-                <a href="{{ route('tasks.show', $task) }}" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1" title="Detail">
-                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="hover" colors="primary:#9ca3af,secondary:#d1d5db" style="width:14px;height:14px"></lord-icon>
+                <a href="{{ route('tasks.show', $task) }}" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1 text-slate-200 hover:text-white" title="Detail">
+                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:14px;height:14px"></lord-icon>
                     Detail
                 </a>
-                <a href="{{ route('tasks.edit', $task) }}" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1" title="Edit">
+                <a href="{{ route('tasks.edit', $task) }}" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1 text-slate-200 hover:text-white" title="Edit">
                     <lord-icon src="https://cdn.lordicon.com/wuvorxbv.json" trigger="hover" colors="primary:#60a5fa,secondary:#93c5fd" style="width:14px;height:14px"></lord-icon>
                     Edit
                 </a>
                 <form method="POST" action="{{ route('tasks.duplicate', $task) }}" class="inline">
                     @csrf
-                    <button type="submit" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1" title="Duplikat">
+                    <button type="submit" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1 text-slate-200 hover:text-white" title="Duplikat">
                         <lord-icon src="https://cdn.lordicon.com/puvaffet.json" trigger="hover" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:14px;height:14px"></lord-icon>
                         Copy
                     </button>
@@ -196,7 +196,7 @@
                 <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#a78bfa,secondary:#c4b5fd" style="width:36px;height:36px"></lord-icon>
             </div>
             <h3 class="text-lg font-bold text-white mb-2">Belum ada task aktif</h3>
-            <p class="text-white/30 text-sm mb-5">Semua task sudah selesai atau mulai tambahkan task baru!</p>
+            <p class="text-slate-300 text-sm mb-5">Semua task sudah selesai atau mulai tambahkan task baru!</p>
             <a href="{{ route('tasks.create') }}" class="btn-primary text-white font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
@@ -212,21 +212,21 @@
     
     @if($completedTasks->count() > 0)
     <div class="space-y-2 mt-6" id="completedTasksList">
-        <h2 class="text-sm font-bold text-white/40 uppercase tracking-widest flex items-center gap-2 mb-3">
+        <h2 class="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2 mb-3">
             <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
             Task Selesai
-            <span class="text-white/20 text-xs font-normal">({{ $completedTasks->count() }})</span>
+            <span class="text-slate-400 text-xs font-semibold">({{ $completedTasks->count() }})</span>
         </h2>
         
         @foreach($completedTasks as $index => $task)
-        <div class="glass-card p-4 animate-fade-in task-card" style="animation-delay: {{ 0.15 + ($index * 0.03) }}s;" data-task-id="{{ $task->id }}" id="taskCard-{{ $task->id }}">
+        <div class="glass-card p-4 animate-fade-in task-card opacity-90" style="animation-delay: {{ 0.15 + ($index * 0.03) }}s;" data-task-id="{{ $task->id }}" id="taskCard-{{ $task->id }}">
             <div class="flex items-start gap-3">
                 <div class="flex-1 min-w-0">
                     <div class="flex items-start justify-between gap-2">
-                        <h3 class="text-white/30 font-medium text-sm break-words flex-1 line-through">{{ $task->title }}</h3>
+                        <h3 class="text-slate-300 font-medium text-sm break-words flex-1 line-through">{{ $task->title }}</h3>
                         
                         {{-- Toggle Button (undo) --}}
-                        <button onclick="toggleTask({{ $task->id }}, this)" class="flex-shrink-0 w-7 h-7 rounded-lg bg-emerald-500/15 flex items-center justify-center text-emerald-400 hover:bg-amber-500/15 hover:text-amber-400 transition" title="Tandai Pending">
+                        <button onclick="toggleTask({{ $task->id }}, this)" class="flex-shrink-0 w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 hover:bg-amber-500/20 hover:text-amber-300 transition" title="Tandai Pending">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
@@ -235,15 +235,15 @@
 
                     <div class="flex flex-wrap items-center gap-2 mt-2">
                         @if($task->completed_at)
-                        <span class="text-emerald-400/60 text-[11px] flex items-center gap-1">
+                        <span class="text-emerald-400 text-[11px] font-medium flex items-center gap-1">
                             ✅ {{ $task->completed_at->format('d M Y, H:i') }}
                         </span>
                         @endif
-                        <span class="text-white/20 text-[11px]">
+                        <span class="text-slate-300 text-[11px] font-medium">
                             Target: {{ $task->due_date->format('d M Y') }}
                         </span>
                         @if($task->project)
-                        <span class="text-violet-400/40 text-[10px]">
+                        <span class="text-violet-300 text-[11px] font-medium">
                             📁 {{ $task->project->name }}
                         </span>
                         @endif
@@ -251,12 +251,12 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-1 mt-3 pt-3 border-t border-white/5 justify-end">
-                <a href="{{ route('tasks.show', $task) }}" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium" title="Detail">Detail</a>
+            <div class="flex items-center gap-1 mt-3 pt-3 border-t border-white/10 justify-end">
+                <a href="{{ route('tasks.show', $task) }}" class="btn-ghost px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-slate-200" title="Detail">Detail</a>
                 <form method="POST" action="{{ route('tasks.destroy', $task) }}" onsubmit="return confirm('Yakin ingin menghapus task ini?')">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-red-400/40 hover:text-red-400 hover:bg-red-500/10 transition">
+                    <button type="submit" class="px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-red-400/80 hover:text-red-300 hover:bg-red-500/10 transition">
                         Hapus
                     </button>
                 </form>

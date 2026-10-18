@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-2xl mx-auto space-y-5">
     {{-- Back --}}
-    <a href="{{ route('projects.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition animate-fade-in">
+    <a href="{{ route('projects.index') }}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition animate-fade-in">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
@@ -23,7 +23,7 @@
 
         @if($errors->any())
         <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
-            <ul class="list-disc list-inside text-red-400 text-sm space-y-1">
+            <ul class="list-disc list-inside text-red-400 text-sm space-y-1 font-medium">
                 @foreach($errors->all() as $error)
                 <li>{{ $error }}</li>
                 @endforeach
@@ -36,27 +36,27 @@
 
             {{-- Name --}}
             <div>
-                <label for="name" class="block text-sm font-medium text-white/60 mb-2">
+                <label for="name" class="block text-sm font-semibold text-slate-200 mb-2">
                     Nama Project <span class="text-red-400">*</span>
                 </label>
                 <input type="text" id="name" name="name" value="{{ old('name') }}" required
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm"
                     placeholder="Contoh: Redesign Website">
             </div>
 
             {{-- Description --}}
             <div>
-                <label for="description" class="block text-sm font-medium text-white/60 mb-2">
-                    Deskripsi <span class="text-white/20 text-xs">(opsional)</span>
+                <label for="description" class="block text-sm font-semibold text-slate-200 mb-2">
+                    Deskripsi <span class="text-slate-400 text-xs font-normal">(opsional)</span>
                 </label>
                 <textarea id="description" name="description" rows="4"
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none resize-none text-sm"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none resize-none text-sm"
                     placeholder="Detail tentang project ini...">{{ old('description') }}</textarea>
             </div>
 
             {{-- Status --}}
             <div>
-                <label for="status" class="block text-sm font-medium text-white/60 mb-2">
+                <label for="status" class="block text-sm font-semibold text-slate-200 mb-2">
                     Status Project <span class="text-red-400">*</span>
                 </label>
                 <select id="status" name="status" required
@@ -70,15 +70,15 @@
             {{-- Dates --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label for="start_date" class="block text-sm font-medium text-white/60 mb-2">
-                        Tanggal Mulai <span class="text-white/20 text-xs">(opsional)</span>
+                    <label for="start_date" class="block text-sm font-semibold text-slate-200 mb-2">
+                        Tanggal Mulai <span class="text-slate-400 text-xs font-normal">(opsional)</span>
                     </label>
                     <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}"
                         class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="color-scheme: dark;">
                 </div>
                 <div>
-                    <label for="end_date" class="block text-sm font-medium text-white/60 mb-2">
-                        Tanggal Selesai <span class="text-white/20 text-xs">(opsional)</span>
+                    <label for="end_date" class="block text-sm font-semibold text-slate-200 mb-2">
+                        Tanggal Selesai <span class="text-slate-400 text-xs font-normal">(opsional)</span>
                     </label>
                     <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}"
                         class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition outline-none text-sm" style="color-scheme: dark;">
@@ -86,11 +86,11 @@
             </div>
 
             {{-- Buttons --}}
-            <div class="flex items-center gap-3 pt-2 border-t border-white/5">
+            <div class="flex items-center gap-3 pt-2 border-t border-white/10">
                 <button type="submit" class="flex-1 btn-primary text-white font-semibold py-3 rounded-xl text-sm">
                     💾 Simpan Project
                 </button>
-                <a href="{{ route('projects.index') }}" class="btn-ghost px-6 py-3 rounded-xl text-sm font-medium text-center">
+                <a href="{{ route('projects.index') }}" class="btn-ghost px-6 py-3 rounded-xl text-sm font-medium text-slate-200 text-center">
                     Batal
                 </a>
             </div>

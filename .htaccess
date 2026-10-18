@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block direct access to hidden files and sensitive configuration files
+    RewriteRule ^(\.env|\.git|composer\.(json|lock)|package\.json|package-lock\.json|artisan|phpunit\.xml) - [F,L,NC]
+    RewriteRule ^(app|bootstrap|config|database|resources|routes|storage|tests|scripts) - [F,L,NC]
+
+    # Redirect all other incoming traffic to the public directory
+    RewriteRule ^$ public/ [L]
+    RewriteRule (.*) public/$1 [L]
+</IfModule>

@@ -7,7 +7,7 @@
     {{-- Header & Back --}}
     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 animate-fade-in">
         <div>
-            <a href="{{ route('settings.index') }}" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition mb-3">
+            <a href="{{ route('settings.index') }}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition mb-3">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
@@ -16,12 +16,12 @@
             <div class="flex items-center gap-3">
                 <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight">WhatsApp Gateway</h1>
             </div>
-            <p class="text-white/50 text-sm mt-2">Konfigurasi notifikasi WhatsApp untuk reminder task</p>
+            <p class="text-slate-300 text-sm mt-2">Konfigurasi notifikasi WhatsApp untuk reminder task</p>
         </div>
     </div>
 
     @if(session('success'))
-    <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2 animate-fade-in">
+    <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2 animate-fade-in font-medium">
         <lord-icon src="https://cdn.lordicon.com/egiwmiit.json" trigger="loop" colors="primary:#34d399,secondary:#34d399" style="width:20px;height:20px"></lord-icon>
         {{ session('success') }}
     </div>
@@ -45,10 +45,18 @@
                     
                     {{-- API Key --}}
                     <div>
-                        <label class="block text-sm font-medium text-white/60 mb-2">API Key</label>
-                        <input type="text" name="wa_api_key" value="{{ old('wa_api_key', $waApiKey) }}" required
-                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm font-mono"
-                               placeholder="Contoh: v#_9s8df7234...">
+                        <label class="block text-sm font-semibold text-slate-200 mb-2">API Key</label>
+                        <div class="relative">
+                            <input type="password" id="wa_api_key_input" name="wa_api_key" value="{{ old('wa_api_key', $waApiKey) }}" required
+                                   class="w-full px-4 py-3 pr-11 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm font-mono"
+                                   placeholder="Contoh: v#_9s8df7234...">
+                            <button type="button" onclick="const el = document.getElementById('wa_api_key_input'); el.type = el.type === 'password' ? 'text' : 'password';" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition p-1" title="Lihat/Sembunyikan API Key">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </button>
+                        </div>
                         @error('wa_api_key')
                         <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
                         @enderror
@@ -56,9 +64,9 @@
 
                     {{-- Sender --}}
                     <div>
-                        <label class="block text-sm font-medium text-white/60 mb-2">Nomor Pengirim (Sender)</label>
+                        <label class="block text-sm font-semibold text-slate-200 mb-2">Nomor Pengirim (Sender)</label>
                         <input type="text" name="wa_sender" value="{{ old('wa_sender', $waSender) }}" required
-                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm"
+                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm"
                                placeholder="628123456789">
                         @error('wa_sender')
                         <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
@@ -67,9 +75,9 @@
 
                     {{-- Base URL --}}
                     <div>
-                        <label class="block text-sm font-medium text-white/60 mb-2">Base URL Gateway</label>
+                        <label class="block text-sm font-semibold text-slate-200 mb-2">Base URL Gateway</label>
                         <input type="url" name="wa_base_url" value="{{ old('wa_base_url', $waBaseUrl) }}" required
-                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm font-mono"
+                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm font-mono"
                                placeholder="https://api.fonnte.com">
                         @error('wa_base_url')
                         <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
@@ -78,17 +86,17 @@
 
                     {{-- Recipient --}}
                     <div>
-                        <label class="block text-sm font-medium text-white/60 mb-2">Nomor Penerima Default</label>
+                        <label class="block text-sm font-semibold text-slate-200 mb-2">Nomor Penerima Default</label>
                         <input type="text" name="wa_recipient" value="{{ old('wa_recipient', $waRecipient) }}" required
-                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm"
+                               class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition outline-none text-sm"
                                placeholder="628123456789">
-                        <p class="text-white/30 text-xs mt-1.5">Nomor (628xxx) atau ID Group (@g.us)</p>
+                        <p class="text-slate-300 text-xs mt-1.5 font-medium">Nomor (628xxx) atau ID Group (@g.us)</p>
                         @error('wa_recipient')
                         <p class="text-red-400 text-xs mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="pt-2 border-t border-white/5">
+                    <div class="pt-2 border-t border-white/10">
                         <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-semibold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-lg">
                             <lord-icon src="https://cdn.lordicon.com/sbiheqdr.json" trigger="loop" delay="3000" colors="primary:#ffffff,secondary:#ffffff" style="width:20px;height:20px"></lord-icon>
                             Simpan Konfigurasi
@@ -107,8 +115,8 @@
                         <lord-icon src="https://cdn.lordicon.com/vacmyjrh.json" trigger="loop" delay="4000" colors="primary:#60a5fa,secondary:#93c5fd" style="width:20px;height:20px"></lord-icon>
                     </div>
                     <div>
-                        <h3 class="font-bold text-blue-400 mb-2">Informasi Penting</h3>
-                        <ul class="text-xs text-blue-400/70 space-y-2">
+                        <h3 class="font-bold text-blue-300 mb-2">Informasi Penting</h3>
+                        <ul class="text-xs text-blue-200/90 space-y-2 font-medium">
                             <li class="flex gap-2">
                                 <span class="text-blue-400">•</span>
                                 Pastikan nomor sender aktif dan terhubung ke Fonnte/Gateway Anda.
@@ -137,9 +145,9 @@
                 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-medium text-white/60 mb-2">Kirim ke Nomor</label>
+                        <label class="block text-xs font-semibold text-slate-200 mb-2">Kirim ke Nomor</label>
                         <input type="text" id="testNumber" 
-                               class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/20 focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500/50 transition outline-none text-sm"
+                               class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-slate-400 focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500/50 transition outline-none text-sm"
                                placeholder="{{ $waRecipient ?: '628123456789' }}"
                                value="{{ $waRecipient }}">
                     </div>

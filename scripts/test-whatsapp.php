@@ -4,15 +4,15 @@
  * WhatsApp API Test Script
  * 
  * This script tests the WhatsApp API integration
- * Run: php test-whatsapp.php
+ * Run: php scripts/test-whatsapp.php
  */
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use Illuminate\Support\Facades\Http;
 
 // Load environment variables
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
 $dotenv->load();
 
 echo "📱 DailyTask - WhatsApp API Test\n";

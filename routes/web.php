@@ -15,7 +15,7 @@ Route::middleware('guest')->group(function () {
     
     
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 });
 
 // Authenticated routes
@@ -58,5 +58,7 @@ Route::middleware('auth')->group(function () {
     // Settings - WhatsApp
     Route::get('/settings/whatsapp', [SettingsController::class, 'whatsapp'])->name('settings.whatsapp');
     Route::put('/settings/whatsapp', [SettingsController::class, 'updateWhatsapp'])->name('settings.whatsapp.update');
-    Route::post('/settings/whatsapp/test', [SettingsController::class, 'testWhatsapp'])->name('settings.whatsapp.test');
+    Route::post('/settings/whatsapp/test', [SettingsController::class, 'testWhatsapp'])
+        ->name('settings.whatsapp.test')
+        ->middleware('throttle:3,1');
 });

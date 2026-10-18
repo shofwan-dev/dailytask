@@ -11,6 +11,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        // WARNING: Demo credentials for local development/testing only. Do NOT run this seeder in production!
         // Create demo user (or get existing)
         $user = User::firstOrCreate(
             ['email' => 'demo@dailytask.com'],

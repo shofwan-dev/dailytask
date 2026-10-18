@@ -1,8 +1,14 @@
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+/**
+ * Task Inspection Utility Script
+ * 
+ * Run: php scripts/check_tasks.php
+ */
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+require __DIR__.'/../vendor/autoload.php';
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
 $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
 echo "=== CHECKING ALL TASKS ===\n";

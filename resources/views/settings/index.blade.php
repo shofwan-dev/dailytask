@@ -7,7 +7,7 @@
     {{-- Header --}}
     <div class="animate-fade-in">
         <h1 class="text-2xl md:text-3xl font-bold text-white">Pengaturan</h1>
-        <p class="text-white/30 text-sm mt-1">Kelola preferensi akun dan sistem</p>
+        <p class="text-slate-300 text-sm mt-1">Kelola preferensi akun dan sistem</p>
     </div>
 
     {{-- Settings Menu Grid --}}
@@ -20,18 +20,18 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-white group-hover:text-violet-300 transition">Profil Pengguna</h3>
-                    <p class="text-white/40 text-sm mt-0.5">Kelola informasi pribadi akun Anda</p>
+                    <p class="text-slate-300 text-sm mt-0.5">Kelola informasi pribadi akun Anda</p>
                 </div>
             </div>
-            <ul class="space-y-2 pt-4 border-t border-white/5">
-                <li class="flex items-center gap-2 text-white/30 text-xs">
-                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Ubah nama dan email
+            <ul class="space-y-2 pt-4 border-t border-white/10">
+                <li class="flex items-center gap-2 text-slate-300 text-xs font-medium">
+                    <div class="w-1.5 h-1.5 rounded-full bg-violet-400"></div> Ubah nama dan email
                 </li>
-                <li class="flex items-center gap-2 text-white/30 text-xs">
-                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Update nomor telepon
+                <li class="flex items-center gap-2 text-slate-300 text-xs font-medium">
+                    <div class="w-1.5 h-1.5 rounded-full bg-violet-400"></div> Update nomor telepon
                 </li>
-                <li class="flex items-center gap-2 text-white/30 text-xs">
-                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Ganti password
+                <li class="flex items-center gap-2 text-slate-300 text-xs font-medium">
+                    <div class="w-1.5 h-1.5 rounded-full bg-violet-400"></div> Ganti password
                 </li>
             </ul>
         </a>
@@ -44,18 +44,18 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-white group-hover:text-emerald-300 transition">WhatsApp Gateway</h3>
-                    <p class="text-white/40 text-sm mt-0.5">Konfigurasi notifikasi WhatsApp</p>
+                    <p class="text-slate-300 text-sm mt-0.5">Konfigurasi notifikasi WhatsApp</p>
                 </div>
             </div>
-            <ul class="space-y-2 pt-4 border-t border-white/5">
-                <li class="flex items-center gap-2 text-white/30 text-xs">
-                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Setup API Key & Sender
+            <ul class="space-y-2 pt-4 border-t border-white/10">
+                <li class="flex items-center gap-2 text-slate-300 text-xs font-medium">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> Setup API Key & Sender
                 </li>
-                <li class="flex items-center gap-2 text-white/30 text-xs">
-                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Konfigurasi Base URL
+                <li class="flex items-center gap-2 text-slate-300 text-xs font-medium">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> Konfigurasi Base URL
                 </li>
-                <li class="flex items-center gap-2 text-white/30 text-xs">
-                    <div class="w-1 h-1 rounded-full bg-white/20"></div> Test koneksi Fonnte
+                <li class="flex items-center gap-2 text-slate-300 text-xs font-medium">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> Test koneksi Fonnte
                 </li>
             </ul>
         </a>
@@ -63,27 +63,27 @@
 
     {{-- Account Info Summary --}}
     <div class="glass-card p-6 mt-6 animate-fade-in" style="animation-delay: 0.2s;">
-        <h3 class="text-sm font-bold text-white/50 uppercase tracking-widest mb-5 flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-5 flex items-center gap-2">
+            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             Informasi Sistem
         </h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
-                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">Nama</p>
+                <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Nama</p>
                 <p class="font-semibold text-white text-sm">{{ Auth::user()->name }}</p>
             </div>
             <div>
-                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">Email</p>
+                <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Email</p>
                 <p class="font-semibold text-white text-sm truncate" title="{{ Auth::user()->email }}">{{ Auth::user()->email }}</p>
             </div>
             <div>
-                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">WhatsApp</p>
+                <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">WhatsApp</p>
                 <p class="font-semibold text-white text-sm">{{ Auth::user()->phone_number ?? '-' }}</p>
             </div>
             <div>
-                <p class="text-white/30 text-[10px] font-bold uppercase tracking-wider mb-1">Terdaftar</p>
+                <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Terdaftar</p>
                 <p class="font-semibold text-white text-sm">{{ Auth::user()->created_at->format('d M Y') }}</p>
             </div>
         </div>
