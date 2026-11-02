@@ -71,6 +71,9 @@
         .light-mode .checkbox-custom { background: #ffffff; border-color: #cbd5e1; }
         .light-mode #mobileSidebar { background: #ffffff !important; }
         .light-mode .bottom-nav-item:not(.active) { color: #64748b; }
+        .light-mode .bottom-nav-fab-active {
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4), 0 6px 20px rgba(139, 92, 246, 0.35) !important;
+        }
         
         /* Modals & Toasts in Light Mode */
         .light-mode .toast { background: #ffffff; border-color: #e2e8f0; color: #0f172a; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
@@ -305,6 +308,12 @@
             background: rgba(15, 15, 35, 0.95);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bottom-nav.bottom-nav-hidden {
+            transform: translateY(150%);
+            pointer-events: none;
         }
 
         .bottom-nav-item {
@@ -341,9 +350,22 @@
             transition: all 0.2s ease;
         }
 
-        .bottom-nav-fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        .bottom-nav-fab:hover,
+        .bottom-nav-fab-active {
+            transform: scale(1.08);
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.5), 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Mobile Main Content bottom padding to clear Bottom Nav & FAB */
+        @media (max-width: 767px) {
+            .main-content {
+                padding-bottom: calc(7.5rem + env(safe-area-inset-bottom, 0px)) !important;
+            }
+        }
+        @media (min-width: 768px) {
+            .main-content {
+                padding-bottom: 2rem !important;
+            }
         }
 
         /* ===== Toast ===== */
@@ -413,7 +435,7 @@
 <body>
     @auth
     {{-- ===== AUTHENTICATED LAYOUT ===== --}}
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex h-screen h-[100dvh] overflow-hidden">
         {{-- Sidebar (Desktop) --}}
         <aside class="sidebar hidden md:flex flex-col fixed left-0 top-0 h-full z-30" id="sidebar">
             {{-- Logo --}}
@@ -474,9 +496,9 @@
         </aside>
 
         {{-- Main Content Area --}}
-        <div class="flex-1 flex flex-col md:ml-[240px] min-h-screen">
+        <div class="flex-1 flex flex-col md:ml-[240px] h-full min-w-0 overflow-hidden">
             {{-- Top Bar --}}
-            <header class="topbar sticky top-0 z-20 px-4 md:px-6 py-3 flex items-center justify-between gap-4">
+            <header class="topbar flex-shrink-0 sticky top-0 z-20 px-4 md:px-6 py-3 flex items-center justify-between gap-4">
                 {{-- Mobile Menu Toggle --}}
                 <button class="md:hidden text-white/60 hover:text-white p-1" onclick="toggleMobileSidebar()">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -519,7 +541,7 @@
             </header>
 
             {{-- Page Content --}}
-            <main class="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-24 md:pb-6">
+            <main class="main-content flex-1 overflow-y-auto px-4 md:px-6 py-6">
                 @yield('content')
             </main>
         </div>
@@ -586,17 +608,17 @@
         </aside>
 
         {{-- Bottom Navigation (Mobile) --}}
-        <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-20 md:hidden flex items-end justify-around px-2 pb-[env(safe-area-inset-bottom)]">
+        <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-30 md:hidden flex items-end justify-around px-2 pb-[env(safe-area-inset-bottom)]">
             <a href="{{ route('dashboard') }}" class="bottom-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <lord-icon src="https://cdn.lordicon.com/wmwqvixz.json" trigger="hover" colors="primary:{{ request()->routeIs('dashboard') ? '#a78bfa' : '#6b7280' }},secondary:{{ request()->routeIs('dashboard') ? '#c4b5fd' : '#9ca3af' }}" style="width:22px;height:22px"></lord-icon>
                 <span>Home</span>
             </a>
-            <a href="{{ route('tasks.index') }}" class="bottom-nav-item {{ request()->routeIs('tasks.*') ? 'active' : '' }}">
-                <lord-icon src="https://cdn.lordicon.com/bjgdeprq.json" trigger="hover" colors="primary:{{ request()->routeIs('tasks.*') ? '#a78bfa' : '#6b7280' }},secondary:{{ request()->routeIs('tasks.*') ? '#c4b5fd' : '#9ca3af' }}" style="width:22px;height:22px"></lord-icon>
+            <a href="{{ route('tasks.index') }}" class="bottom-nav-item {{ (request()->routeIs('tasks.*') && !request()->routeIs('tasks.create')) ? 'active' : '' }}">
+                <lord-icon src="https://cdn.lordicon.com/bjgdeprq.json" trigger="hover" colors="primary:{{ (request()->routeIs('tasks.*') && !request()->routeIs('tasks.create')) ? '#a78bfa' : '#6b7280' }},secondary:{{ (request()->routeIs('tasks.*') && !request()->routeIs('tasks.create')) ? '#c4b5fd' : '#9ca3af' }}" style="width:22px;height:22px"></lord-icon>
                 <span>Tasks</span>
             </a>
-            <a href="{{ route('tasks.create') }}" class="bottom-nav-item">
-                <div class="bottom-nav-fab">
+            <a href="{{ route('tasks.create') }}" class="bottom-nav-item {{ request()->routeIs('tasks.create') ? 'active' : '' }}">
+                <div class="bottom-nav-fab {{ request()->routeIs('tasks.create') ? 'bottom-nav-fab-active' : '' }}">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                     </svg>
@@ -832,6 +854,29 @@
                     `).join('')}
                 </div>
             `;
+        }
+
+        // Auto-hide bottom nav when typing on mobile to prevent blocking form fields / keyboard clash
+        if (window.innerWidth < 768) {
+            const bottomNav = document.querySelector('.bottom-nav');
+            if (bottomNav) {
+                const formInputs = 'input:not([type="checkbox"]):not([type="radio"]), textarea, select';
+                document.addEventListener('focusin', function(e) {
+                    if (e.target && e.target.matches && e.target.matches(formInputs)) {
+                        bottomNav.classList.add('bottom-nav-hidden');
+                    }
+                });
+                document.addEventListener('focusout', function(e) {
+                    if (e.target && e.target.matches && e.target.matches(formInputs)) {
+                        setTimeout(() => {
+                            const active = document.activeElement;
+                            if (!active || !active.matches || !active.matches(formInputs)) {
+                                bottomNav.classList.remove('bottom-nav-hidden');
+                            }
+                        }, 100);
+                    }
+                });
+            }
         }
     </script>
 

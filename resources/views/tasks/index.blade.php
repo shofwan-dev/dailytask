@@ -81,6 +81,11 @@
         <button type="submit" class="text-violet-400 hover:text-violet-300 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-violet-500/10 transition hidden sm:block">
             Enter ↵
         </button>
+        <button type="submit" class="sm:hidden w-8 h-8 rounded-lg bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 flex items-center justify-center transition flex-shrink-0" title="Tambah Task">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+            </svg>
+        </button>
     </form>
 
     {{-- Pending Tasks --}}
